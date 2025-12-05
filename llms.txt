@@ -1,0 +1,49 @@
+# ParCC: Parameter Converter & Calculator
+
+**ParCC** is a decision support system for Health Technology Assessment
+(HTA). It bridges the gap between clinical evidence and economic models
+by automating complex parameter estimations.
+
+## Installation
+
+You can install the development version of ParCC from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("drpakhare/ParCC")
+```
+
+## Quick Start
+
+To launch the application:
+
+R
+
+``` R
+library(ParCC)
+run_app()
+```
+
+## Key Features
+
+- **Core Conversions:** Rate/Odds to Probability, Time Rescaling.
+
+- **Survival Analysis:** Weibull/Exponential fitting from summary data.
+
+- **Value-Based Pricing:** Headroom analysis and Breakeven calculation.
+
+- **Reproducibility:** Generates a “Lab Notebook” HTML report for every
+  session.
+
+# Package index
+
+## All functions
+
+- [`run_app()`](run_app.md) : Run the ParCC Application
+
+# Articles
+
+### All vignettes
+
+- [Tutorial](Tutorial.md):
