@@ -17,3 +17,5 @@ Imports:
     knitr,
     magrittr
 RoxygenNote: 7.3.3
+URL: https://github.com/drpakhare/ParCC
+BugReports: https://github.com/drpakhare/ParCC/issues
