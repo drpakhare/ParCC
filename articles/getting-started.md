@@ -82,20 +82,20 @@ ParCC provides 12 calculation modules organized into four categories:
 
 Explore the other vignettes for detailed tutorials:
 
-- [`vignette("core-conversions")`](../articles/core-conversions.md) —
-  Rates, Odds, and Time Rescaling
-- [`vignette("hr-probability-converter")`](../articles/hr-probability-converter.md)
+- [`vignette("core-conversions")`](https://drpakhare.github.io/ParCC/articles/core-conversions.md)
+  — Rates, Odds, and Time Rescaling
+- [`vignette("hr-probability-converter")`](https://drpakhare.github.io/ParCC/articles/hr-probability-converter.md)
   — Applying Hazard Ratios
-- [`vignette("survival-extrapolation")`](../articles/survival-extrapolation.md)
+- [`vignette("survival-extrapolation")`](https://drpakhare.github.io/ParCC/articles/survival-extrapolation.md)
   — Fitting survival curves
-- [`vignette("background-mortality")`](../articles/background-mortality.md)
+- [`vignette("background-mortality")`](https://drpakhare.github.io/ParCC/articles/background-mortality.md)
   — Mortality adjustments
-- [`vignette("psa-distributions")`](../articles/psa-distributions.md) —
-  Parameterizing PSA
-- [`vignette("economic-evaluation")`](../articles/economic-evaluation.md)
+- [`vignette("psa-distributions")`](https://drpakhare.github.io/ParCC/articles/psa-distributions.md)
+  — Parameterizing PSA
+- [`vignette("economic-evaluation")`](https://drpakhare.github.io/ParCC/articles/economic-evaluation.md)
   — ICER, NMB, and VBP
-- [`vignette("batch-workflow")`](../articles/batch-workflow.md) — Bulk
-  CSV processing
+- [`vignette("batch-workflow")`](https://drpakhare.github.io/ParCC/articles/batch-workflow.md)
+  — Bulk CSV processing
 
 ## References
 

@@ -1,0 +1,134 @@
+# PPP Currency Conversion & WTP Thresholds
+
+## Overview
+
+When comparing health technology costs across countries, market exchange
+rates are misleading — they reflect capital flows, not the actual
+purchasing power of money in each economy. **Purchasing Power Parity
+(PPP)** conversion factors adjust for price-level differences, making
+costs genuinely comparable.
+
+ParCC ships with World Bank PPP data for 30 countries and automatically
+assesses costs against WHO-CHOICE willingness-to-pay thresholds.
+
+## Tutorial: Is a US Drug Affordable in India?
+
+### The Scenario
+
+A new oncology drug is priced at **\$50,000 per year** in the United
+States. You are advising HTAIn on whether this price is justifiable for
+the Indian market.
+
+### Why Market Exchange Rates Are Wrong
+
+At the 2022 market rate of ~₹78.6 per USD:
+
+$$\$ 50,000 \times 78.6 = ₹39,30,000$$
+
+But this dramatically overstates the burden, because goods and services
+are much cheaper in India. A doctor’s consultation, hospital bed-day, or
+meal costs far less in India than in the US.
+
+### The PPP Approach
+
+PPP conversion uses **international dollars** as an intermediate
+currency:
+
+$$C_{target}^{PPP} = \frac{C_{source}}{PPP_{source}} \times PPP_{target}$$
+
+**Step 1:** Convert US dollars to international dollars:
+
+$$\$ 50,000 \div 1.00 = \text{Int}\$ 50,000$$
+
+(The US PPP factor is 1.00 by definition.)
+
+**Step 2:** Convert international dollars to Indian rupees:
+
+$$\text{Int}\$ 50,000 \times 23.2 = ₹11,60,000$$
+
+### In ParCC
+
+1.  Navigate to the **PPP Converter** tab.
+2.  Set Source Country = **United States**, Cost = **50,000**.
+3.  Set Target Country = **India**.
+4.  Click **Convert & Assess**.
+
+### Reading the Output
+
+ParCC displays three key results:
+
+| Metric            | Value      |
+|-------------------|------------|
+| PPP-adjusted cost | ₹11,60,000 |
+| Market FX cost    | ₹39,30,000 |
+| PPP/FX ratio      | 0.30       |
+
+The PPP-adjusted cost is **70% lower** than the market FX conversion.
+This means the drug’s true economic burden in India is much less than
+the naive exchange rate suggests.
+
+### WTP Threshold Assessment
+
+ParCC automatically calculates WHO-CHOICE thresholds for the target
+country:
+
+| Threshold                                 | India (2022) |
+|-------------------------------------------|--------------|
+| 1× GDP per capita (highly cost-effective) | ₹1,87,750    |
+| 3× GDP per capita (cost-effective)        | ₹5,63,250    |
+
+At ₹11,60,000 the drug **exceeds 3× GDP per capita** and is flagged red
+— not cost-effective by WHO-CHOICE criteria at this price.
+
+### Implications for Pricing
+
+The PPP analysis suggests that a price of ₹11,60,000 is the
+PPP-equivalent economic burden. But even this is above the WTP
+threshold. A price negotiation should target below ₹5,63,250 (3×
+GDP/capita) to be considered cost-effective, or below ₹1,87,750 (1×
+GDP/capita) to be highly cost-effective.
+
+## Override Values
+
+The default data is from the World Bank 2022 ICP round. If you have more
+recent data:
+
+- Enter custom PPP factors, exchange rates, or GDP per capita in the
+  **Override Values** section.
+- Leave fields blank to use the defaults.
+
+This is useful when a country has experienced significant currency
+fluctuation since the last ICP round.
+
+## Supported Countries (30)
+
+India, United States, United Kingdom, Germany, France, Japan, China,
+Brazil, Australia, Canada, South Korea, Thailand, Mexico, South Africa,
+Turkey, Indonesia, Nigeria, Egypt, Poland, Sweden, Norway, Switzerland,
+Italy, Spain, Netherlands, Belgium, Ireland, New Zealand, Malaysia,
+Philippines.
+
+## Important Caveats
+
+1.  **PPP factors are economy-wide averages.** Health-sector-specific
+    PPP factors exist but are not widely available. The World Bank
+    general PPP is the standard in most HTA submissions.
+
+2.  **WHO-CHOICE thresholds are guides, not rules.** Many countries now
+    use empirical thresholds (UK: £20,000–30,000/QALY; India: 1×
+    GDP/capita per HTAIn guidelines). ParCC shows the WHO-CHOICE
+    thresholds as a starting point.
+
+3.  **No exchange rate conversion is applied to module outputs.** The
+    PPP converter is a standalone analysis tool. The currency selector
+    in Settings affects display formatting only.
+
+## References
+
+1.  World Bank. International Comparison Program (ICP). PPP conversion
+    factors. *World Development Indicators*. 2022.
+2.  WHO-CHOICE. Cost-effectiveness thresholds. *World Health
+    Organization*. Choosing Interventions that are Cost-Effective.
+3.  Pichon-Riviere A, Augustovski F, Garcia Marti S, Sullivan SD,
+    Drummond M. Transferability of health technology assessment reports
+    in Latin America. *Value in Health*. 2012;15(1):S60-S66.
