@@ -762,9 +762,31 @@ mod_about_ui <- function(id) {
                p("This application was architected and code-generated with the assistance of Large Language Models (Google Gemini, Anthropic Claude), under the supervision of RRC-HTA researchers."),
 
                hr(),
+               h4("Links"),
+               tags$ul(style = "list-style: none; padding-left: 0;",
+                 tags$li(style = "margin-bottom: 8px;",
+                   icon("globe"), " ",
+                   tags$a(href = "https://drpakhare.github.io/ParCC/",
+                          target = "_blank", "Documentation & Vignettes"),
+                   tags$span(style = "color: #888; font-size: 0.85em;", " — pkgdown site with tutorials and formula references")
+                 ),
+                 tags$li(style = "margin-bottom: 8px;",
+                   icon("github"), " ",
+                   tags$a(href = "https://github.com/drpakhare/ParCC",
+                          target = "_blank", "GitHub Repository"),
+                   tags$span(style = "color: #888; font-size: 0.85em;", " — source code, issues, and releases")
+                 ),
+                 tags$li(style = "margin-bottom: 8px;",
+                   icon("box-open"), " ",
+                   tags$span("Install from GitHub: "),
+                   tags$code("remotes::install_github(\"drpakhare/ParCC\")")
+                 )
+               ),
+
+               hr(),
                h4("Suggested Citation"),
                div(class = "well", style = "font-family: monospace; font-size: 0.9em;",
-                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.4.0) [R package]. Available at: [URL]"
+                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.4.0) [R package]. Available at: https://drpakhare.github.io/ParCC/"
                ),
 
                hr(),
@@ -774,7 +796,10 @@ mod_about_ui <- function(id) {
                hr(),
                h4("License"),
                p("Released under the MIT Open Source License."),
-               p(icon("envelope"), " Contact: hta@aiimsbhopal.edu.in")
+               p(icon("envelope"), " Contact: hta@aiimsbhopal.edu.in"),
+               p(icon("globe"), " ",
+                 tags$a(href = "https://drpakhare.github.io/ParCC/",
+                        target = "_blank", "https://drpakhare.github.io/ParCC/"))
            )
     )
   )

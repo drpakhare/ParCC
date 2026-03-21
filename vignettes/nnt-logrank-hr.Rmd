@@ -1,0 +1,103 @@
+---
+title: "NNT/NNH Calculator & Log-rank to Hazard Ratio"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NNT/NNH Calculator & Log-rank to Hazard Ratio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Overview
+
+Systematic reviews frequently encounter trials that report incomplete survival data — a log-rank p-value but no Hazard Ratio, or probabilities without a directly computed NNT. ParCC bridges these gaps with two tools in the **HR Converter** module.
+
+## Tutorial A: Extracting a Hazard Ratio from a Log-rank Test
+
+### The Scenario — Adjuvant Chemotherapy in Colon Cancer
+
+An older trial (published 2005) reports:
+
+- Log-rank chi-squared = **6.8**
+- Total events (deaths) across both arms = **142**
+- The treatment arm had better outcomes
+
+The paper does not report a Hazard Ratio, which you need for your meta-analysis.
+
+### The Peto Approximation
+
+When only summary log-rank statistics are available, the Peto method estimates:
+
+$$\ln(HR) = \pm \frac{\sqrt{\chi^2}}{\sqrt{E/4}}$$
+
+with a 95% confidence interval:
+
+$$\ln(HR) \pm \frac{1.96}{\sqrt{E/4}}$$
+
+where $E$ is the total number of events.
+
+### In ParCC
+
+1. Navigate to **Convert > HR → Probability & NNT > Log-rank → HR** tab.
+2. Select input type: **Chi-squared statistic**.
+3. Enter chi-squared = **6.8**, Total events = **142**.
+4. Select direction: **Treatment is better** (HR < 1).
+5. Result: **HR = 0.68** (95% CI: 0.51 – 0.91).
+
+### Alternative: From a p-value
+
+If the paper reports only "log-rank p = 0.009":
+
+1. Select input type: **p-value**.
+2. Enter p = **0.009**, Total events = **142**.
+3. ParCC converts the p-value to a z-statistic via $z = \Phi^{-1}(1 - p/2)$, then applies the same Peto formula.
+
+## Tutorial B: Computing NNT for a Formulary Decision
+
+### The Scenario — Hospital P&T Committee
+
+A Pharmacy & Therapeutics committee asks: "How many patients must we treat with Drug X to prevent one additional death?" The trial reports:
+
+- 12-month mortality: Control = **18%**, Intervention = **12%**
+
+### The Formula
+
+$$NNT = \left\lceil \frac{1}{ARR} \right\rceil = \left\lceil \frac{1}{p_{control} - p_{intervention}} \right\rceil$$
+
+### In ParCC
+
+1. Navigate to **Convert > HR → Probability & NNT > NNT/NNH** tab.
+2. Select input mode: **Two Probabilities**.
+3. Enter Control = **0.18**, Intervention = **0.12**.
+4. Result: ARR = **6.0%**, NNT = **17**.
+
+**Interpretation:** For every 17 patients treated with Drug X for 12 months, one additional death is prevented.
+
+### Other Input Modes
+
+ParCC supports four ways to compute NNT:
+
+| Input Mode | You provide | ParCC calculates |
+|-----------|------------|-----------------|
+| Direct ARR | Absolute risk reduction | NNT = ⌈1/ARR⌉ |
+| Two Probabilities | Control & intervention probabilities | ARR, then NNT |
+| RR + Baseline | Relative Risk + control probability | ARR = p₀ × (1 − RR), then NNT |
+| OR + Baseline | Odds Ratio + control probability | Converts to probabilities via Zhang & Yu, then NNT |
+
+### NNT vs NNH
+
+When the intervention *increases* risk (ARR < 0), the result is reported as **NNH** (Number Needed to Harm) with an orange warning. This happens when testing safety endpoints rather than efficacy.
+
+## When to Use These Tools
+
+- **Log-rank → HR:** Systematic reviews where older trials lack HR estimates; indirect treatment comparisons needing HR inputs from published statistics.
+- **NNT Calculator:** Communicating treatment effects to clinicians and formulary committees; sensitivity analyses varying NNT across plausible baseline risk ranges.
+
+## References
+
+1. Tierney JF, Stewart LA, Ghersi D, Burdett S, Sydes MR. Practical methods for incorporating summary time-to-event data into meta-analysis. *Trials*. 2007;8:16.
+2. Parmar MKB, Torri V, Stewart L. Extracting summary statistics to perform meta-analyses of the published literature for survival endpoints. *Statistics in Medicine*. 1998;17(24):2815-2834.
+3. Altman DG, Andersen PK. Calculating the number needed to treat for trials where the outcome is time to an event. *BMJ*. 1999;319(7223):1492-1495.
