@@ -1,15 +1,27 @@
 Package: ParCC
-Title: Parameter Converter and Calculator for HTA
+Title: Parameter Converter and Calculator for Health Technology Assessment
 Version: 1.4.0
-Authors@R: person("RRC-HTA", "Team", email = "hta.aiimsbhopal@gmail.com", role = c("aut", "cre"))
-Description: A decision support tool for Health Technology Assessment (HTA).
-    Bridges the gap between clinical evidence and economic models by automating
-    complex parameter estimations including rate-probability conversions,
-    hazard ratio-based probability conversion, survival extrapolation,
-    PSA distribution fitting, and value-based pricing analysis.
+Authors@R: c(
+    person("Abhijit", "Pakhare", email = "drpakhare@gmail.com",
+           role = c("aut", "cre")),
+    person("RRC-HTA Team, AIIMS Bhopal", role = "aut")
+    )
+Description: An interactive 'shiny' application for Health Technology
+    Assessment (HTA) parameter estimation. Converts between rates,
+    probabilities, odds, and hazard ratios; extrapolates survival curves
+    (Exponential, Weibull, Log-Logistic); fits PSA distributions (Beta,
+    Gamma, LogNormal, Dirichlet) via the method of moments; calculates
+    ICERs, net monetary benefit, value-based pricing, and budget impact;
+    adjusts costs for inflation, discounting, and purchasing power parity
+    (PPP) across 30 countries; and adjusts background mortality using
+    life-table methods. Designed for researchers building cost-effectiveness
+    and budget-impact models who need auditable, formula-documented
+    parameter transformations. Methods include Zhang and Yu (1998)
+    <doi:10.1001/jama.280.19.1690> for OR-to-RR conversion and Chinn (2000)
+    <doi:10.1002/1097-0258(20001130)19:22%3C3127::AID-SIM784%3E3.0.CO;2-M>
+    for effect-size transformations.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports:
     shiny,
     shinythemes,
@@ -19,7 +31,8 @@ Imports:
     rmarkdown,
     magrittr
 RoxygenNote: 7.3.3
-URL: https://github.com/drpakhare/ParCC
+URL: https://drpakhare.github.io/ParCC/,
+    https://github.com/drpakhare/ParCC
 BugReports: https://github.com/drpakhare/ParCC/issues
 VignetteBuilder: knitr
 Suggests:

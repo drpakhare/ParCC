@@ -13,11 +13,11 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ## Overview
 
-Systematic reviews frequently encounter trials that report incomplete survival data — a log-rank p-value but no Hazard Ratio, or probabilities without a directly computed NNT. ParCC bridges these gaps with two tools in the **HR Converter** module.
+Systematic reviews frequently encounter trials that report incomplete survival data  --  a log-rank p-value but no Hazard Ratio, or probabilities without a directly computed NNT. ParCC bridges these gaps with two tools in the **HR Converter** module.
 
 ## Tutorial A: Extracting a Hazard Ratio from a Log-rank Test
 
-### The Scenario — Adjuvant Chemotherapy in Colon Cancer
+### The Scenario  --  Adjuvant Chemotherapy in Colon Cancer
 
 An older trial (published 2005) reports:
 
@@ -41,11 +41,11 @@ where $E$ is the total number of events.
 
 ### In ParCC
 
-1. Navigate to **Convert > HR → Probability & NNT > Log-rank → HR** tab.
+1. Navigate to **Convert > HR -> Probability & NNT > Log-rank -> HR** tab.
 2. Select input type: **Chi-squared statistic**.
 3. Enter chi-squared = **6.8**, Total events = **142**.
 4. Select direction: **Treatment is better** (HR < 1).
-5. Result: **HR = 0.68** (95% CI: 0.51 – 0.91).
+5. Result: **HR = 0.68** (95% CI: 0.51 - 0.91).
 
 ### Alternative: From a p-value
 
@@ -57,7 +57,7 @@ If the paper reports only "log-rank p = 0.009":
 
 ## Tutorial B: Computing NNT for a Formulary Decision
 
-### The Scenario — Hospital P&T Committee
+### The Scenario  --  Hospital P&T Committee
 
 A Pharmacy & Therapeutics committee asks: "How many patients must we treat with Drug X to prevent one additional death?" The trial reports:
 
@@ -69,7 +69,7 @@ $$NNT = \left\lceil \frac{1}{ARR} \right\rceil = \left\lceil \frac{1}{p_{control
 
 ### In ParCC
 
-1. Navigate to **Convert > HR → Probability & NNT > NNT/NNH** tab.
+1. Navigate to **Convert > HR -> Probability & NNT > NNT/NNH** tab.
 2. Select input mode: **Two Probabilities**.
 3. Enter Control = **0.18**, Intervention = **0.12**.
 4. Result: ARR = **6.0%**, NNT = **17**.
@@ -82,9 +82,9 @@ ParCC supports four ways to compute NNT:
 
 | Input Mode | You provide | ParCC calculates |
 |-----------|------------|-----------------|
-| Direct ARR | Absolute risk reduction | NNT = ⌈1/ARR⌉ |
+| Direct ARR | Absolute risk reduction | NNT = ceil(1/ARR) |
 | Two Probabilities | Control & intervention probabilities | ARR, then NNT |
-| RR + Baseline | Relative Risk + control probability | ARR = p₀ × (1 − RR), then NNT |
+| RR + Baseline | Relative Risk + control probability | ARR = p0 x (1 - RR), then NNT |
 | OR + Baseline | Odds Ratio + control probability | Converts to probabilities via Zhang & Yu, then NNT |
 
 ### NNT vs NNH
@@ -93,7 +93,7 @@ When the intervention *increases* risk (ARR < 0), the result is reported as **NN
 
 ## When to Use These Tools
 
-- **Log-rank → HR:** Systematic reviews where older trials lack HR estimates; indirect treatment comparisons needing HR inputs from published statistics.
+- **Log-rank -> HR:** Systematic reviews where older trials lack HR estimates; indirect treatment comparisons needing HR inputs from published statistics.
 - **NNT Calculator:** Communicating treatment effects to clinicians and formulary committees; sensitivity analyses varying NNT across plausible baseline risk ranges.
 
 ## References

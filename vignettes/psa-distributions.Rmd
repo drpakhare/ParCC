@@ -23,7 +23,7 @@ Probabilistic Sensitivity Analysis (PSA) requires sampling model parameters from
 
 ## Tutorial 1: Utilities with Beta Distribution
 
-### The Scenario — EQ-5D Utility in COPD
+### The Scenario  --  EQ-5D Utility in COPD
 
 A quality-of-life study in COPD (Rutten-van Molken et al., Chest 2006) reports the EQ-5D utility for "Moderate COPD (GOLD Stage II)" as:
 
@@ -61,7 +61,7 @@ All values are bounded between 0 and 1, as required for utilities.
 
 ## Tutorial 2: Costs with Gamma Distribution
 
-### The Scenario — Surgery Cost (AIIMS Costing Study)
+### The Scenario  --  Surgery Cost (AIIMS Costing Study)
 
 A micro-costing study reports the cost of CABG surgery as:
 
@@ -94,7 +94,7 @@ cat("Min: INR", format(round(min(samples_cost)), big.mark = ","), "(always posit
 
 ## Tutorial 3: Hazard Ratios with LogNormal Distribution
 
-### The Scenario — HR from Network Meta-Analysis
+### The Scenario  --  HR from Network Meta-Analysis
 
 A network meta-analysis reports the HR for Drug A vs placebo as:
 
@@ -129,7 +129,7 @@ If only a range (min, max) is available instead of SE, estimate:
 
 $$SE \approx \frac{High - Low}{4}$$
 
-This assumes the range covers approximately 95% of the distribution (i.e., ±2 SE).
+This assumes the range covers approximately 95% of the distribution (i.e., +/-2 SE).
 
 ```{r}
 # Example: cost range INR 1,50,000 to INR 3,50,000
