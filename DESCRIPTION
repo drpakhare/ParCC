@@ -1,6 +1,6 @@
 Package: ParCC
 Title: Parameter Converter and Calculator for HTA
-Version: 1.3.0
+Version: 1.4.0
 Authors@R: person("RRC-HTA", "Team", email = "hta.aiimsbhopal@gmail.com", role = c("aut", "cre"))
 Description: A decision support tool for Health Technology Assessment (HTA).
     Bridges the gap between clinical evidence and economic models by automating
@@ -15,7 +15,6 @@ Imports:
     shinythemes,
     ggplot2,
     plotly,
-    DiagrammeR,
     DT,
     rmarkdown,
     magrittr

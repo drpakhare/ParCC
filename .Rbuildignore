@@ -7,3 +7,8 @@
 ^\.github$
 ^doc$
 ^Meta$
+^\.~lock\..*$
+^ParCC.*\.docx$
+^ParCC_Validation.*\.xlsx$
+^app\.R$
+^manifest\.json$

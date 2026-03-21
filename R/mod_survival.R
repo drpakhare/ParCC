@@ -8,7 +8,8 @@ mod_survival_ui <- function(id) {
 
       selectInput(ns("surv_method"), "Select Method:",
                   choices = c("Exponential (From Median)" = "exp",
-                              "Weibull (From 2 Time Points)" = "weibull")),
+                              "Weibull (From 2 Time Points)" = "weibull",
+                              "Log-Logistic (From 2 Time Points)" = "loglogistic")),
 
       # Exponential Inputs
       conditionalPanel(condition = sprintf("input['%s'] == 'exp'", ns("surv_method")),
@@ -32,6 +33,17 @@ mod_survival_ui <- function(id) {
                        h5("Point 2"),
                        div(style="display:flex; gap:5px;",
                            numericInput(ns("w_t2"), "Time 2:", 36), numericInput(ns("w_s2"), "Surv 2:", 0.4, 0, 1, 0.01))
+      ),
+
+      # Log-Logistic Inputs
+      conditionalPanel(condition = sprintf("input['%s'] == 'loglogistic'", ns("surv_method")),
+                       p(class="text-info", "Calibrate Log-Logistic using 2 points from KM curve."),
+                       h5("Point 1"),
+                       div(style="display:flex; gap:5px;",
+                           numericInput(ns("ll_t1"), "Time 1:", 12), numericInput(ns("ll_s1"), "Surv 1:", 0.8, 0, 1, 0.01)),
+                       h5("Point 2"),
+                       div(style="display:flex; gap:5px;",
+                           numericInput(ns("ll_t2"), "Time 2:", 36), numericInput(ns("ll_s2"), "Surv 2:", 0.4, 0, 1, 0.01))
       ),
 
       hr(),
@@ -148,7 +160,7 @@ mod_survival_server <- function(id, logger) {
 
         add_to_log(input$label, "Survival (Exp)", inp_str, paste0("Lambda=", round(rate,5)), "Constant Hazard")
 
-      } else {
+      } else if (input$surv_method == "weibull") {
         # --- Weibull Logic ---
         t1 <- input$w_t1; s1 <- input$w_s1
         t2 <- input$w_t2; s2 <- input$w_s2
@@ -218,6 +230,84 @@ mod_survival_server <- function(id, logger) {
                      paste0("Shape=", round(gamma,4), ", Scale=", format(lambda, scientific=TRUE)),
                      "2-Point Calibration")
         }
+
+      } else if (input$surv_method == "loglogistic") {
+        # --- Log-Logistic Logic ---
+        t1 <- input$ll_t1; s1 <- input$ll_s1
+        t2 <- input$ll_t2; s2 <- input$ll_s2
+
+        if(s1 <= 0 || s1 >= 1 || s2 <= 0 || s2 >= 1 || t1 == t2) {
+          output$res <- renderUI(div(class="result-box", style="color:red", "Error: Inputs must be distinct and probabilities between 0-1."))
+          surv_plot_data(NULL)
+          surv_table_data(NULL)
+          return()
+        }
+
+        # Log-Logistic: S(t) = 1 / (1 + (t/alpha)^beta)
+        # => 1/S - 1 = (t/alpha)^beta
+        # => ln(1/S - 1) = beta*ln(t) - beta*ln(alpha)
+        y1 <- log(1/s1 - 1); x1 <- log(t1)
+        y2 <- log(1/s2 - 1); x2 <- log(t2)
+
+        beta_ll <- (y2 - y1) / (x2 - x1)
+        log_alpha <- -y1/beta_ll + x1
+        alpha_ll <- exp(log_alpha)
+
+        probs_plot <- 1 / (1 + (t_seq_plot / alpha_ll)^beta_ll)
+        probs_plot[1] <- 1  # S(0) = 1
+        probs_tbl  <- 1 / (1 + (t_seq_tbl / alpha_ll)^beta_ll)
+        probs_tbl[1] <- 1
+
+        surv_plot_data(data.frame(Time = t_seq_plot, Survival = probs_plot))
+
+        hazard_interp <- if (beta_ll > 1) "initially increasing then decreasing (hump-shaped)" else if (beta_ll < 1) "monotonically decreasing" else "constant (reduces to exponential)"
+
+        output$res <- renderUI(tagList(
+          div(class = "result-box", HTML(paste0(
+            "<span class='result-label'>Log-Logistic Survival Parameters</span><br>",
+            "<span class='result-value'>Shape (\u03b2) = ", round(beta_ll, 4), "</span>",
+            "<span class='result-value'>Scale (\u03b1) = ", round(alpha_ll, 4), "</span>",
+            "<br><small>Median survival = \u03b1 = ", round(alpha_ll, 2), " (the scale parameter equals the median)</small>"
+          ))),
+          div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
+              h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
+              p(HTML(paste0(
+                "Two points from the Kaplan-Meier curve were used: ",
+                "S(", t1, ") = ", s1, " and S(", t2, ") = ", s2, ". ",
+                "Using the log-odds transformation ln(1/S - 1) = \u03b2\u00d7ln(t) - \u03b2\u00d7ln(\u03b1), ",
+                "the parameters were derived: ",
+                "Shape (\u03b2) = ", strong(round(beta_ll, 4)),
+                " and Scale (\u03b1) = ", strong(round(alpha_ll, 4)), "."
+              ))),
+              p(HTML(paste0(
+                icon("info-circle"), " ",
+                "The hazard function is ", strong(hazard_interp),
+                ". Log-Logistic is particularly useful in oncology when the hazard peaks and then declines ",
+                "(e.g., post-surgical mortality). Unlike Weibull, it allows non-monotonic hazards."
+              )))
+          ),
+          div(style = "background:#fff; border:1px solid #ddd; padding:15px; margin-top:15px; border-radius:4px;",
+              h5(icon("square-root-alt"), " Formulas", style = "margin-top:0;"),
+              p("$$S(t) = \\frac{1}{1 + (t/\\alpha)^\\beta}$$"),
+              p("$$h(t) = \\frac{(\\beta/\\alpha)(t/\\alpha)^{\\beta-1}}{1 + (t/\\alpha)^\\beta}$$"),
+              p(style = "font-size:0.85em; color:#666;",
+                "\u03b1 = scale (equals median survival), \u03b2 = shape (>1 gives hump-shaped hazard).")
+          ),
+          div(style = "background:#eef6ff; border-left:4px solid #0056b3; padding:12px; margin-top:15px; border-radius:0 4px 4px 0;",
+              h5(icon("book"), " References", style = "margin-top:0; color:#003366;"),
+              tags$ol(style = "font-size:0.85em; margin-bottom:0;",
+                tags$li(HTML("Collett D. <em>Modelling Survival Data in Medical Research</em>. 3rd ed. CRC Press; 2015.")),
+                tags$li(HTML("Latimer NR. Survival analysis for economic evaluations. <em>Med Decis Making</em>. 2013;33(6):743-754.")),
+                tags$li(HTML("NICE DSU TSD 14: Survival analysis for economic evaluations. 2013."))
+              )
+          ),
+          mathjax_trigger
+        ))
+
+        add_to_log(input$label, "Survival (Log-Logistic)",
+                   paste0("P1(",t1,",",s1,") P2(",t2,",",s2,")"),
+                   paste0("Shape=", round(beta_ll,4), ", Scale=", round(alpha_ll,4)),
+                   "2-Point Calibration")
       }
 
       # --- Generate Table Data (Common Step) ---

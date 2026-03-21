@@ -9,7 +9,24 @@ mod_psa_ui <- function(id) {
       selectInput(ns("dist"), "Distribution:",
                   choices = c("Beta (Proportions)" = "beta",
                               "Gamma (Costs/Rates)" = "gamma",
-                              "LogNormal (RR)" = "lnorm")),
+                              "LogNormal (RR)" = "lnorm",
+                              "Dirichlet (Multinomial)" = "dirichlet")),
+
+      # Dirichlet-specific inputs (shown only for Dirichlet)
+      conditionalPanel(condition = sprintf("input['%s'] == 'dirichlet'", ns("dist")),
+                       helpText(class="text-info", "Enter observed counts from transition probability matrix or multinomial data."),
+                       textInput(ns("dir_counts"), "Observed Counts (comma-separated):",
+                                 value = "100, 20, 5, 3",
+                                 placeholder = "e.g., Stable, Prog, Dead, Lost"),
+                       textInput(ns("dir_labels"), "State Labels (optional):",
+                                 value = "Stable, Progressed, Dead, Lost",
+                                 placeholder = "e.g., State1, State2, State3"),
+                       numericInput(ns("dir_n_samples"), "PSA Samples to Show:", value = 5, min = 1, max = 20),
+                       actionButton(ns("calc_dir"), "Calculate & Log", class = "btn-primary", width = "100%")
+      ),
+
+      # Standard inputs (hidden for Dirichlet)
+      conditionalPanel(condition = sprintf("input['%s'] != 'dirichlet'", ns("dist")),
 
       radioButtons(ns("source_type"), "Input Data Format:",
                    choices = c("Mean & Standard Error" = "se",
@@ -43,6 +60,7 @@ mod_psa_ui <- function(id) {
 
       br(),
       actionButton(ns("calc"), "Calculate & Log", class = "btn-primary", width = "100%")
+      ),  # close conditionalPanel for non-Dirichlet
     ),
     mainPanel(
       uiOutput(ns("res")),
@@ -287,13 +305,117 @@ mod_psa_server <- function(id, logger) {
       }
     })
 
+    # ==============================================================
+    # DIRICHLET DISTRIBUTION
+    # ==============================================================
+    observeEvent(input$calc_dir, {
+      counts <- as.numeric(trimws(unlist(strsplit(input$dir_counts, ","))))
+      labels <- trimws(unlist(strsplit(input$dir_labels, ",")))
+
+      if (any(is.na(counts)) || any(counts < 0)) {
+        output$res <- renderUI(div(class="result-box", style="color:red", "Error: All counts must be non-negative numbers."))
+        psa_data(NULL)
+        return()
+      }
+
+      K <- length(counts)
+      if (length(labels) < K) labels <- c(labels, paste0("State_", (length(labels)+1):K))
+
+      # Dirichlet parameters = counts (or counts + 1 for Bayesian with uniform prior)
+      alpha <- counts
+      total <- sum(alpha)
+      props <- alpha / total
+
+      # Generate sample draws to display
+      n_show <- min(input$dir_n_samples, 20)
+      # Use Gamma-based sampling for Dirichlet
+      set.seed(42)
+      samples <- matrix(0, nrow = n_show, ncol = K)
+      for (i in 1:n_show) {
+        g <- rgamma(K, shape = alpha, rate = 1)
+        samples[i, ] <- g / sum(g)
+      }
+      colnames(samples) <- labels[1:K]
+
+      # Build parameter string
+      alpha_str <- paste0(labels[1:K], " = ", counts, collapse = ", ")
+      prop_str <- paste0(labels[1:K], " = ", round(props, 4), collapse = ", ")
+
+      # Bar chart data
+      bar_df <- data.frame(State = factor(labels[1:K], levels = labels[1:K]), Proportion = props)
+      psa_data(bar_df)
+
+      output$res <- renderUI(tagList(
+        div(class="result-box", HTML(paste0(
+          "<span class='result-label'>Dirichlet Distribution Parameters</span><br>",
+          "<span class='result-value'>\u03b1 = (", paste(counts, collapse = ", "), ")</span>",
+          "<br><small>Mean proportions: ", prop_str, "</small>",
+          "<br><small>Total N = ", total, "</small>"
+        ))),
+        div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
+            p(HTML(paste0(
+              "The Dirichlet distribution is the multivariate generalization of the Beta distribution. ",
+              "It is the standard choice for sampling ", strong("transition probability matrices"), " in PSA ",
+              "when patients can move to multiple health states."
+            ))),
+            p(HTML(paste0(
+              "The \u03b1 parameters are set equal to the observed counts. The expected proportion for each state is ",
+              "\u03b1<sub>i</sub> / \u03a3\u03b1. Larger counts produce tighter distributions (less uncertainty)."
+            ))),
+            p(HTML(paste0(
+              icon("info-circle"), " ",
+              "R code: ", tags$code(paste0("g <- rgamma(", K, ", shape = c(", paste(counts, collapse=","), ")); p <- g/sum(g)"))
+            )))
+        ),
+        div(style = "background:#fff; border:1px solid #ddd; padding:15px; margin-top:15px; border-radius:4px;",
+            h5(icon("square-root-alt"), " Formula", style = "margin-top:0;"),
+            p("$$E[p_i] = \\frac{\\alpha_i}{\\sum \\alpha_j}$$"),
+            p("$$Var(p_i) = \\frac{\\alpha_i(\\alpha_0 - \\alpha_i)}{\\alpha_0^2(\\alpha_0 + 1)}$$"),
+            p(style = "font-size:0.85em; color:#666;", "where \u03b1\u2080 = \u03a3\u03b1\u2c7c is the total count (concentration parameter).")
+        ),
+        if (n_show > 0) {
+          div(style = "margin-top:15px;",
+              h5("Sample Draws (for verification):"),
+              renderTable({
+                round(samples, 4)
+              })
+          )
+        },
+        div(style = "background:#eef6ff; border-left:4px solid #0056b3; padding:12px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("book"), " References", style = "margin-top:0; color:#003366;"),
+            tags$ol(style = "font-size:0.85em; margin-bottom:0;",
+              tags$li(HTML("Briggs A, et al. <em>Decision Modelling for Health Economic Evaluation</em>. OUP; 2006. Chapter 4.")),
+              tags$li(HTML("Chancellor JV, et al. Parametric cost function estimation using Dirichlet priors. <em>Health Econ</em>. 1997."))
+            )
+        ),
+        tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
+      ))
+
+      add_to_log(input$label, "PSA (Dirichlet)",
+                 paste0("Counts=(", paste(counts, collapse=","), ")"),
+                 paste0("Proportions=(", paste(round(props, 4), collapse=","), ")"),
+                 "Multinomial Transition Probs")
+    })
+
     output$plot <- renderPlot({
       req(psa_data())
-      ggplot(psa_data(), aes(x, y)) +
-        geom_line(color = "#E74C3C", size = 1.2) +
-        geom_area(fill = "#E74C3C", alpha = 0.2) +
-        geom_vline(xintercept = input$mean, linetype="dashed") +
-        theme_minimal() + labs(y="Density", x="Value")
+      df <- psa_data()
+      if ("State" %in% names(df)) {
+        # Dirichlet: bar chart
+        ggplot(df, aes(x = State, y = Proportion, fill = State)) +
+          geom_bar(stat = "identity", alpha = 0.8) +
+          geom_text(aes(label = round(Proportion, 3)), vjust = -0.5) +
+          theme_minimal() + labs(y = "Mean Proportion", x = "Health State", title = "Dirichlet Mean Proportions") +
+          theme(legend.position = "none")
+      } else {
+        # Continuous distribution
+        ggplot(df, aes(x, y)) +
+          geom_line(color = "#E74C3C", size = 1.2) +
+          geom_area(fill = "#E74C3C", alpha = 0.2) +
+          geom_vline(xintercept = input$mean, linetype="dashed") +
+          theme_minimal() + labs(y="Density", x="Value")
+      }
     })
   })
 }

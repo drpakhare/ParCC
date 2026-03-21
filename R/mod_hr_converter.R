@@ -79,6 +79,72 @@ mod_hr_converter_ui <- function(id) {
              )
     ),
 
+    # --- Standalone NNT/NNH ---
+    tabPanel("NNT / NNH",
+             sidebarLayout(
+               sidebarPanel(
+                 h4(icon("calculator"), " NNT / NNH Calculator"),
+                 p(class = "text-info", "Calculate Number Needed to Treat (or Harm) from various effect measures."),
+
+                 textInput(ns("nnt_label"), "Parameter Name:", placeholder = "e.g., Statin MI prevention"),
+                 hr(),
+
+                 radioButtons(ns("nnt_input"), "Input Type:",
+                              c("Absolute Risk Reduction (ARR)" = "arr",
+                                "Control & Intervention Probabilities" = "probs",
+                                "Relative Risk (RR) + Baseline" = "rr",
+                                "Odds Ratio (OR) + Baseline" = "or")),
+
+                 conditionalPanel(condition = sprintf("input['%s'] == 'arr'", ns("nnt_input")),
+                                  numericInput(ns("nnt_arr"), "ARR (as proportion, e.g., 0.02):", value = 0.02, step = 0.001)),
+                 conditionalPanel(condition = sprintf("input['%s'] == 'probs'", ns("nnt_input")),
+                                  numericInput(ns("nnt_pc"), "Control Probability:", value = 0.10, min = 0, max = 1, step = 0.01),
+                                  numericInput(ns("nnt_pi"), "Intervention Probability:", value = 0.08, min = 0, max = 1, step = 0.01)),
+                 conditionalPanel(condition = sprintf("input['%s'] == 'rr'", ns("nnt_input")),
+                                  numericInput(ns("nnt_rr"), "Relative Risk:", value = 0.80, min = 0.001, step = 0.01),
+                                  numericInput(ns("nnt_p0_rr"), "Baseline Risk:", value = 0.10, min = 0.001, max = 0.999, step = 0.01)),
+                 conditionalPanel(condition = sprintf("input['%s'] == 'or'", ns("nnt_input")),
+                                  numericInput(ns("nnt_or"), "Odds Ratio:", value = 0.75, min = 0.001, step = 0.01),
+                                  numericInput(ns("nnt_p0_or"), "Baseline Risk:", value = 0.10, min = 0.001, max = 0.999, step = 0.01)),
+
+                 br(),
+                 actionButton(ns("calc_nnt"), "Calculate & Log", class = "btn-primary", width = "100%")
+               ),
+               mainPanel(uiOutput(ns("res_nnt")))
+             )
+    ),
+
+    # --- Log-rank to HR ---
+    tabPanel("Log-rank \u2192 HR",
+             sidebarLayout(
+               sidebarPanel(
+                 h4(icon("chart-bar"), " Log-rank to Hazard Ratio"),
+                 p(class = "text-info", "Estimate HR from log-rank chi-square or p-value when the HR is not directly reported."),
+
+                 textInput(ns("lr_label"), "Parameter Name:", placeholder = "e.g., OS - Trial XYZ"),
+                 hr(),
+
+                 radioButtons(ns("lr_input"), "Input Type:",
+                              c("Log-rank chi-square + Events" = "chi2",
+                                "Log-rank p-value + Events" = "pval")),
+
+                 conditionalPanel(condition = sprintf("input['%s'] == 'chi2'", ns("lr_input")),
+                                  numericInput(ns("lr_chi2"), "Log-rank Chi-Square:", value = 4.5, min = 0, step = 0.1)),
+                 conditionalPanel(condition = sprintf("input['%s'] == 'pval'", ns("lr_input")),
+                                  numericInput(ns("lr_pval"), "Two-sided p-value:", value = 0.03, min = 0.00001, max = 1, step = 0.001)),
+
+                 numericInput(ns("lr_events"), "Total Events (both arms):", value = 200, min = 1),
+                 radioButtons(ns("lr_direction"), "Treatment Effect Direction:",
+                              c("Treatment better (HR < 1)" = "better",
+                                "Treatment worse (HR > 1)" = "worse")),
+
+                 br(),
+                 actionButton(ns("calc_lr"), "Estimate HR & Log", class = "btn-primary", width = "100%")
+               ),
+               mainPanel(uiOutput(ns("res_lr")))
+             )
+    ),
+
     # --- Scenario Comparison ---
     tabPanel("Multi-HR Comparison",
              sidebarLayout(
@@ -397,6 +463,152 @@ mod_hr_converter_server <- function(id, logger) {
       }
 
       add_to_log(input$label, "HR Conversion", log_input, log_result, "Proportional Hazards")
+    })
+
+    # ============================================================
+    # NNT / NNH CALCULATOR
+    # ============================================================
+    observeEvent(input$calc_nnt, {
+      arr <- NULL
+      p_ctrl <- NULL; p_int <- NULL
+      method_note <- ""
+
+      if (input$nnt_input == "arr") {
+        arr <- input$nnt_arr
+        method_note <- "Direct ARR"
+      } else if (input$nnt_input == "probs") {
+        p_ctrl <- input$nnt_pc
+        p_int <- input$nnt_pi
+        arr <- p_ctrl - p_int
+        method_note <- "From probabilities"
+      } else if (input$nnt_input == "rr") {
+        rr <- input$nnt_rr
+        p0 <- input$nnt_p0_rr
+        p_ctrl <- p0
+        p_int <- rr * p0
+        arr <- p_ctrl - p_int
+        method_note <- "From RR + baseline"
+      } else {
+        or_val <- input$nnt_or
+        p0 <- input$nnt_p0_or
+        p_ctrl <- p0
+        rr <- or_val / (1 - p0 + p0 * or_val)
+        p_int <- rr * p0
+        arr <- p_ctrl - p_int
+        method_note <- "From OR + baseline (Zhang & Yu)"
+      }
+
+      is_harm <- arr < 0
+      abs_arr <- abs(arr)
+      nnt_val <- if (abs_arr > 0) ceiling(1 / abs_arr) else NA
+      label <- if (is_harm) "NNH" else "NNT"
+      col <- if (is_harm) "#e74c3c" else "#27ae60"
+
+      output$res_nnt <- renderUI(tagList(
+        div(class="result-box", style=paste0("border-left-color:", col), HTML(paste0(
+          "<span class='result-label'>", label, " Calculation</span>",
+          "<span class='result-value' style='color:", col, "'>", label, " = ", ifelse(!is.na(nnt_val), nnt_val, "N/A"), "</span>",
+          "<br><small>ARR = ", round(arr, 5), " (", round(arr*100, 2), "%)",
+          if (!is.null(p_ctrl)) paste0(" | Control p = ", round(p_ctrl, 4), " | Intervention p = ", round(p_int, 4)) else "",
+          "</small>"
+        ))),
+        div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
+            p(HTML(paste0(
+              "The ", strong(label), " = 1 / |ARR| = 1 / ", round(abs_arr, 5), " = ", strong(ifelse(!is.na(nnt_val), nnt_val, "N/A")), ". ",
+              if (is_harm) "This means for every patient treated, 1 additional harm event occurs per this many patients."
+              else "This means you need to treat this many patients to prevent one event."
+            ))),
+            if (is_harm) p(HTML(paste0(icon("exclamation-triangle"), " The intervention ", strong("increases"), " risk (negative ARR).")))
+        ),
+        div(style = "background:#fff; border:1px solid #ddd; padding:15px; margin-top:15px; border-radius:4px;",
+            h5(icon("square-root-alt"), " Formula", style = "margin-top:0;"),
+            p("$$NNT = \\frac{1}{ARR} = \\frac{1}{p_{control} - p_{intervention}}$$"),
+            p(style = "font-size:0.85em; color:#666;", "Always round UP to the nearest whole number.")
+        ),
+        div(style = "background:#eef6ff; border-left:4px solid #0056b3; padding:12px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("book"), " References", style = "margin-top:0; color:#003366;"),
+            tags$ol(style = "font-size:0.85em; margin-bottom:0;",
+              tags$li(HTML("Laupacis A, et al. An assessment of clinically useful measures of the consequences of treatment. <em>NEJM</em>. 1988;318(26):1728-1733.")),
+              tags$li(HTML("Altman DG. Confidence intervals for the number needed to treat. <em>BMJ</em>. 1998;317(7168):1309-1312."))
+            )
+        ),
+        tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
+      ))
+
+      add_to_log(input$nnt_label, paste0(label, " Calculator"),
+                 paste0("ARR=", round(arr, 5), " (", method_note, ")"),
+                 paste0(label, "=", ifelse(!is.na(nnt_val), nnt_val, "N/A")), method_note)
+    })
+
+    # ============================================================
+    # LOG-RANK TO HR CONVERTER
+    # ============================================================
+    observeEvent(input$calc_lr, {
+      E <- input$lr_events
+
+      if (input$lr_input == "chi2") {
+        chi2 <- input$lr_chi2
+        z <- sqrt(chi2)
+      } else {
+        pval <- input$lr_pval
+        z <- qnorm(1 - pval/2)
+        chi2 <- z^2
+      }
+
+      # Peto method: log(HR) ~ z / sqrt(E/4) = 2*z / sqrt(E)
+      # More precisely: O - E ~ z * sqrt(V) where V ~ E/4
+      # So log(HR) ~ (O-E)/V ~ z * sqrt(V) / V = z / sqrt(V) = z / sqrt(E/4) = 2z/sqrt(E)
+      sign_factor <- if (input$lr_direction == "better") -1 else 1
+      log_hr <- sign_factor * 2 * z / sqrt(E)
+      se_log_hr <- 2 / sqrt(E)
+      hr_est <- exp(log_hr)
+      hr_low <- exp(log_hr - 1.96 * se_log_hr)
+      hr_high <- exp(log_hr + 1.96 * se_log_hr)
+
+      output$res_lr <- renderUI(tagList(
+        div(class="result-box", HTML(paste0(
+          "<span class='result-label'>Estimated Hazard Ratio</span>",
+          "<span class='result-value'>HR = ", round(hr_est, 3), " (95% CI: ", round(hr_low, 3), " to ", round(hr_high, 3), ")</span>",
+          "<br><small>log(HR) = ", round(log_hr, 4), " | SE = ", round(se_log_hr, 4),
+          " | Chi\u00b2 = ", round(chi2, 2), " | Events = ", E, "</small>"
+        ))),
+        div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
+            p(HTML(paste0(
+              "Using the Peto approximation, the log-rank statistic (z = ", round(z, 3),
+              ") was converted to an approximate log(HR) = ", sign_factor, " \u00d7 2 \u00d7 ", round(z, 3),
+              " / \u221a", E, " = ", strong(round(log_hr, 4)), ". ",
+              "Therefore HR = e<sup>", round(log_hr, 4), "</sup> = ", strong(round(hr_est, 3)), "."
+            ))),
+            p(HTML(paste0(
+              icon("exclamation-triangle"), " ",
+              strong("Caveat: "), "This is an ", strong("approximation"), " that works well when treatment effects are moderate ",
+              "and censoring is similar across arms. For the exact HR, access to individual patient data or ",
+              "Cox regression output is preferred."
+            )))
+        ),
+        div(style = "background:#fff; border:1px solid #ddd; padding:15px; margin-top:15px; border-radius:4px;",
+            h5(icon("square-root-alt"), " Formulas (Peto Method)", style = "margin-top:0;"),
+            p("$$\\ln(HR) \\approx \\pm \\frac{2z}{\\sqrt{E}}$$"),
+            p("$$SE(\\ln(HR)) \\approx \\frac{2}{\\sqrt{E}}$$"),
+            p(style = "font-size:0.85em; color:#666;",
+              "where z = sqrt(chi-square) from the log-rank test and E = total events.")
+        ),
+        div(style = "background:#eef6ff; border-left:4px solid #0056b3; padding:12px; margin-top:15px; border-radius:0 4px 4px 0;",
+            h5(icon("book"), " References", style = "margin-top:0; color:#003366;"),
+            tags$ol(style = "font-size:0.85em; margin-bottom:0;",
+              tags$li(HTML("Tierney JF, et al. Practical methods for incorporating summary time-to-event data into meta-analysis. <em>Trials</em>. 2007;8:16.")),
+              tags$li(HTML("Parmar MK, et al. Extracting summary statistics to perform meta-analyses of the published literature for survival endpoints. <em>Stat Med</em>. 1998;17(24):2815-2834."))
+            )
+        ),
+        tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
+      ))
+
+      add_to_log(input$lr_label, "Log-rank->HR",
+                 paste0("Chi2=", round(chi2, 2), ", Events=", E),
+                 paste0("HR=", round(hr_est, 3), " [", round(hr_low, 3), "-", round(hr_high, 3), "]"),
+                 "Peto Approximation")
     })
 
     # ============================================================

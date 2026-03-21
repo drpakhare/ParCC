@@ -114,6 +114,106 @@ mod_howtouse_ui <- function(id) {
                )
       ),
 
+      "Evidence Synthesis",
+      tabPanel("OR \u2194 RR & Effect Sizes",
+               h3("Tutorial: Network Meta-Analysis Preparation"),
+               p(class="text-info", strong("Concept:"), " Different trials report results in different metrics (Odds Ratios, Relative Risks, Standardised Mean Differences). Before you can combine them in a Network Meta-Analysis (NMA), you must convert everything to a common scale."),
+
+               h4("The Real-World Scenario"),
+               p("You are conducting an NMA comparing three treatments for Major Depression. Your systematic review found:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li(strong("Trial A (Drug vs Placebo):"), " OR = 1.85 for 'Response' (50% reduction in HAM-D). Baseline response rate in the placebo arm = 30%."),
+                     tags$li(strong("Trial B (Drug vs Placebo):"), " RR = 1.42 for 'Response'."),
+                     tags$li(strong("Trial C (Drug vs Placebo):"), " Reports a continuous outcome: SMD = 0.45 (Cohen's d) on HAM-D score.")
+                   )
+               ),
+               p("To pool these in a single NMA, you need all three on the same scale."),
+
+               h4("Step 1: Convert OR to RR (Zhang & Yu Method)"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Converters > Core Converters > OR \u2194 RR"), "."),
+                 tags$li("Select direction: ", strong("OR \u2192 RR"), "."),
+                 tags$li("Input OR = ", strong("1.85"), ", Baseline Risk = ", strong("0.30"), "."),
+                 tags$li("Result: ", strong("RR = 1.42"), ".")
+               ),
+               p("The Zhang & Yu formula adjusts for baseline risk: RR = OR / (1 - p", tags$sub("0"), " + p", tags$sub("0"), " \u00d7 OR). Note how OR overstates the effect compared to RR when the outcome is common (>10%)."),
+
+               h4("Step 2: Convert SMD to log(OR) (Chinn Method)"),
+               tags$ol(
+                 tags$li("Switch to the ", strong("Effect Size Conversions"), " tab."),
+                 tags$li("Select direction: ", strong("SMD \u2192 log(OR)"), "."),
+                 tags$li("Input SMD = ", strong("0.45"), "."),
+                 tags$li("Result: log(OR) = ", strong("0.816"), ", i.e. OR = 2.26.")
+               ),
+               p("The Chinn (2000) formula uses the logistic approximation: log(OR) = SMD \u00d7 \u03c0/\u221a3. This is the standard approach endorsed by the Cochrane Handbook for combining binary and continuous outcomes."),
+
+               h4("When to Use This"),
+               div(class = "use-case-box",
+                   span(class = "use-case-title", "Key Applications"),
+                   tags$ul(
+                     tags$li("Network meta-analysis requiring a common effect metric"),
+                     tags$li("Converting trial-level ORs to RRs for clinical interpretability"),
+                     tags$li("Combining binary and continuous outcomes in mixed-treatment comparisons"),
+                     tags$li("Verifying that a rare-disease approximation (OR \u2248 RR) is valid for your baseline risk")
+                   )
+               )
+      ),
+
+      tabPanel("NNT/NNH & Log-rank \u2192 HR",
+               h3("Tutorial: From Published Statistics to Model Inputs"),
+               p(class="text-info", strong("Concept:"), " Systematic reviews often encounter trials that report incomplete survival data. You may find a log-rank p-value but no HR, or you may need to express a treatment effect as NNT for a formulary committee. ParCC bridges these gaps."),
+
+               h4("Scenario A: Extracting a Hazard Ratio from a Log-rank Test"),
+               p("You are conducting a systematic review of adjuvant chemotherapy in colon cancer. An older trial (published 2005) reports:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("Log-rank chi-squared = ", strong("6.8")),
+                     tags$li("Total events (deaths) = ", strong("142")),
+                     tags$li("The trial favours the treatment arm.")
+                   )
+               ),
+               p("The paper does not report a Hazard Ratio."),
+
+               h4("The ParCC Solution (Log-rank \u2192 HR)"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Converters > HR Converter > Log-rank \u2192 HR"), "."),
+                 tags$li("Select input: ", strong("Chi-squared statistic"), "."),
+                 tags$li("Input chi-squared = ", strong("6.8"), ", Total events = ", strong("142"), "."),
+                 tags$li("Select direction: ", strong("Treatment is better"), " (HR < 1)."),
+                 tags$li("Result: ", strong("HR = 0.68"), " (95% CI: 0.51 - 0.91).")
+               ),
+               p("This uses the Peto approximation: log(HR) \u2248 \u00b1z/\u221a(E/4), where z = \u221a(\u03c7\u00b2). This method is recommended by the Cochrane Handbook when only summary statistics are available."),
+
+               h4("Scenario B: Computing NNT for a Formulary Decision"),
+               p("A hospital Pharmacy & Therapeutics committee asks: 'How many patients do we need to treat with Drug X to prevent one death?' The trial reports:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("12-month mortality: Control = 18%, Intervention = 12%")
+                   )
+               ),
+
+               h4("The ParCC Solution (NNT Calculator)"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Converters > HR Converter > NNT/NNH"), "."),
+                 tags$li("Select input mode: ", strong("Two Probabilities"), "."),
+                 tags$li("Input Control = ", strong("0.18"), ", Intervention = ", strong("0.12"), "."),
+                 tags$li("Result: ARR = ", strong("6.0%"), ", NNT = ", strong("17"), ".")
+               ),
+               p("Interpretation: For every 17 patients treated with Drug X instead of the comparator for 12 months, one additional death is prevented. This is a clinically meaningful and easily communicated number."),
+
+               h4("When to Use These Tools"),
+               div(class = "use-case-box",
+                   span(class = "use-case-title", "Key Applications"),
+                   tags$ul(
+                     tags$li("Systematic reviews where older trials lack HR estimates"),
+                     tags$li("Indirect treatment comparisons needing HR inputs from published statistics"),
+                     tags$li("Communicating treatment effects to clinicians and formulary committees"),
+                     tags$li("Sensitivity analyses varying NNT across plausible baseline risk ranges")
+                   )
+               )
+      ),
+
       "Advanced Modeling",
       tabPanel("Survival Curves",
                h3("Tutorial 3: Extrapolating Survival"),
@@ -151,6 +251,62 @@ mod_howtouse_ui <- function(id) {
                p("You have created a 'Synthetic Life Table'. Use ", strong("0.0198"), " as the background mortality probability for age 60 in your model.")
       ),
       
+      tabPanel("Dirichlet & Log-Logistic",
+               h3("Tutorial: Advanced Distributions for Markov Models"),
+               p(class="text-info", strong("Concept:"), " Standard PSA uses Beta (utilities) and Gamma (costs). But two common modelling situations need specialised distributions: (1) multinomial transition probabilities require the Dirichlet distribution to maintain row-sum = 1, and (2) diseases with hump-shaped hazards (e.g., post-surgical risk) need the Log-Logistic survival model."),
+
+               h4("Part A: Dirichlet for Transition Matrices"),
+               p("You are building a 3-state Markov model for Chronic Kidney Disease (Stable \u2192 Progressed \u2192 Dead). From a cohort study of 200 patients observed for 1 year starting in the 'Stable' state:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("150 remained Stable"),
+                     tags$li("35 progressed to CKD Stage 4"),
+                     tags$li("15 died")
+                   )
+               ),
+               p("These three probabilities must sum to 1.0 in every PSA iteration. If you sample them independently (e.g., three separate Beta distributions), they will almost never sum to 1, breaking the model."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("PSA > Dirichlet (Multinomial)"), "."),
+                 tags$li("Enter observed counts: ", strong("150, 35, 15"), "."),
+                 tags$li("Enter state labels: ", strong("Stable, Progressed, Dead"), "."),
+                 tags$li("Click ", strong("Fit & Sample"), ".")
+               ),
+               p("ParCC calculates Dirichlet parameters (\u03b1 = observed counts) and draws samples using the Gamma decomposition method. Each draw is a complete probability vector that sums to exactly 1.0. Copy the R code snippet directly into your PSA loop."),
+
+               h4("Part B: Log-Logistic for Non-Monotonic Hazards"),
+               p("You are modelling recovery after hip replacement surgery. The hazard of revision is:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("Low immediately after surgery (patient is closely monitored)"),
+                     tags$li("Peaks around year 5-7 (implant loosening)"),
+                     tags$li("Declines after year 10 (survivors have well-fixed implants)")
+                   )
+               ),
+               p("Neither Exponential (constant hazard) nor Weibull (monotonic hazard) can capture this hump-shaped pattern. The Log-Logistic distribution can."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("From a published KM curve, identify two time-survival points:"),
+                 tags$li("Point 1: At Year 5, implant survival = ", strong("92%"), "."),
+                 tags$li("Point 2: At Year 15, implant survival = ", strong("78%"), "."),
+                 tags$li("Navigate to ", strong("Survival > Log-Logistic (From 2 Time Points)"), "."),
+                 tags$li("Enter the values. ParCC solves for \u03b1 (scale) and \u03b2 (shape)."),
+                 tags$li("Check that \u03b2 > 1 in the output (confirms the hump-shaped hazard you expect).")
+               ),
+
+               h4("Choosing the Right Survival Distribution"),
+               div(class = "well",
+                   tags$table(style = "width: 100%;",
+                     tags$tr(tags$th("Distribution"), tags$th("Hazard Shape"), tags$th("Best For")),
+                     tags$tr(tags$td("Exponential"), tags$td("Constant"), tags$td("Stable chronic conditions")),
+                     tags$tr(tags$td("Weibull"), tags$td("Monotonic (up or down)"), tags$td("Cancer mortality, device failure")),
+                     tags$tr(tags$td("Log-Logistic"), tags$td("Hump-shaped or decreasing"), tags$td("Post-surgical revision, immune response"))
+                   )
+               )
+      ),
+
       "Uncertainty (PSA)",
       tabPanel("PSA: Utilities (Beta)",
                h3("Tutorial 5A: Parameterizing Utilities"),
@@ -257,6 +413,58 @@ mod_howtouse_ui <- function(id) {
                  tags$li(strong("Max Price:"), " ", strong("INR 2,300"), ". This is the highest justifiable price.")
                ),
                p("If you price it at INR 3,000, ParCC will recommend: ", span(style="color:orange; font-weight:bold;", "Reduce Price by 23%."))
+      ),
+
+      "Budget & Population Impact",
+      tabPanel("Budget Impact Analysis",
+               h3("Tutorial: 5-Year Budget Impact for a New Technology"),
+               p(class="text-info", strong("Concept:"), " A Budget Impact Analysis (BIA) estimates the financial consequences of adopting a new health technology from the payer's perspective over a short time horizon (typically 1-5 years). Unlike CEA, BIA focuses on affordability, not value for money."),
+
+               h4("The Real-World Scenario"),
+               p("You are advising a state health insurance programme on adopting a new oral anticoagulant (NOAC) to replace warfarin for Atrial Fibrillation. You need to estimate the 5-year budget impact."),
+               div(class = "well",
+                   tags$ul(
+                     tags$li(strong("Covered Population:"), " 10,000,000 (state insurance enrolees)"),
+                     tags$li(strong("AF Prevalence:"), " 0.8% (80,000 patients)"),
+                     tags$li(strong("Eligible for Anticoagulation:"), " 60% of AF patients (48,000)"),
+                     tags$li(strong("Uptake Trajectory:"), " Year 1: 10%, Year 2: 25%, Year 3: 45%, Year 4: 60%, Year 5: 70%"),
+                     tags$li(strong("Current Therapy (Warfarin):"), " Per-patient annual cost = 8,000 (drug + INR monitoring)"),
+                     tags$li(strong("New Therapy (NOAC):"), " Per-patient annual cost = 22,000 (drug only, no monitoring)"),
+                     tags$li(strong("Discount Rate:"), " 3% per year")
+                   )
+               ),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Economics > Budget Impact"), "."),
+                 tags$li("Enter Population = ", strong("10,000,000"), "."),
+                 tags$li("Enter Prevalence = ", strong("0.008"), ", Eligible % = ", strong("60"), "."),
+                 tags$li("Enter the 5-year uptake values: ", strong("10, 25, 45, 60, 70"), "."),
+                 tags$li("Enter Per-Patient Cost (New) = ", strong("22,000"), ", (Current) = ", strong("8,000"), "."),
+                 tags$li("Set Discount Rate = ", strong("3"), "%."),
+                 tags$li("Click ", strong("Calculate BIA"), ".")
+               ),
+
+               h4("Reading the Output"),
+               p("ParCC produces a year-by-year table and chart showing:"),
+               tags$ul(
+                 tags$li(strong("Target Population:"), " 48,000 eligible patients (fixed each year)."),
+                 tags$li(strong("Year 1 Impact:"), " 4,800 patients switch (10% uptake). Incremental cost = 4,800 \u00d7 (22,000 - 8,000) = 67.2 million."),
+                 tags$li(strong("Year 5 Impact:"), " 33,600 patients on NOAC (70% uptake). Incremental cost is higher but discounted."),
+                 tags$li(strong("Cumulative 5-Year Impact:"), " The discounted total represents the additional budget the insurer needs.")
+               ),
+
+               h4("ISPOR Good Practice Checklist"),
+               div(class = "use-case-box",
+                   span(class = "use-case-title", "Key Considerations for BIA"),
+                   tags$ul(
+                     tags$li("Use a short time horizon (1-5 years) matching the payer's budget cycle"),
+                     tags$li("Model uptake realistically (S-curve adoption, not instant switching)"),
+                     tags$li("Include only direct costs relevant to the payer perspective"),
+                     tags$li("Present undiscounted results as the primary analysis (discounted as secondary)"),
+                     tags$li("Run scenario analyses on uptake rates and eligible population")
+                   )
+               )
       )
     )
   )
@@ -329,6 +537,50 @@ mod_formulae_ui <- function(id) {
                tags$small(icon("book"), " References: Sonnenberg FA, Beck JR. Med Decis Making. 1993; Briggs A, et al. Oxford University Press; 2006; NICE DSU TSD 14. 2013.")
       ),
 
+      tabPanel("OR \u2194 RR & Effect Sizes",
+               h3("OR-RR Conversion (Zhang & Yu)"),
+               div(class = "well",
+                   p(strong("OR to RR:")),
+                   p("$$RR = \\frac{OR}{1 - p_0 + p_0 \\times OR}$$"),
+                   p(strong("RR to OR:")),
+                   p("$$OR = \\frac{RR \\times (1 - p_0)}{1 - RR \\times p_0}$$")
+               ),
+               p("where \\(p_0\\) = baseline risk in the control group."),
+               tags$small(icon("book"), " Reference: Zhang J, Yu KF. What's the relative risk? JAMA. 1998;280(19):1690-1691."),
+               hr(),
+               h3("Effect Size Conversions"),
+               div(class = "well",
+                   p(strong("SMD to log(OR) (Chinn 2000):")),
+                   p("$$\\ln(OR) = SMD \\times \\frac{\\pi}{\\sqrt{3}} \\approx SMD \\times 1.8138$$"),
+                   p(strong("log(OR) to log(RR):")),
+                   p("$$\\ln(RR) = \\ln\\left(\\frac{e^{\\ln(OR)}}{1 - p_0 + p_0 \\times e^{\\ln(OR)}}\\right)$$")
+               ),
+               tags$small(icon("book"), " Reference: Chinn S. A simple method for converting an odds ratio to effect size. Stat Med. 2000;19(22):3127-3131.")
+      ),
+
+      tabPanel("NNT & Log-rank to HR",
+               h3("Number Needed to Treat"),
+               div(class = "well",
+                   p("$$NNT = \\lceil \\frac{1}{ARR} \\rceil = \\lceil \\frac{1}{p_{control} - p_{intervention}} \\rceil$$"),
+                   p(strong("From RR and baseline risk:")),
+                   p("$$ARR = p_0 \\times (1 - RR)$$"),
+                   p(strong("From OR and baseline risk:")),
+                   p("$$p_1 = \\frac{OR \\times p_0}{1 - p_0 + OR \\times p_0}, \\quad ARR = p_0 - p_1$$")
+               ),
+               hr(),
+               h3("Log-rank to Hazard Ratio (Peto)"),
+               div(class = "well",
+                   p(strong("From chi-squared:")),
+                   p("$$\\ln(HR) = \\pm \\frac{\\sqrt{\\chi^2}}{\\sqrt{E/4}}$$"),
+                   p(strong("From p-value:")),
+                   p("$$z = \\Phi^{-1}(1 - p/2), \\quad \\ln(HR) = \\pm \\frac{z}{\\sqrt{E/4}}$$"),
+                   p(strong("95% CI:")),
+                   p("$$\\ln(HR) \\pm \\frac{1.96}{\\sqrt{E/4}}$$")
+               ),
+               p("where \\(E\\) = total number of events across both arms."),
+               tags$small(icon("book"), " Reference: Tierney JF, et al. Practical methods for incorporating summary time-to-event data into meta-analysis. Trials. 2007;8:16.")
+      ),
+
       "Advanced Models",
       tabPanel("Survival Analysis",
                h3("Parametric Survival Models"),
@@ -336,6 +588,11 @@ mod_formulae_ui <- function(id) {
                p("$$\\lambda = \\frac{\\ln(2)}{M}, \\quad S(t) = e^{-\\lambda t}$$"),
                h4("2. Weibull Distribution"),
                p("$$\\ln(-\\ln(S(t))) = \\ln(\\lambda) + \\gamma \\ln(t)$$"),
+               h4("3. Log-Logistic Distribution"),
+               p("$$S(t) = \\frac{1}{1 + (t/\\alpha)^\\beta}$$"),
+               p(strong("Hazard function:")),
+               p("$$h(t) = \\frac{(\\beta/\\alpha)(t/\\alpha)^{\\beta-1}}{1 + (t/\\alpha)^\\beta}$$"),
+               p("When \\(\\beta > 1\\), the hazard is hump-shaped (rises then falls). When \\(\\beta \\leq 1\\), the hazard is monotonically decreasing."),
                tags$small(icon("book"), " Reference: Collett D. Modelling Survival Data in Medical Research.")
       ),
       
@@ -347,7 +604,10 @@ mod_formulae_ui <- function(id) {
                    strong("Gamma Distribution (>0):"),
                    p("$$k = \\frac{\\mu^2}{SE^2}, \\quad \\theta = \\frac{SE^2}{\\mu}$$"),
                    strong("LogNormal Distribution:"),
-                   p("$$\\sigma_{log}^2 = \\ln\\left(1 + \\frac{SE^2}{\\mu^2}\\right), \\quad \\mu_{log} = \\ln(\\mu) - 0.5 \\sigma_{log}^2$$")
+                   p("$$\\sigma_{log}^2 = \\ln\\left(1 + \\frac{SE^2}{\\mu^2}\\right), \\quad \\mu_{log} = \\ln(\\mu) - 0.5 \\sigma_{log}^2$$"),
+                   strong("Dirichlet Distribution (Multinomial):"),
+                   p("$$\\boldsymbol{\\alpha} = (n_1, n_2, \\ldots, n_K) \\quad \\text{where } n_i \\text{ = observed counts}$$"),
+                   p("Sampling via Gamma decomposition: draw \\(X_i \\sim \\text{Gamma}(\\alpha_i, 1)\\), then \\(p_i = X_i / \\sum X_j\\). The resulting vector \\((p_1, \\ldots, p_K)\\) sums to 1.")
                ),
                h4("Approximation (Rule of 4)"),
                p("$$SE \\approx \\frac{\\text{High} - \\text{Low}}{4}$$")
@@ -383,6 +643,30 @@ mod_formulae_ui <- function(id) {
                    p("$$P_{max} = \\frac{C_{max} - C_a}{N}$$")
                ),
                tags$small(icon("book"), " Reference: Cosh E, et al. The value of 'innovation headroom'. Value in Health. 2007.")
+      ),
+
+      tabPanel("Annuity / PV Stream",
+               h3("Present Value of Recurring Costs"),
+               div(class = "well",
+                   p(strong("Ordinary Annuity"), " (payments at end of each period):"),
+                   p("$$PV = C \\times \\frac{1 - (1 + r)^{-n}}{r}$$"),
+                   p(strong("Annuity Due"), " (payments at beginning of each period):"),
+                   p("$$PV = C \\times \\frac{1 - (1 + r)^{-n}}{r} \\times (1 + r)$$")
+               ),
+               p("where \\(C\\) = annual cost, \\(r\\) = discount rate, \\(n\\) = number of years.")
+      ),
+
+      tabPanel("Budget Impact Analysis",
+               h3("ISPOR BIA Framework"),
+               div(class = "well",
+                   p(strong("Target Population:")),
+                   p("$$N_{target} = N_{total} \\times Prevalence \\times Eligible\\%$$"),
+                   p(strong("Year-Specific Budget Impact:")),
+                   p("$$BI_t = N_{target} \\times Uptake_t \\times (C_{new} - C_{current}) \\times \\frac{1}{(1+r)^t}$$"),
+                   p(strong("Cumulative Budget Impact:")),
+                   p("$$BI_{total} = \\sum_{t=1}^{T} BI_t$$")
+               ),
+               tags$small(icon("book"), " Reference: Sullivan SD, et al. Budget impact analysis - principles of good practice: report of the ISPOR 2012 Budget Impact Analysis Good Practice II Task Force. Value Health. 2014;17(1):5-14.")
       )
     )
   )
@@ -396,7 +680,7 @@ mod_about_ui <- function(id) {
   fluidPage(
     column(8, offset = 2,
            div(class = "about-header",
-               h1("ParCC v1.3"),
+               h1("ParCC v1.4"),
                p("Parameter Converter & Calculator for Health Economic Evaluation"),
                p(style = "font-size: 0.9em; opacity: 0.8;", "R Package Edition")
            ),
@@ -418,15 +702,15 @@ mod_about_ui <- function(id) {
                  tags$tbody(
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "Converters"),
-                     tags$td(style = "padding: 8px;", "Rate-Probability, Odds-Probability, Time Rescaling")
+                     tags$td(style = "padding: 8px;", "Rate-Probability, Odds-Probability, Time Rescaling, OR-RR (Zhang & Yu), Effect Size (Chinn)")
                    ),
-                   tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
-                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "HR Converter (New)"),
-                     tags$td(style = "padding: 8px;", "Control-to-intervention probability via hazard ratios, multi-HR comparison, ARR/NNT, CI propagation")
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "HR Converter"),
+                     tags$td(style = "padding: 8px;", "HR-to-probability, multi-HR comparison, NNT/NNH calculator, Log-rank to HR (Peto)")
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "Survival"),
-                     tags$td(style = "padding: 8px;", "Exponential & Weibull extrapolation from KM data")
+                     tags$td(style = "padding: 8px;", "Exponential, Weibull & Log-Logistic extrapolation from KM data")
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "Bg Mortality"),
@@ -434,7 +718,7 @@ mod_about_ui <- function(id) {
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "PSA Distributions"),
-                     tags$td(style = "padding: 8px;", "Beta, Gamma, LogNormal fitting via Method of Moments")
+                     tags$td(style = "padding: 8px;", "Beta, Gamma, LogNormal (Method of Moments), Dirichlet (Multinomial)")
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "Diagnostics"),
@@ -442,7 +726,7 @@ mod_about_ui <- function(id) {
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "Financial"),
-                     tags$td(style = "padding: 8px;", "Cost inflation (rate & CPI methods), discounting to present value")
+                     tags$td(style = "padding: 8px;", "Cost inflation, discounting, annuity/PV stream calculator")
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee;",
                      tags$td(style = "padding: 8px; font-weight: bold;", "ICER & NMB"),
@@ -453,7 +737,19 @@ mod_about_ui <- function(id) {
                      tags$td(style = "padding: 8px;", "Headroom analysis, maximum justifiable price, WTP breakeven")
                    ),
                    tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
-                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "Batch Processing (Enhanced)"),
+                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "Budget Impact (New)"),
+                     tags$td(style = "padding: 8px;", "5-year BIA framework with population uptake curves and discounting (ISPOR)")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
+                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "PPP Converter (New)"),
+                     tags$td(style = "padding: 8px;", "PPP conversion (30 countries), market FX comparison, WHO-CHOICE WTP thresholds (1x & 3x GDP/capita)")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
+                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "Global Currency (New)"),
+                     tags$td(style = "padding: 8px;", "INR, USD, EUR, GBP, JPY, BRL, THB, AUD, CAD, and custom currencies")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Batch Processing"),
                      tags$td(style = "padding: 8px;", "Bulk rate-probability, odds-probability, and HR-based conversions with CSV upload/download")
                    )
                  )
@@ -468,7 +764,7 @@ mod_about_ui <- function(id) {
                hr(),
                h4("Suggested Citation"),
                div(class = "well", style = "font-family: monospace; font-size: 0.9em;",
-                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.3.0) [R package]. Available at: [URL]"
+                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.4.0) [R package]. Available at: [URL]"
                ),
 
                hr(),

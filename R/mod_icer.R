@@ -34,7 +34,7 @@ mod_icer_ui <- function(id) {
   )
 }
 
-mod_icer_server <- function(id, logger) {
+mod_icer_server <- function(id, logger, currency) {
   moduleServer(id, function(input, output, session) {
 
     add_to_log <- function(label, type, inputs, result, note) {
