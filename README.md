@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ParCC: Parameter Converter & Calculator
+# ParCC: Parameter Converter & Calculator for HTA
 
 <!-- badges: start -->
 
@@ -10,14 +10,17 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 
 <!-- badges: end -->
 
-**ParCC** is a decision support system for Health Technology Assessment
-(HTA). It bridges the gap between clinical evidence and economic models
-by automating complex parameter estimations.
+**ParCC** is an interactive Shiny application for Health Technology
+Assessment (HTA) parameter estimation. It bridges the gap between
+clinical evidence and economic models by automating complex parameter
+transformations with full formula documentation and literature citations.
+
+**Documentation:** <https://drpakhare.github.io/ParCC/>
 
 ## Installation
 
-You can install the development version of ParCC from
-[GitHub](https://github.com/) with:
+You can install ParCC from
+[GitHub](https://github.com/drpakhare/ParCC) with:
 
 ``` r
 # install.packages("remotes")
@@ -26,8 +29,6 @@ remotes::install_github("drpakhare/ParCC")
 
 ## Quick Start
 
-To launch the application:
-
 ``` r
 library(ParCC)
 run_app()
@@ -35,27 +36,40 @@ run_app()
 
 ## Key Features
 
-- **Core Conversions:** Rate/Odds to Probability, Time Rescaling.
+- **Core Conversions** -- Rate to Probability, Odds to Probability,
+  Time Rescaling, OR to RR (Zhang & Yu), Effect Size (Chinn).
+- **HR Converter** -- HR-to-probability, multi-HR comparison, NNT/NNH
+  calculator, Log-rank to HR (Peto).
+- **Survival Extrapolation** -- Exponential, Weibull, and Log-Logistic
+  fitting from published KM data.
+- **Background Mortality** -- SMR adjustment, Gompertz fitting, DEALE,
+  linear interpolation.
+- **PSA Distributions** -- Beta, Gamma, LogNormal (Method of Moments),
+  Dirichlet (multinomial).
+- **Economic Evaluation** -- ICER, Net Monetary Benefit, Value-Based
+  Pricing (headroom analysis).
+- **Budget Impact Analysis** -- 5-year BIA framework with population
+  uptake curves and discounting (ISPOR).
+- **PPP Currency Converter** -- Purchasing Power Parity conversion
+  across 30 countries with WHO-CHOICE WTP thresholds.
+- **Global Currency Selector** -- INR, USD, EUR, GBP, JPY, and more;
+  all economic modules update automatically.
+- **Batch Processing** -- Bulk rate, odds, and HR-based conversions with
+  CSV upload/download.
+- **Lab Notebook** -- Generates an HTML report with methodology and
+  citations for every session.
 
-- **HR Converter (NEW in v1.3):** Convert control group probabilities to intervention probabilities using Hazard Ratios from clinical trials. Includes CI propagation, ARR/NNT calculation, multi-HR comparison, and batch support.
+## What's New in v1.4.0
 
-- **Survival Analysis:** Weibull/Exponential fitting from summary data.
-
-- **Background Mortality:** SMR adjustment, Gompertz fitting, DEALE, linear interpolation.
-
-- **PSA Distributions:** Beta, Gamma, and LogNormal fitting via Method of Moments.
-
-- **Economic Evaluation:** ICER, Net Monetary Benefit, and Value-Based Pricing (Headroom analysis).
-
-- **Reproducibility:** Generates a "Lab Notebook" HTML report with methodology and citations for every session.
-
-## What's New in v1.3.0
-
-- **Hazard Ratio Converter** — New dedicated module for converting control probabilities to intervention probabilities using trial HRs, with step-by-step explanation, formula display, and citations on the output panel.
-- **Multi-HR Comparison** — Compare intervention probabilities across multiple HRs from subgroup analyses or network meta-analyses.
-- **Batch HR Conversion** — Upload a CSV with control probabilities and HRs to convert an entire dataset at once.
-- **Expanded Vignettes** — Seven focused vignettes with realistic clinical scenarios (PLATO, RE-LY, UKPDS, CheckMate trials).
-- **Rich Output Panels** — All converter outputs now include explanatory text, formulas, and citations directly on the results panel.
+- Budget Impact Analysis (ISPOR framework)
+- PPP Currency Converter with WHO-CHOICE WTP thresholds
+- OR-RR and effect size conversions for NMA preparation
+- NNT/NNH calculator and Log-rank to HR (Peto)
+- Dirichlet distribution for Markov transition matrices
+- Log-Logistic survival with non-monotonic hazard support
+- Annuity / PV stream calculator
+- Interactive clickable tool overview on Home page
+- 5 new worked-example vignettes
 
 ## Vignettes
 
@@ -65,17 +79,12 @@ After installation, browse the tutorials:
 browseVignettes("ParCC")
 ```
 
-Available vignettes:
-
-- Getting Started
-- Core Conversions (Rates, Odds, Time Rescaling)
-- HR-Based Probability Converter
-- Survival Extrapolation
-- Background Mortality Adjustments
-- PSA Distribution Fitting
-- Economic Evaluation (ICER, NMB, VBP)
-- Batch Conversion Workflow
+Or visit the [online
+documentation](https://drpakhare.github.io/ParCC/articles/).
 
 ## Citation
 
-Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.3.0) [Software]. Available at: https://github.com/drpakhare/ParCC
+Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC:
+Parameter Converter & Calculator for Health Economic Evaluation (Version
+1.4.0) \[R package\]. Available at:
+<https://drpakhare.github.io/ParCC/>
