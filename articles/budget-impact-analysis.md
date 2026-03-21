@@ -4,7 +4,7 @@
 
 A Budget Impact Analysis (BIA) estimates the financial consequences of
 adopting a new health technology from the **payer’s perspective** over a
-short time horizon (typically 1–5 years). Unlike cost-effectiveness
+short time horizon (typically 1-5 years). Unlike cost-effectiveness
 analysis, BIA focuses on **affordability**, not value for money. ParCC
 implements the ISPOR BIA Good Practice framework.
 
@@ -21,8 +21,8 @@ oral anticoagulant (NOAC) to replace warfarin for Atrial Fibrillation.
 | AF prevalence                | 0.8% (80,000 patients)                                |
 | Eligible for anticoagulation | 60% of AF patients (48,000)                           |
 | Uptake trajectory            | Yr 1: 10%, Yr 2: 25%, Yr 3: 45%, Yr 4: 60%, Yr 5: 70% |
-| Current therapy (warfarin)   | ₹8,000/patient/year (drug + INR monitoring)           |
-| New therapy (NOAC)           | ₹22,000/patient/year (drug only)                      |
+| Current therapy (warfarin)   | INR 8,000/patient/year (drug + INR monitoring)        |
+| New therapy (NOAC)           | INR 22,000/patient/year (drug only)                   |
 | Discount rate                | 3% per year                                           |
 
 ### The Framework
@@ -61,14 +61,14 @@ ParCC produces:
 ### Interpreting Year 1
 
 - 4,800 patients switch (10% uptake)
-- Incremental cost per patient: ₹22,000 − ₹8,000 = ₹14,000
-- Year 1 budget impact: 4,800 × ₹14,000 = ₹67.2 million
+- Incremental cost per patient: INR 22,000 - INR 8,000 = INR 14,000
+- Year 1 budget impact: 4,800 x INR 14,000 = INR 67.2 million
 
 ## Key Modelling Decisions
 
 ### Time Horizon
 
-ISPOR recommends **1–5 years**, matching the payer’s budget cycle.
+ISPOR recommends **1-5 years**, matching the payer’s budget cycle.
 Longer horizons introduce too much uncertainty in uptake projections.
 
 ### Uptake Trajectory
@@ -87,7 +87,7 @@ secondary analysis for consistency with CEA.
 
 ParCC uses a static population (same eligible count each year). For
 diseases with significant incidence/mortality, a dynamic population
-model may be needed — this is beyond ParCC’s current scope.
+model may be needed – this is beyond ParCC’s current scope.
 
 ## ISPOR Good Practice Checklist
 
@@ -103,7 +103,7 @@ The ISPOR 2012 Task Force recommends:
 ## References
 
 1.  Sullivan SD, Mauskopf JA, Augustovski F, et al. Budget impact
-    analysis — principles of good practice: report of the ISPOR 2012
+    analysis – principles of good practice: report of the ISPOR 2012
     Budget Impact Analysis Good Practice II Task Force. *Value in
     Health*. 2014;17(1):5-14.
 2.  Mauskopf JA, Sullivan SD, Annemans L, et al. Principles of good

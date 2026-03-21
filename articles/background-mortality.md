@@ -12,7 +12,7 @@ ParCC provides four methods for handling background mortality.
 
 ## Method 1: SMR Adjustment
 
-### The Scenario — Heart Failure Cohort
+### The Scenario – Heart Failure Cohort
 
 You are modelling a cohort of 65-year-old heart failure patients. The
 general population mortality rate for age 65 (from the Indian Census
@@ -48,7 +48,7 @@ cat("Annual mortality probability:", round(p_disease, 5), "\n")
 
 ## Method 2: DEALE (Declining Exponential Approximation of Life Expectancy)
 
-### The Scenario — Rare Disease with Known Life Expectancy
+### The Scenario – Rare Disease with Known Life Expectancy
 
 For Duchenne Muscular Dystrophy, the **observed mean life expectancy is
 25 years** (from a registry study). The background life expectancy for

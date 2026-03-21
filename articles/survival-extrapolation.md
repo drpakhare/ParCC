@@ -12,14 +12,14 @@ distributions.
 
 ### When to Use
 
-The exponential distribution assumes a **constant hazard** — the risk of
+The exponential distribution assumes a **constant hazard** – the risk of
 the event is the same at every time point. This is rarely true
 biologically, but can be a reasonable approximation when:
 
 - You only have median survival reported
 - The Kaplan-Meier curve appears roughly linear on a log scale
 
-### The Scenario — Metastatic Colorectal Cancer
+### The Scenario – Metastatic Colorectal Cancer
 
 A Phase III trial of Bevacizumab + FOLFOX reports median Overall
 Survival of **21.3 months** in the control arm (Hurwitz et al., NEJM
@@ -60,7 +60,7 @@ The Weibull distribution allows the hazard to increase or decrease over
 time (monotonically). This is more flexible than exponential and is
 frequently used in oncology HTA.
 
-### The Scenario — NSCLC (CheckMate 017)
+### The Scenario – NSCLC (CheckMate 017)
 
 A published Kaplan-Meier curve for nivolumab in squamous NSCLC shows:
 

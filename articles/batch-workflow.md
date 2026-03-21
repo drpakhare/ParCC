@@ -9,9 +9,9 @@ and convert them all at once.
 
 ## Supported Conversion Types
 
-1.  **Rate to Probability** — for incidence rates from clinical trials
-2.  **Odds to Probability** — for odds ratios from logistic regression
-3.  **HR to Intervention Probability** — for applying hazard ratios to
+1.  **Rate to Probability** – for incidence rates from clinical trials
+2.  **Odds to Probability** – for odds ratios from logistic regression
+3.  **HR to Intervention Probability** – for applying hazard ratios to
     control arm probabilities
 
 ## Example: PLATO Trial Parameters
@@ -87,7 +87,7 @@ print(result)
 ```
 
 Notice that endpoints with HR \> 1 (Stroke, Major Bleeding, Dyspnea)
-show negative ARR, meaning the intervention *increases* the event risk —
+show negative ARR, meaning the intervention *increases* the event risk –
 these rows correctly show `NA` for NNT.
 
 ## Tips
@@ -96,7 +96,7 @@ these rows correctly show `NA` for NNT.
   “Odds”, “Prob”, “HR”, “Hazard”, or “Time” in their names.
 - **Mixed conversions:** If you have a mix of rates and probabilities,
   split your CSV into two files and run them separately.
-- **The sample dataset** is pre-loaded with realistic PLATO trial data —
+- **The sample dataset** is pre-loaded with realistic PLATO trial data –
   useful for learning the workflow.
 
 ## References

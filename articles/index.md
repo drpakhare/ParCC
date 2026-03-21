@@ -11,7 +11,7 @@
 
 - [Core Conversions: Rates, Odds, and Time
   Rescaling](https://drpakhare.github.io/ParCC/articles/core-conversions.md):
-- [OR ↔ RR Conversion & Effect Size
+- [OR \<-\> RR Conversion & Effect Size
   Transformations](https://drpakhare.github.io/ParCC/articles/or-rr-effect-sizes.md):
 - [HR-Based Probability
   Converter](https://drpakhare.github.io/ParCC/articles/hr-probability-converter.md):

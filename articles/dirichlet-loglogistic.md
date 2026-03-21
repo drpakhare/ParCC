@@ -13,8 +13,8 @@ Log-Logistic survival model.
 ### The Problem
 
 You are building a 3-state Markov model for Chronic Kidney Disease
-(Stable → Progressed → Dead). From a cohort of 200 patients observed for
-1 year starting in “Stable”:
+(Stable -\> Progressed -\> Dead). From a cohort of 200 patients observed
+for 1 year starting in “Stable”:
 
 - 150 remained Stable
 - 35 progressed to CKD Stage 4
@@ -22,7 +22,7 @@ You are building a 3-state Markov model for Chronic Kidney Disease
 
 These three probabilities (0.75, 0.175, 0.075) **must sum to 1.0** in
 every PSA iteration. If you sample them independently using three Beta
-distributions, they will almost never sum to 1 — breaking the model.
+distributions, they will almost never sum to 1 – breaking the model.
 
 ### The Dirichlet Solution
 
@@ -62,7 +62,7 @@ loop.
 |------------------------------------------------|----------------------------------------|
 | Single probability (e.g., utility, event rate) | Beta distribution                      |
 | Two mutually exclusive outcomes                | Beta (one parameter determines both)   |
-| Three or more mutually exclusive outcomes      | **Dirichlet** — guarantees row-sum = 1 |
+| Three or more mutually exclusive outcomes      | **Dirichlet** – guarantees row-sum = 1 |
 | Transition matrix row in a Markov model        | **Dirichlet** for each row             |
 
 ## Part B: Log-Logistic Survival
@@ -73,7 +73,7 @@ You are modelling recovery after hip replacement surgery. The hazard of
 revision is:
 
 - Low immediately after surgery (close monitoring)
-- Peaks around year 5–7 (implant loosening)
+- Peaks around year 5-7 (implant loosening)
 - Declines after year 10 (survivors have well-fixed implants)
 
 Neither Exponential (constant hazard) nor Weibull (monotonic hazard) can
@@ -89,7 +89,7 @@ The hazard function is:
 
 $$h(t) = \frac{(\beta/\alpha)(t/\alpha)^{\beta - 1}}{1 + (t/\alpha)^{\beta}}$$
 
-When $\beta > 1$, the hazard rises to a peak then falls — exactly the
+When $\beta > 1$, the hazard rises to a peak then falls – exactly the
 hump shape needed.
 
 ### In ParCC
@@ -102,8 +102,8 @@ From a published Kaplan-Meier curve, identify two time-survival points:
 1.  Navigate to **Survival Curves \> Fit Survival Curve**.
 2.  Select method: **Log-Logistic (From 2 Time Points)**.
 3.  Enter the values.
-4.  ParCC solves for α (scale) and β (shape).
-5.  Verify β \> 1 in the output to confirm the expected hump-shaped
+4.  ParCC solves for alpha (scale) and beta (shape).
+5.  Verify beta \> 1 in the output to confirm the expected hump-shaped
     hazard.
 
 ### Calibration Method
@@ -113,7 +113,7 @@ $S(t) = 1/\left( 1 + (t/\alpha)^{\beta} \right)$:
 
 $$\ln\left( \frac{1 - S(t)}{S(t)} \right) = \beta\ln(t) - \beta\ln(\alpha)$$
 
-Two points yield two equations, solved for α and β.
+Two points yield two equations, solved for alpha and beta.
 
 ### Choosing the Right Survival Distribution
 
@@ -127,7 +127,7 @@ Two points yield two equations, solved for α and β.
 
 As with all parametric survival models, extrapolation beyond the
 observed data requires clinical justification. The Log-Logistic’s long
-tail means it predicts higher long-term survival than the Weibull —
+tail means it predicts higher long-term survival than the Weibull –
 validate this against clinical expectations.
 
 ## References

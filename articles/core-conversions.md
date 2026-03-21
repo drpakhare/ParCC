@@ -9,7 +9,7 @@ explains the conversions and demonstrates them with realistic scenarios.
 
 ## Tutorial 1: Rate to Probability
 
-### The Scenario — Anticoagulant Safety (RE-LY Trial)
+### The Scenario – Anticoagulant Safety (RE-LY Trial)
 
 You are building a Markov model comparing Dabigatran vs Warfarin for
 atrial fibrillation. The RE-LY trial (Connolly et al., NEJM 2009)
@@ -20,7 +20,7 @@ reports the incidence rate of major bleeding as:
 ### Why Simple Division is Wrong
 
 Dividing 3.36 by 100 gives 0.0336. But this ignores the continuous
-nature of risk — patients who bleed early in the year are removed from
+nature of risk – patients who bleed early in the year are removed from
 the at-risk pool, meaning the remaining patients face a slightly
 different risk.
 
@@ -49,14 +49,14 @@ cat("Naive division would give:", r, "(overestimates by", round((r - p)/p * 100,
 
 ### In ParCC
 
-1.  Navigate to **Converters \> Rate ↔︎ Probability**
+1.  Navigate to **Converters \> Rate \<-\> Probability**
 2.  Input Rate = `3.36`, Multiplier = `Per 100`
 3.  Time = `1`
 4.  Result: `0.03304`
 
 ## Tutorial 2: Time Rescaling
 
-### The Scenario — UKPDS Risk Engine
+### The Scenario – UKPDS Risk Engine
 
 You are building a Diabetes model with **1-year cycles**. The **UKPDS
 Risk Engine** (Clarke et al., Diabetologia 2004) predicts the 10-year
@@ -100,7 +100,7 @@ cat("Correct value is", round((p_1yr - 0.02)/0.02 * 100, 1), "% higher\n")
 
 ## Tutorial 3: Odds to Probability
 
-### The Scenario — Logistic Regression Output
+### The Scenario – Logistic Regression Output
 
 A logistic regression predicting post-surgical infection reports an
 **odds ratio of 2.5** for patients with diabetes (vs no diabetes). The

@@ -3,7 +3,7 @@
 ## Overview
 
 When comparing health technology costs across countries, market exchange
-rates are misleading — they reflect capital flows, not the actual
+rates are misleading – they reflect capital flows, not the actual
 purchasing power of money in each economy. **Purchasing Power Parity
 (PPP)** conversion factors adjust for price-level differences, making
 costs genuinely comparable.
@@ -21,9 +21,9 @@ the Indian market.
 
 ### Why Market Exchange Rates Are Wrong
 
-At the 2022 market rate of ~₹78.6 per USD:
+At the 2022 market rate of ~INR 78.6 per USD:
 
-$$\$ 50,000 \times 78.6 = ₹39,30,000$$
+$$\$ 50,000 \times 78.6 = INR39,30,000$$
 
 But this dramatically overstates the burden, because goods and services
 are much cheaper in India. A doctor’s consultation, hospital bed-day, or
@@ -44,7 +44,7 @@ $$\$ 50,000 \div 1.00 = \text{Int}\$ 50,000$$
 
 **Step 2:** Convert international dollars to Indian rupees:
 
-$$\text{Int}\$ 50,000 \times 23.2 = ₹11,60,000$$
+$$\text{Int}\$ 50,000 \times 23.2 = INR11,60,000$$
 
 ### In ParCC
 
@@ -57,11 +57,11 @@ $$\text{Int}\$ 50,000 \times 23.2 = ₹11,60,000$$
 
 ParCC displays three key results:
 
-| Metric            | Value      |
-|-------------------|------------|
-| PPP-adjusted cost | ₹11,60,000 |
-| Market FX cost    | ₹39,30,000 |
-| PPP/FX ratio      | 0.30       |
+| Metric            | Value         |
+|-------------------|---------------|
+| PPP-adjusted cost | INR 11,60,000 |
+| Market FX cost    | INR 39,30,000 |
+| PPP/FX ratio      | 0.30          |
 
 The PPP-adjusted cost is **70% lower** than the market FX conversion.
 This means the drug’s true economic burden in India is much less than
@@ -74,18 +74,18 @@ country:
 
 | Threshold                                 | India (2022) |
 |-------------------------------------------|--------------|
-| 1× GDP per capita (highly cost-effective) | ₹1,87,750    |
-| 3× GDP per capita (cost-effective)        | ₹5,63,250    |
+| 1x GDP per capita (highly cost-effective) | INR 1,87,750 |
+| 3x GDP per capita (cost-effective)        | INR 5,63,250 |
 
-At ₹11,60,000 the drug **exceeds 3× GDP per capita** and is flagged red
-— not cost-effective by WHO-CHOICE criteria at this price.
+At INR 11,60,000 the drug **exceeds 3x GDP per capita** and is flagged
+red – not cost-effective by WHO-CHOICE criteria at this price.
 
 ### Implications for Pricing
 
-The PPP analysis suggests that a price of ₹11,60,000 is the
+The PPP analysis suggests that a price of INR 11,60,000 is the
 PPP-equivalent economic burden. But even this is above the WTP
-threshold. A price negotiation should target below ₹5,63,250 (3×
-GDP/capita) to be considered cost-effective, or below ₹1,87,750 (1×
+threshold. A price negotiation should target below INR 5,63,250 (3x
+GDP/capita) to be considered cost-effective, or below INR 1,87,750 (1x
 GDP/capita) to be highly cost-effective.
 
 ## Override Values
@@ -115,7 +115,7 @@ Philippines.
     general PPP is the standard in most HTA submissions.
 
 2.  **WHO-CHOICE thresholds are guides, not rules.** Many countries now
-    use empirical thresholds (UK: £20,000–30,000/QALY; India: 1×
+    use empirical thresholds (UK: GBP 20,000-30,000/QALY; India: 1x
     GDP/capita per HTAIn guidelines). ParCC shows the WHO-CHOICE
     thresholds as a starting point.
 

@@ -80,7 +80,7 @@ the conversions and demonstrates them with realistic scenarios.</p>
 <h2 id="tutorial-1-rate-to-probability">Tutorial 1: Rate to Probability<a class="anchor" aria-label="anchor" href="#tutorial-1-rate-to-probability"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-scenario-anticoagulant-safety-re-ly-trial">The Scenario — Anticoagulant Safety (RE-LY Trial)<a class="anchor" aria-label="anchor" href="#the-scenario-anticoagulant-safety-re-ly-trial"></a>
+<h3 id="the-scenario-anticoagulant-safety-re-ly-trial">The Scenario – Anticoagulant Safety (RE-LY Trial)<a class="anchor" aria-label="anchor" href="#the-scenario-anticoagulant-safety-re-ly-trial"></a>
 </h3>
 <p>You are building a Markov model comparing Dabigatran vs Warfarin for
 atrial fibrillation. The RE-LY trial (Connolly et al., NEJM 2009)
@@ -94,7 +94,7 @@ arm</p>
 <h3 id="why-simple-division-is-wrong">Why Simple Division is Wrong<a class="anchor" aria-label="anchor" href="#why-simple-division-is-wrong"></a>
 </h3>
 <p>Dividing 3.36 by 100 gives 0.0336. But this ignores the continuous
-nature of risk — patients who bleed early in the year are removed from
+nature of risk – patients who bleed early in the year are removed from
 the at-risk pool, meaning the remaining patients face a slightly
 different risk.</p>
 </div>
@@ -129,7 +129,8 @@ is the time horizon.</p>
 <h3 id="in-parcc">In ParCC<a class="anchor" aria-label="anchor" href="#in-parcc"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li>Navigate to <strong>Converters &gt; Rate ↔︎ Probability</strong>
+<li>Navigate to <strong>Converters &gt; Rate &lt;-&gt;
+Probability</strong>
 </li>
 <li>Input Rate = <code>3.36</code>, Multiplier =
 <code>Per 100</code>
@@ -145,7 +146,7 @@ is the time horizon.</p>
 <h2 id="tutorial-2-time-rescaling">Tutorial 2: Time Rescaling<a class="anchor" aria-label="anchor" href="#tutorial-2-time-rescaling"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-scenario-ukpds-risk-engine">The Scenario — UKPDS Risk Engine<a class="anchor" aria-label="anchor" href="#the-scenario-ukpds-risk-engine"></a>
+<h3 id="the-scenario-ukpds-risk-engine">The Scenario – UKPDS Risk Engine<a class="anchor" aria-label="anchor" href="#the-scenario-ukpds-risk-engine"></a>
 </h3>
 <p>You are building a Diabetes model with <strong>1-year
 cycles</strong>. The <strong>UKPDS Risk Engine</strong> (Clarke et al.,
@@ -203,7 +204,7 @@ conversion accounts for this compounding.</p>
 <h2 id="tutorial-3-odds-to-probability">Tutorial 3: Odds to Probability<a class="anchor" aria-label="anchor" href="#tutorial-3-odds-to-probability"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-scenario-logistic-regression-output">The Scenario — Logistic Regression Output<a class="anchor" aria-label="anchor" href="#the-scenario-logistic-regression-output"></a>
+<h3 id="the-scenario-logistic-regression-output">The Scenario – Logistic Regression Output<a class="anchor" aria-label="anchor" href="#the-scenario-logistic-regression-output"></a>
 </h3>
 <p>A logistic regression predicting post-surgical infection reports an
 <strong>odds ratio of 2.5</strong> for patients with diabetes (vs no
@@ -253,7 +254,7 @@ of patients with Type 2 diabetes. <em>Diabetologia</em>.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by RRC-HTA Team.</p>
+  <p>Developed by Abhijit Pakhare, RRC-HTA Team, AIIMS Bhopal.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -54,48 +54,48 @@ ParCC provides 12 calculation modules organized into four categories:
 
 ### Parameter Estimation
 
-- **Converters** — Rate/Odds to Probability, Time Rescaling
-- **HR Converter** — Apply Hazard Ratios from trials to convert control
+- **Converters** – Rate/Odds to Probability, Time Rescaling
+- **HR Converter** – Apply Hazard Ratios from trials to convert control
   probabilities to intervention probabilities
-- **Bulk Conversion** — Upload a CSV and convert an entire column
-- **Survival Analysis** — Fit Exponential or Weibull curves from summary
+- **Bulk Conversion** – Upload a CSV and convert an entire column
+- **Survival Analysis** – Fit Exponential or Weibull curves from summary
   data
-- **Background Mortality** — SMR adjustment, Gompertz fitting, DEALE,
+- **Background Mortality** – SMR adjustment, Gompertz fitting, DEALE,
   interpolation
 
 ### Uncertainty Analysis
 
-- **PSA** — Fit Beta, Gamma, and LogNormal distributions for
+- **PSA** – Fit Beta, Gamma, and LogNormal distributions for
   Probabilistic Sensitivity Analysis
 
 ### Financial Adjustments
 
-- **Financial** — Inflation adjustment and discounting calculators
+- **Financial** – Inflation adjustment and discounting calculators
 
 ### Decision Outputs
 
-- **Diagnostics** — Bayesian PPV/NPV
-- **ICER & NMB** — Cost-effectiveness metrics
-- **Value-Based Pricing** — Headroom analysis
+- **Diagnostics** – Bayesian PPV/NPV
+- **ICER & NMB** – Cost-effectiveness metrics
+- **Value-Based Pricing** – Headroom analysis
 
 ## Next Steps
 
 Explore the other vignettes for detailed tutorials:
 
 - [`vignette("core-conversions")`](https://drpakhare.github.io/ParCC/articles/core-conversions.md)
-  — Rates, Odds, and Time Rescaling
+  – Rates, Odds, and Time Rescaling
 - [`vignette("hr-probability-converter")`](https://drpakhare.github.io/ParCC/articles/hr-probability-converter.md)
-  — Applying Hazard Ratios
+  – Applying Hazard Ratios
 - [`vignette("survival-extrapolation")`](https://drpakhare.github.io/ParCC/articles/survival-extrapolation.md)
-  — Fitting survival curves
+  – Fitting survival curves
 - [`vignette("background-mortality")`](https://drpakhare.github.io/ParCC/articles/background-mortality.md)
-  — Mortality adjustments
+  – Mortality adjustments
 - [`vignette("psa-distributions")`](https://drpakhare.github.io/ParCC/articles/psa-distributions.md)
-  — Parameterizing PSA
+  – Parameterizing PSA
 - [`vignette("economic-evaluation")`](https://drpakhare.github.io/ParCC/articles/economic-evaluation.md)
-  — ICER, NMB, and VBP
+  – ICER, NMB, and VBP
 - [`vignette("batch-workflow")`](https://drpakhare.github.io/ParCC/articles/batch-workflow.md)
-  — Bulk CSV processing
+  – Bulk CSV processing
 
 ## References
 

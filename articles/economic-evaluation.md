@@ -6,7 +6,7 @@
 
 $$ICER = \frac{\Delta Cost}{\Delta Effect} = \frac{C_{intervention} - C_{comparator}}{E_{intervention} - E_{comparator}}$$
 
-### The Scenario — New Diabetes Drug
+### The Scenario – New Diabetes Drug
 
 A trial-based economic evaluation compares a new DPP-4 inhibitor to
 metformin monotherapy over 5 years:
@@ -65,7 +65,7 @@ if (inmb > 0) {
 
 ## Value-Based Pricing (Headroom Analysis)
 
-### The Scenario — SepsiQuick (Point-of-Care Test for Sepsis)
+### The Scenario – SepsiQuick (Point-of-Care Test for Sepsis)
 
 You are pricing a new rapid diagnostic test for sepsis. The evidence:
 

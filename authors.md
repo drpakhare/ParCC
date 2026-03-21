@@ -2,20 +2,23 @@
 
 ## Authors
 
-- **RRC-HTA Team**. Author, maintainer.
+- **Abhijit Pakhare**. Author, maintainer.
+
+- **RRC-HTA Team, AIIMS Bhopal**. Author.
 
 ## Citation
 
 Source:
 [`DESCRIPTION`](https://github.com/drpakhare/ParCC/blob/master/DESCRIPTION)
 
-Team R (2026). *ParCC: Parameter Converter and Calculator for HTA*. R
-package version 1.4.0, <https://github.com/drpakhare/ParCC>.
+Pakhare A, RRC-HTA Team, AIIMS Bhopal (2026). *ParCC: Parameter
+Converter and Calculator for Health Technology Assessment*. R package
+version 1.4.0, <https://drpakhare.github.io/ParCC/>.
 
     @Manual{,
-      title = {ParCC: Parameter Converter and Calculator for HTA},
-      author = {RRC-HTA Team},
+      title = {ParCC: Parameter Converter and Calculator for Health Technology Assessment},
+      author = {Abhijit Pakhare and {RRC-HTA Team, AIIMS Bhopal}},
       year = {2026},
       note = {R package version 1.4.0},
-      url = {https://github.com/drpakhare/ParCC},
+      url = {https://drpakhare.github.io/ParCC/},
     }

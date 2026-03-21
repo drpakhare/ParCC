@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>OR ↔ RR Conversion &amp; Effect Size Transformations • ParCC</title>
+<title>OR &lt;-&gt; RR Conversion &amp; Effect Size Transformations • ParCC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="OR ↔ RR Conversion &amp; Effect Size Transformations">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="OR &lt;-&gt; RR Conversion &amp; Effect Size Transformations">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,7 +58,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>OR ↔ RR Conversion &amp; Effect Size Transformations</h1>
+      <h1>OR &lt;-&gt; RR Conversion &amp; Effect Size Transformations</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/drpakhare/ParCC/blob/master/vignettes/or-rr-effect-sizes.Rmd" class="external-link"><code>vignettes/or-rr-effect-sizes.Rmd</code></a></small>
@@ -87,7 +87,8 @@ systematic review found:</p>
 <ul>
 <li>
 <strong>Trial A (Drug vs Placebo):</strong> OR = 1.85 for “Response”
-(≥50% reduction in HAM-D). Baseline response in placebo arm = 30%.</li>
+(&gt;=50% reduction in HAM-D). Baseline response in placebo arm =
+30%.</li>
 <li>
 <strong>Trial B (Drug vs Placebo):</strong> RR = 1.42 for
 “Response”.</li>
@@ -108,18 +109,18 @@ scale.</p>
 is the baseline risk in the control group.</p>
 <p><strong>In ParCC:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Navigate to <strong>Convert &gt; Rate ↔︎ Probability &gt; OR ↔︎
-RR</strong> tab.</li>
-<li>Select direction: <strong>OR → RR</strong>.</li>
+<li>Navigate to <strong>Convert &gt; Rate &lt;-&gt; Probability &gt; OR
+&lt;-&gt; RR</strong> tab.</li>
+<li>Select direction: <strong>OR -&gt; RR</strong>.</li>
 <li>Input OR = <strong>1.85</strong>, Baseline Risk =
 <strong>0.30</strong>.</li>
-<li>Result: <strong>RR ≈ 1.42</strong>.</li>
+<li>Result: <strong>RR ~ 1.42</strong>.</li>
 </ol>
 </div>
 <div class="section level3">
 <h3 id="why-this-matters">Why This Matters<a class="anchor" aria-label="anchor" href="#why-this-matters"></a>
 </h3>
-<p>If the outcome were rare (&lt;10%), OR ≈ RR and conversion wouldn’t
+<p>If the outcome were rare (&lt;10%), OR ~ RR and conversion wouldn’t
 matter. But with a 30% baseline risk, the OR of 1.85 overstates the
 effect compared to the RR of 1.42. Failing to convert would bias the
 NMA.</p>
@@ -132,9 +133,9 @@ NMA.</p>
 <p><strong>In ParCC:</strong></p>
 <ol style="list-style-type: decimal">
 <li>Switch to the <strong>Effect Size Conversions</strong> tab.</li>
-<li>Select direction: <strong>SMD → log(OR)</strong>.</li>
+<li>Select direction: <strong>SMD -&gt; log(OR)</strong>.</li>
 <li>Input SMD = <strong>0.45</strong>.</li>
-<li>Result: log(OR) = <strong>0.816</strong>, i.e. OR ≈
+<li>Result: log(OR) = <strong>0.816</strong>, i.e. OR ~
 <strong>2.26</strong>.</li>
 </ol>
 </div>
@@ -163,18 +164,18 @@ NMA.</p>
 <tbody>
 <tr class="odd">
 <td>NMA mixing binary effect measures</td>
-<td>OR → RR or RR → OR</td>
+<td>OR -&gt; RR or RR -&gt; OR</td>
 <td>Zhang &amp; Yu (1998)</td>
 </tr>
 <tr class="even">
 <td>NMA mixing binary + continuous outcomes</td>
-<td>SMD → log(OR)</td>
+<td>SMD -&gt; log(OR)</td>
 <td>Chinn (2000)</td>
 </tr>
 <tr class="odd">
 <td>Clinical interpretation of OR</td>
-<td>OR → RR</td>
-<td>Zhang &amp; Yu — RR is more intuitive</td>
+<td>OR -&gt; RR</td>
+<td>Zhang &amp; Yu – RR is more intuitive</td>
 </tr>
 <tr class="even">
 <td>Checking the rare-disease approximation</td>
@@ -189,7 +190,7 @@ NMA.</p>
 </h2>
 <p>When the baseline risk is very low
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>0</mn></msub><mo>&lt;</mo><mn>0.10</mn></mrow><annotation encoding="application/x-tex">p_0 &lt; 0.10</annotation></semantics></math>),
-OR ≈ RR mathematically. ParCC displays a note when this approximation
+OR ~ RR mathematically. ParCC displays a note when this approximation
 holds. For common outcomes (&gt;10%), always convert explicitly.</p>
 </div>
 <div class="section level2">
@@ -213,7 +214,7 @@ for use in meta-analysis. <em>Statistics in Medicine</em>.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by RRC-HTA Team.</p>
+  <p>Developed by Abhijit Pakhare, RRC-HTA Team, AIIMS Bhopal.</p>
 </div>
 
 <div class="pkgdown-footer-right">

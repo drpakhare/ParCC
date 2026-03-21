@@ -83,8 +83,8 @@ hazards</strong> need the Log-Logistic survival model.</p>
 <h3 id="the-problem">The Problem<a class="anchor" aria-label="anchor" href="#the-problem"></a>
 </h3>
 <p>You are building a 3-state Markov model for Chronic Kidney Disease
-(Stable → Progressed → Dead). From a cohort of 200 patients observed for
-1 year starting in “Stable”:</p>
+(Stable -&gt; Progressed -&gt; Dead). From a cohort of 200 patients
+observed for 1 year starting in “Stable”:</p>
 <ul>
 <li>150 remained Stable</li>
 <li>35 progressed to CKD Stage 4</li>
@@ -92,7 +92,7 @@ hazards</strong> need the Log-Logistic survival model.</p>
 </ul>
 <p>These three probabilities (0.75, 0.175, 0.075) <strong>must sum to
 1.0</strong> in every PSA iteration. If you sample them independently
-using three Beta distributions, they will almost never sum to 1 —
+using three Beta distributions, they will almost never sum to 1 –
 breaking the model.</p>
 </div>
 <div class="section level3">
@@ -158,7 +158,7 @@ PSA loop.</p>
 <tr class="odd">
 <td>Three or more mutually exclusive outcomes</td>
 <td>
-<strong>Dirichlet</strong> — guarantees row-sum = 1</td>
+<strong>Dirichlet</strong> – guarantees row-sum = 1</td>
 </tr>
 <tr class="even">
 <td>Transition matrix row in a Markov model</td>
@@ -179,7 +179,7 @@ PSA loop.</p>
 of revision is:</p>
 <ul>
 <li>Low immediately after surgery (close monitoring)</li>
-<li>Peaks around year 5–7 (implant loosening)</li>
+<li>Peaks around year 5-7 (implant loosening)</li>
 <li>Declines after year 10 (survivors have well-fixed implants)</li>
 </ul>
 <p>Neither Exponential (constant hazard) nor Weibull (monotonic hazard)
@@ -194,7 +194,7 @@ can capture this <strong>hump-shaped</strong> pattern.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>β</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>β</mi></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">h(t) = \frac{(\beta/\alpha)(t/\alpha)^{\beta-1}}{1 + (t/\alpha)^\beta}</annotation></semantics></math></p>
 <p>When
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta &gt; 1</annotation></semantics></math>,
-the hazard rises to a peak then falls — exactly the hump shape
+the hazard rises to a peak then falls – exactly the hump shape
 needed.</p>
 </div>
 <div class="section level3">
@@ -214,8 +214,8 @@ Curve</strong>.</li>
 <li>Select method: <strong>Log-Logistic (From 2 Time
 Points)</strong>.</li>
 <li>Enter the values.</li>
-<li>ParCC solves for α (scale) and β (shape).</li>
-<li>Verify β &gt; 1 in the output to confirm the expected hump-shaped
+<li>ParCC solves for alpha (scale) and beta (shape).</li>
+<li>Verify beta &gt; 1 in the output to confirm the expected hump-shaped
 hazard.</li>
 </ol>
 </div>
@@ -225,7 +225,7 @@ hazard.</li>
 <p>ParCC uses the log-odds transformation. Since
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>β</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">S(t) = 1/(1 + (t/\alpha)^\beta)</annotation></semantics></math>:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>β</mi><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>β</mi><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\ln\left(\frac{1 - S(t)}{S(t)}\right) = \beta \ln(t) - \beta \ln(\alpha)</annotation></semantics></math></p>
-<p>Two points yield two equations, solved for α and β.</p>
+<p>Two points yield two equations, solved for alpha and beta.</p>
 </div>
 <div class="section level3">
 <h3 id="choosing-the-right-survival-distribution">Choosing the Right Survival Distribution<a class="anchor" aria-label="anchor" href="#choosing-the-right-survival-distribution"></a>
@@ -265,7 +265,7 @@ hazard.</li>
 </h3>
 <p>As with all parametric survival models, extrapolation beyond the
 observed data requires clinical justification. The Log-Logistic’s long
-tail means it predicts higher long-term survival than the Weibull —
+tail means it predicts higher long-term survival than the Weibull –
 validate this against clinical expectations.</p>
 </div>
 </div>
@@ -289,7 +289,7 @@ Analysis for Economic Evaluations Alongside Clinical Trials. 2013.</li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by RRC-HTA Team.</p>
+  <p>Developed by Abhijit Pakhare, RRC-HTA Team, AIIMS Bhopal.</p>
 </div>
 
 <div class="pkgdown-footer-right">

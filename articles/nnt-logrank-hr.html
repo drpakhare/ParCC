@@ -71,7 +71,7 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>Systematic reviews frequently encounter trials that report incomplete
-survival data — a log-rank p-value but no Hazard Ratio, or probabilities
+survival data – a log-rank p-value but no Hazard Ratio, or probabilities
 without a directly computed NNT. ParCC bridges these gaps with two tools
 in the <strong>HR Converter</strong> module.</p>
 </div>
@@ -79,7 +79,7 @@ in the <strong>HR Converter</strong> module.</p>
 <h2 id="tutorial-a-extracting-a-hazard-ratio-from-a-log-rank-test">Tutorial A: Extracting a Hazard Ratio from a Log-rank Test<a class="anchor" aria-label="anchor" href="#tutorial-a-extracting-a-hazard-ratio-from-a-log-rank-test"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-scenario-adjuvant-chemotherapy-in-colon-cancer">The Scenario — Adjuvant Chemotherapy in Colon Cancer<a class="anchor" aria-label="anchor" href="#the-scenario-adjuvant-chemotherapy-in-colon-cancer"></a>
+<h3 id="the-scenario-adjuvant-chemotherapy-in-colon-cancer">The Scenario – Adjuvant Chemotherapy in Colon Cancer<a class="anchor" aria-label="anchor" href="#the-scenario-adjuvant-chemotherapy-in-colon-cancer"></a>
 </h3>
 <p>An older trial (published 2005) reports:</p>
 <ul>
@@ -108,14 +108,14 @@ is the total number of events.</p>
 <h3 id="in-parcc">In ParCC<a class="anchor" aria-label="anchor" href="#in-parcc"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li>Navigate to <strong>Convert &gt; HR → Probability &amp; NNT &gt;
-Log-rank → HR</strong> tab.</li>
+<li>Navigate to <strong>Convert &gt; HR -&gt; Probability &amp; NNT &gt;
+Log-rank -&gt; HR</strong> tab.</li>
 <li>Select input type: <strong>Chi-squared statistic</strong>.</li>
 <li>Enter chi-squared = <strong>6.8</strong>, Total events =
 <strong>142</strong>.</li>
 <li>Select direction: <strong>Treatment is better</strong> (HR &lt;
 1).</li>
-<li>Result: <strong>HR = 0.68</strong> (95% CI: 0.51 – 0.91).</li>
+<li>Result: <strong>HR = 0.68</strong> (95% CI: 0.51 - 0.91).</li>
 </ol>
 </div>
 <div class="section level3">
@@ -136,7 +136,7 @@ then applies the same Peto formula.</li>
 <h2 id="tutorial-b-computing-nnt-for-a-formulary-decision">Tutorial B: Computing NNT for a Formulary Decision<a class="anchor" aria-label="anchor" href="#tutorial-b-computing-nnt-for-a-formulary-decision"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-scenario-hospital-pt-committee">The Scenario — Hospital P&amp;T Committee<a class="anchor" aria-label="anchor" href="#the-scenario-hospital-pt-committee"></a>
+<h3 id="the-scenario-hospital-pt-committee">The Scenario – Hospital P&amp;T Committee<a class="anchor" aria-label="anchor" href="#the-scenario-hospital-pt-committee"></a>
 </h3>
 <p>A Pharmacy &amp; Therapeutics committee asks: “How many patients must
 we treat with Drug X to prevent one additional death?” The trial
@@ -156,7 +156,7 @@ reports:</p>
 <h3 id="in-parcc-1">In ParCC<a class="anchor" aria-label="anchor" href="#in-parcc-1"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li>Navigate to <strong>Convert &gt; HR → Probability &amp; NNT &gt;
+<li>Navigate to <strong>Convert &gt; HR -&gt; Probability &amp; NNT &gt;
 NNT/NNH</strong> tab.</li>
 <li>Select input mode: <strong>Two Probabilities</strong>.</li>
 <li>Enter Control = <strong>0.18</strong>, Intervention =
@@ -185,7 +185,7 @@ Drug X for 12 months, one additional death is prevented.</p>
 <tr class="odd">
 <td>Direct ARR</td>
 <td>Absolute risk reduction</td>
-<td>NNT = ⌈1/ARR⌉</td>
+<td>NNT = ceil(1/ARR)</td>
 </tr>
 <tr class="even">
 <td>Two Probabilities</td>
@@ -195,7 +195,7 @@ Drug X for 12 months, one additional death is prevented.</p>
 <tr class="odd">
 <td>RR + Baseline</td>
 <td>Relative Risk + control probability</td>
-<td>ARR = p₀ × (1 − RR), then NNT</td>
+<td>ARR = p0 x (1 - RR), then NNT</td>
 </tr>
 <tr class="even">
 <td>OR + Baseline</td>
@@ -219,7 +219,7 @@ than efficacy.</p>
 </h2>
 <ul>
 <li>
-<strong>Log-rank → HR:</strong> Systematic reviews where older
+<strong>Log-rank -&gt; HR:</strong> Systematic reviews where older
 trials lack HR estimates; indirect treatment comparisons needing HR
 inputs from published statistics.</li>
 <li>
@@ -250,7 +250,7 @@ trials where the outcome is time to an event. <em>BMJ</em>.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by RRC-HTA Team.</p>
+  <p>Developed by Abhijit Pakhare, RRC-HTA Team, AIIMS Bhopal.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -1,4 +1,4 @@
-# OR ↔ RR Conversion & Effect Size Transformations
+# OR \<-\> RR Conversion & Effect Size Transformations
 
 ## Overview
 
@@ -15,7 +15,7 @@ pooling.
 You are conducting an NMA comparing three antidepressants. Your
 systematic review found:
 
-- **Trial A (Drug vs Placebo):** OR = 1.85 for “Response” (≥50%
+- **Trial A (Drug vs Placebo):** OR = 1.85 for “Response” (\>=50%
   reduction in HAM-D). Baseline response in placebo arm = 30%.
 - **Trial B (Drug vs Placebo):** RR = 1.42 for “Response”.
 - **Trial C (Drug vs Placebo):** Reports a continuous outcome: SMD =
@@ -33,14 +33,15 @@ where $p_{0}$ is the baseline risk in the control group.
 
 **In ParCC:**
 
-1.  Navigate to **Convert \> Rate ↔︎ Probability \> OR ↔︎ RR** tab.
-2.  Select direction: **OR → RR**.
+1.  Navigate to **Convert \> Rate \<-\> Probability \> OR \<-\> RR**
+    tab.
+2.  Select direction: **OR -\> RR**.
 3.  Input OR = **1.85**, Baseline Risk = **0.30**.
-4.  Result: **RR ≈ 1.42**.
+4.  Result: **RR ~ 1.42**.
 
 ### Why This Matters
 
-If the outcome were rare (\<10%), OR ≈ RR and conversion wouldn’t
+If the outcome were rare (\<10%), OR ~ RR and conversion wouldn’t
 matter. But with a 30% baseline risk, the OR of 1.85 overstates the
 effect compared to the RR of 1.42. Failing to convert would bias the
 NMA.
@@ -54,9 +55,9 @@ $$\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138$$
 **In ParCC:**
 
 1.  Switch to the **Effect Size Conversions** tab.
-2.  Select direction: **SMD → log(OR)**.
+2.  Select direction: **SMD -\> log(OR)**.
 3.  Input SMD = **0.45**.
-4.  Result: log(OR) = **0.816**, i.e. OR ≈ **2.26**.
+4.  Result: log(OR) = **0.816**, i.e. OR ~ **2.26**.
 
 ### Step 3: Convert log(OR) to log(RR)
 
@@ -70,14 +71,14 @@ ParCC chains the Chinn and Zhang & Yu methods automatically.
 
 | Scenario                                | Conversion                              | Method                                    |
 |-----------------------------------------|-----------------------------------------|-------------------------------------------|
-| NMA mixing binary effect measures       | OR → RR or RR → OR                      | Zhang & Yu (1998)                         |
-| NMA mixing binary + continuous outcomes | SMD → log(OR)                           | Chinn (2000)                              |
-| Clinical interpretation of OR           | OR → RR                                 | Zhang & Yu — RR is more intuitive         |
+| NMA mixing binary effect measures       | OR -\> RR or RR -\> OR                  | Zhang & Yu (1998)                         |
+| NMA mixing binary + continuous outcomes | SMD -\> log(OR)                         | Chinn (2000)                              |
+| Clinical interpretation of OR           | OR -\> RR                               | Zhang & Yu – RR is more intuitive         |
 | Checking the rare-disease approximation | Compare OR and RR at your baseline risk | If they diverge \>10%, convert explicitly |
 
 ## The Rare-Disease Approximation
 
-When the baseline risk is very low ($p_{0} < 0.10$), OR ≈ RR
+When the baseline risk is very low ($p_{0} < 0.10$), OR ~ RR
 mathematically. ParCC displays a note when this approximation holds. For
 common outcomes (\>10%), always convert explicitly.
 
