@@ -18,20 +18,70 @@ remotes::install_github("drpakhare/ParCC")
 
 To launch the application:
 
-R
-
-``` R
+``` r
 library(ParCC)
 run_app()
 ```
 
 ## Key Features
 
-- **Core Conversions:** Rate/Odds to Probability, Time Rescaling.
+- **Core Conversions:** Rate/Odds to Probability, Time Rescaling.
 
-- **Survival Analysis:** Weibull/Exponential fitting from summary data.
+- **HR Converter (NEW in v1.3):** Convert control group probabilities to
+  intervention probabilities using Hazard Ratios from clinical trials.
+  Includes CI propagation, ARR/NNT calculation, multi-HR comparison, and
+  batch support.
 
-- **Value-Based Pricing:** Headroom analysis and Breakeven calculation.
+- **Survival Analysis:** Weibull/Exponential fitting from summary data.
 
-- **Reproducibility:** Generates a “Lab Notebook” HTML report for every
-  session.
+- **Background Mortality:** SMR adjustment, Gompertz fitting, DEALE,
+  linear interpolation.
+
+- **PSA Distributions:** Beta, Gamma, and LogNormal fitting via Method
+  of Moments.
+
+- **Economic Evaluation:** ICER, Net Monetary Benefit, and Value-Based
+  Pricing (Headroom analysis).
+
+- **Reproducibility:** Generates a “Lab Notebook” HTML report with
+  methodology and citations for every session.
+
+## What’s New in v1.3.0
+
+- **Hazard Ratio Converter** — New dedicated module for converting
+  control probabilities to intervention probabilities using trial HRs,
+  with step-by-step explanation, formula display, and citations on the
+  output panel.
+- **Multi-HR Comparison** — Compare intervention probabilities across
+  multiple HRs from subgroup analyses or network meta-analyses.
+- **Batch HR Conversion** — Upload a CSV with control probabilities and
+  HRs to convert an entire dataset at once.
+- **Expanded Vignettes** — Seven focused vignettes with realistic
+  clinical scenarios (PLATO, RE-LY, UKPDS, CheckMate trials).
+- **Rich Output Panels** — All converter outputs now include explanatory
+  text, formulas, and citations directly on the results panel.
+
+## Vignettes
+
+After installation, browse the tutorials:
+
+``` r
+browseVignettes("ParCC")
+```
+
+Available vignettes:
+
+- Getting Started
+- Core Conversions (Rates, Odds, Time Rescaling)
+- HR-Based Probability Converter
+- Survival Extrapolation
+- Background Mortality Adjustments
+- PSA Distribution Fitting
+- Economic Evaluation (ICER, NMB, VBP)
+- Batch Conversion Workflow
+
+## Citation
+
+Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter
+Converter & Calculator for Health Economic Evaluation (Version 1.3.0)
+\[Software\]. Available at: <https://github.com/drpakhare/ParCC>

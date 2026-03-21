@@ -1,0 +1,138 @@
+# Core Conversions: Rates, Odds, and Time Rescaling
+
+## Overview
+
+Health economic models require transition **probabilities**, but
+clinical literature often reports **rates** or **odds**. These are
+different quantities and cannot be used interchangeably. This vignette
+explains the conversions and demonstrates them with realistic scenarios.
+
+## Tutorial 1: Rate to Probability
+
+### The Scenario — Anticoagulant Safety (RE-LY Trial)
+
+You are building a Markov model comparing Dabigatran vs Warfarin for
+atrial fibrillation. The RE-LY trial (Connolly et al., NEJM 2009)
+reports the incidence rate of major bleeding as:
+
+> **3.36 events per 100 patient-years** in the Warfarin arm
+
+### Why Simple Division is Wrong
+
+Dividing 3.36 by 100 gives 0.0336. But this ignores the continuous
+nature of risk — patients who bleed early in the year are removed from
+the at-risk pool, meaning the remaining patients face a slightly
+different risk.
+
+### The Formula
+
+$$p = 1 - e^{- rt}$$
+
+where $r$ is the instantaneous rate and $t$ is the time horizon.
+
+### Worked Example
+
+``` r
+# RE-LY trial: Warfarin arm major bleeding
+rate_per_100 <- 3.36
+r <- rate_per_100 / 100   # Convert to per-person rate
+t <- 1                     # 1-year model cycle
+
+p <- 1 - exp(-r * t)
+cat("Rate (per person-year):", r, "\n")
+#> Rate (per person-year): 0.0336
+cat("Annual probability:", round(p, 5), "\n")
+#> Annual probability: 0.03304
+cat("Naive division would give:", r, "(overestimates by", round((r - p)/p * 100, 2), "%)\n")
+#> Naive division would give: 0.0336 (overestimates by 1.69 %)
+```
+
+### In ParCC
+
+1.  Navigate to **Converters \> Rate ↔︎ Probability**
+2.  Input Rate = `3.36`, Multiplier = `Per 100`
+3.  Time = `1`
+4.  Result: `0.03304`
+
+## Tutorial 2: Time Rescaling
+
+### The Scenario — UKPDS Risk Engine
+
+You are building a Diabetes model with **1-year cycles**. The **UKPDS
+Risk Engine** (Clarke et al., Diabetologia 2004) predicts the 10-year
+probability of coronary heart disease as **20%** for a 55-year-old male
+with HbA1c 8%.
+
+### Why Simple Division is Wrong
+
+Dividing 0.20 by 10 gives 0.02 (2% per year). But risk compounds: if you
+survive Year 1, you face risk again in Year 2. The correct conversion
+accounts for this compounding.
+
+### The Formula
+
+$$p_{new} = 1 - \left( 1 - p_{old} \right)^{t_{new}/t_{old}}$$
+
+### Worked Example
+
+``` r
+p_10yr <- 0.20
+t_old <- 10
+t_new <- 1
+
+p_1yr <- 1 - (1 - p_10yr)^(t_new / t_old)
+cat("10-year probability:", p_10yr, "\n")
+#> 10-year probability: 0.2
+cat("Correct 1-year probability:", round(p_1yr, 5), "\n")
+#> Correct 1-year probability: 0.02207
+cat("Naive (divide by 10):", p_10yr / 10, "\n")
+#> Naive (divide by 10): 0.02
+cat("Correct value is", round((p_1yr - 0.02)/0.02 * 100, 1), "% higher\n")
+#> Correct value is 10.3 % higher
+```
+
+### In ParCC
+
+1.  Navigate to **Converters \> Time Rescaling**
+2.  Input Probability = `0.20`, Original Time = `10 Years`
+3.  New Time = `1 Year`
+4.  Result: `0.02206`
+
+## Tutorial 3: Odds to Probability
+
+### The Scenario — Logistic Regression Output
+
+A logistic regression predicting post-surgical infection reports an
+**odds ratio of 2.5** for patients with diabetes (vs no diabetes). The
+baseline infection probability (no diabetes) is 8%.
+
+### The Conversion
+
+$$p = \frac{\text{Odds}}{1 + \text{Odds}}$$
+
+### Worked Example
+
+``` r
+p_baseline <- 0.08
+odds_baseline <- p_baseline / (1 - p_baseline)
+odds_diabetes <- odds_baseline * 2.5
+p_diabetes <- odds_diabetes / (1 + odds_diabetes)
+
+cat("Baseline odds:", round(odds_baseline, 4), "\n")
+#> Baseline odds: 0.087
+cat("Diabetes odds (OR=2.5):", round(odds_diabetes, 4), "\n")
+#> Diabetes odds (OR=2.5): 0.2174
+cat("Diabetes probability:", round(p_diabetes, 4), "\n")
+#> Diabetes probability: 0.1786
+```
+
+## References
+
+- Sonnenberg FA, Beck JR. Markov models in medical decision making: a
+  practical guide. *Med Decis Making*. 1993;13(4):322-338.
+- Fleurence RL, Hollenbeak CS. Rates and probabilities in economic
+  modelling. *Pharmacoeconomics*. 2007;25(1):3-12.
+- Connolly SJ, et al. Dabigatran versus warfarin in patients with atrial
+  fibrillation. *N Engl J Med*. 2009;361(12):1139-1151.
+- Clarke PM, et al. A model to estimate the lifetime health outcomes of
+  patients with Type 2 diabetes. *Diabetologia*. 2004;47(10):1747-1759.

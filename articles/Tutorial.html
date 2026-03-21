@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Tutorial • ParCC</title>
+<title>ParCC Tutorial Index • ParCC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ParCC Tutorial Index">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ParCC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,15 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/Tutorial.html">Tutorial</a></li>
+<li><a class="dropdown-item" href="../articles/background-mortality.html">Background Mortality Adjustments</a></li>
+    <li><a class="dropdown-item" href="../articles/batch-workflow.html">Batch Conversion Workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/core-conversions.html">Core Conversions: Rates, Odds, and Time Rescaling</a></li>
+    <li><a class="dropdown-item" href="../articles/economic-evaluation.html">Economic Evaluation: ICER, NMB, and Value-Based Pricing</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with ParCC</a></li>
+    <li><a class="dropdown-item" href="../articles/hr-probability-converter.html">HR-Based Probability Converter</a></li>
+    <li><a class="dropdown-item" href="../articles/psa-distributions.html">Parameterizing Distributions for PSA</a></li>
+    <li><a class="dropdown-item" href="../articles/survival-extrapolation.html">Survival Extrapolation from Published Curves</a></li>
+    <li><a class="dropdown-item" href="../articles/Tutorial.html">ParCC Tutorial Index</a></li>
   </ul>
 </li>
       </ul>
@@ -55,209 +63,128 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Tutorial</h1>
+      <h1>ParCC Tutorial Index</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/drpakhare/ParCC/blob/main/vignettes/Tutorial.Rmd" class="external-link"><code>vignettes/Tutorial.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/drpakhare/ParCC/blob/master/vignettes/Tutorial.Rmd" class="external-link"><code>vignettes/Tutorial.Rmd</code></a></small>
       <div class="d-none name"><code>Tutorial.Rmd</code></div>
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/drpakhare/ParCC" class="external-link">ParCC</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'shiny::dataTableOutput' by</span></span>
-<span><span class="co">#&gt; 'DT::dataTableOutput' when loading 'ParCC'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'shiny::renderDataTable' by</span></span>
-<span><span class="co">#&gt; 'DT::renderDataTable' when loading 'ParCC'</span></span></code></pre></div>
-<p><strong>ParCC (Parameter Converter &amp; Calculator)</strong> is
-designed to bridge the gap between reported clinical statistics and the
-specific input parameters required for Health Economic models.</p>
-<p>This guide provides step-by-step tutorials for solving common
-modeling challenges using the application.</p>
 <div class="section level2">
-<h2 id="the-lab-notebook-workflow">1. The Lab Notebook Workflow<a class="anchor" aria-label="anchor" href="#the-lab-notebook-workflow"></a>
+<h2 id="parcc-vignette-library">ParCC Vignette Library<a class="anchor" aria-label="anchor" href="#parcc-vignette-library"></a>
 </h2>
-<p>In Health Technology Assessment (HTA), reproducibility is critical.
-ParCC acts as your digital logbook to ensure every parameter can be
-audited.</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Label It:</strong> Before calculating, type a specific
-name in the ‘Label’ box (e.g., <em>“PFS Control Arm”</em> or <em>“Cost
-of Surgery”</em>).</p></li>
-<li><p><strong>Calculate &amp; Log:</strong> Click the blue action
-button. This calculates the result <strong>AND</strong> saves it to your
-temporary session log.</p></li>
-<li><p><strong>Review:</strong> Go to the <strong>Report</strong> tab to
-see a table of all your logged parameters.</p></li>
-<li><p><strong>Export:</strong> Download the HTML Report. This document
-serves as a <strong>Technical Appendix</strong> for your manuscript or
-HTA dossier.</p></li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="core-conversions">2. Core Conversions<a class="anchor" aria-label="anchor" href="#core-conversions"></a>
-</h2>
+<p><strong>ParCC (Parameter Converter &amp; Calculator)</strong>
+provides a comprehensive set of tutorials organized by topic. Each
+vignette includes realistic clinical scenarios, worked examples with R
+code, and references to the underlying methodology.</p>
 <div class="section level3">
-<h3 id="tutorial-1-the-safety-data-problem-rates-to-probabilities">Tutorial 1: The Safety Data Problem (Rates to Probabilities)<a class="anchor" aria-label="anchor" href="#tutorial-1-the-safety-data-problem-rates-to-probabilities"></a>
+<h3 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h3>
-<p><strong>The Context:</strong> You are modeling a new anticoagulant.
-The key safety endpoint is “Major Bleeding.”</p>
-<p><strong>The Challenge:</strong> The clinical trial reports the
-incidence rate as: <em>“2.5 major bleeds per 100
-patient-years.”</em></p>
-<p><strong>The Mistake:</strong> Simply dividing 2.5 by 100 gives 0.025.
-This ignores the fact that patients who bleed are removed from the
-“at-risk” pool during the year.</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to <strong>Converters &gt; Rate ↔︎
-Probability</strong>.</p></li>
-<li><p>Input Rate = <code>2.5</code>.</p></li>
-<li><p>Select Multiplier = <code>'Per 100'</code>.</p></li>
-<li><p>Input Time = <code>1</code> (for a 1-year model cycle).</p></li>
-<li><p><strong>Result:</strong> <code>0.02469</code>. This is the
-precise annual probability for your Markov trace.</p></li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="tutorial-2-the-cycle-mismatch-time-rescaling">Tutorial 2: The Cycle Mismatch (Time Rescaling)<a class="anchor" aria-label="anchor" href="#tutorial-2-the-cycle-mismatch-time-rescaling"></a>
-</h3>
-<p><strong>The Context:</strong> You are using the <strong>UKPDS Risk
-Engine</strong> for a diabetes model. It predicts
-the <strong>10-year</strong> risk of coronary heart disease (e.g.,
-20%).</p>
-<p><strong>The Challenge:</strong> Your Markov model runs
-on <strong>1-year</strong> cycles. Dividing 20% by 10 (2% per year) is
-wrong because risk compounds over time.</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to <strong>Converters &gt; Time
-Rescaling</strong>.</p></li>
-<li><p>Input Original Probability = <code>0.20</code>.</p></li>
-<li><p>Input Original Time = <code>10</code> Years.</p></li>
-<li><p>Input New Time = <code>1</code> Year.</p></li>
-<li><p><strong>Result:</strong> <code>0.0223</code> (approx 2.23%).
-Notice that the actual annual risk is higher than the simple average
-implies.</p></li>
-</ol>
-</div>
-</div>
-<div class="section level2">
-<h2 id="advanced-modeling">3. Advanced Modeling<a class="anchor" aria-label="anchor" href="#advanced-modeling"></a>
-</h2>
-<div class="section level3">
-<h3 id="tutorial-3-extrapolating-survival-curves">Tutorial 3: Extrapolating Survival Curves<a class="anchor" aria-label="anchor" href="#tutorial-3-extrapolating-survival-curves"></a>
-</h3>
-<p><strong>The Context:</strong> You need to project outcomes over 20
-years for an oncology drug, but the trial only ran for 3 years. You do
-not have IPD, only a published Kaplan-Meier curve.</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
+<ul>
 <li>
-<p>Look at the published curve. Pick two points that summarize the
-shape.</p>
-<ul>
-<li><p><em>Point 1:</em> At Month 12, survival is 80%.</p></li>
-<li><p><em>Point 2:</em> At Month 36, survival is 50%.</p></li>
+<strong><code><a href="../articles/getting-started.html">vignette("getting-started")</a></code></strong> —
+Installation, launching the app, and the Lab Notebook workflow</li>
 </ul>
-</li>
-<li><p>Navigate to <strong>Survival &gt; Weibull (From 2 Time
-Points)</strong>.</p></li>
-<li><p>Input these values
-(<code>12, 0.8</code> and <code>36, 0.5</code>).</p></li>
-<li><p><strong>Result:</strong> ParCC calculates
-the <strong>Shape</strong> and <strong>Scale</strong> parameters to
-extrapolate the curve.</p></li>
-<li><p><strong>Validation:</strong> Check the plot to ensure the blue
-line passes through your points.</p></li>
-</ol>
 </div>
 <div class="section level3">
-<h3 id="tutorial-4-the-sick-cohort-problem-smr">Tutorial 4: The “Sick Cohort” Problem (SMR)<a class="anchor" aria-label="anchor" href="#tutorial-4-the-sick-cohort-problem-smr"></a>
+<h3 id="core-conversions">Core Conversions<a class="anchor" aria-label="anchor" href="#core-conversions"></a>
 </h3>
-<p><strong>The Context:</strong> You are modeling Heart Failure patients
-aged 65. The general population mortality rate for age 65
-is <code>0.013</code>. Using this would overestimate their life
-expectancy.</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to <strong>Bg Mortality &gt; SMR
-Adjustment</strong>.</p></li>
-<li><p>Input Base Rate = <code>0.013</code>.</p></li>
-<li><p>Input SMR (Hazard Ratio) from literature
-(e.g., <code>2.5</code>).</p></li>
-<li><p><strong>Result:</strong> <code>0.032</code>. Use this adjusted
-probability for your “Natural Death” node.</p></li>
-</ol>
-</div>
-</div>
-<div class="section level2">
-<h2 id="uncertainty-pricing">4. Uncertainty &amp; Pricing<a class="anchor" aria-label="anchor" href="#uncertainty-pricing"></a>
-</h2>
-<div class="section level3">
-<h3 id="tutorial-5-parameterizing-costs-psa">Tutorial 5: Parameterizing Costs (PSA)<a class="anchor" aria-label="anchor" href="#tutorial-5-parameterizing-costs-psa"></a>
-</h3>
-<p><strong>The Context:</strong> You are running a Probabilistic
-Sensitivity Analysis (PSA). A costing study reports the mean cost of
-surgery is <strong>₹25,000</strong> (SE <strong>₹5,000</strong>).</p>
-<p><strong>The Challenge:</strong> Using a Normal distribution is
-incorrect because costs are skewed and cannot be negative.</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to <strong>PSA &gt; Gamma Distribution</strong> (The
-standard for costs).</p></li>
-<li><p>Input Mean = <code>25000</code>, SE = <code>5000</code>.</p></li>
-<li><p><strong>Result:</strong> ParCC calculates <strong>Shape
-(k)</strong> and <strong>Scale (theta)</strong> parameters.</p></li>
-<li><p><strong>Tip:</strong> If SE is missing but you have a range
-(e.g., ₹15k - ₹35k), use the ‘Mean &amp; Range’ option to estimate SE
-via the Rule of 4.</p></li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="tutorial-6-value-based-pricing-headroom-analysis">Tutorial 6: Value-Based Pricing (Headroom Analysis)<a class="anchor" aria-label="anchor" href="#tutorial-6-value-based-pricing-headroom-analysis"></a>
-</h3>
-<p><strong>The Context:</strong> Your new technology
-provides <strong>0.5 additional QALYs</strong> but requires an expensive
-implantation surgery (<strong>₹50,000</strong>). The government WTP
-threshold is <strong>₹100,000 per QALY</strong>. What is the maximum
-price you can charge for the device?</p>
-<p><strong>The ParCC Solution:</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>Navigate to <strong>Value-Based Pricing</strong>.</p></li>
-<li><p>Input Clinical Benefit (<code>0.5</code>) and WTP
-(<code>100000</code>).</p></li>
-<li><p>Input Associated Costs (<code>50000</code>).</p></li>
+<ul>
 <li>
-<p><strong>Result:</strong> The tool performs a ‘Headroom
-Analysis’.</p>
-<ul>
-<li><p><strong>Total Value:</strong> ₹50,000 (0.5 * 100k).</p></li>
-<li><p><strong>Headroom:</strong> ₹50,000 (Value) - ₹50,000 (Surgery
-Cost) = <strong>0</strong>.</p></li>
+<strong><code><a href="../articles/core-conversions.html">vignette("core-conversions")</a></code></strong> — Rate to
+Probability, Odds to Probability, and Time Rescaling with real-world
+examples from the RE-LY trial and UKPDS Risk Engine</li>
 </ul>
-</li>
-<li><p><strong>Outcome:</strong> Even though the benefit is valuable,
-the surgery eats up the entire budget. The device price must
-be <strong>₹0</strong> to be cost-effective at this threshold.</p></li>
-</ol>
+</div>
+<div class="section level3">
+<h3 id="hazard-ratio-conversion-new-in-v1-3-0">Hazard Ratio Conversion (NEW in v1.3.0)<a class="anchor" aria-label="anchor" href="#hazard-ratio-conversion-new-in-v1-3-0"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/hr-probability-converter.html">vignette("hr-probability-converter")</a></code></strong> —
+Converting control group probabilities to intervention probabilities
+using Hazard Ratios. Includes worked examples from the PLATO trial
+(Ticagrelor vs Aspirin) and oncology models.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="survival-extrapolation">Survival Extrapolation<a class="anchor" aria-label="anchor" href="#survival-extrapolation"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/survival-extrapolation.html">vignette("survival-extrapolation")</a></code></strong> —
+Fitting Exponential and Weibull survival curves from published
+Kaplan-Meier data when IPD is unavailable</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="background-mortality">Background Mortality<a class="anchor" aria-label="anchor" href="#background-mortality"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/background-mortality.html">vignette("background-mortality")</a></code></strong> — SMR
+adjustment, DEALE, Gompertz parameterization, and linear interpolation
+for adjusting census life tables to disease-specific cohorts</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="probabilistic-sensitivity-analysis">Probabilistic Sensitivity Analysis<a class="anchor" aria-label="anchor" href="#probabilistic-sensitivity-analysis"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/psa-distributions.html">vignette("psa-distributions")</a></code></strong> —
+Fitting Beta (utilities), Gamma (costs), and LogNormal (HRs)
+distributions using the Method of Moments. Includes the Rule of 4
+approximation.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="economic-evaluation">Economic Evaluation<a class="anchor" aria-label="anchor" href="#economic-evaluation"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/economic-evaluation.html">vignette("economic-evaluation")</a></code></strong> — ICER
+calculation, Net Monetary Benefit, and Value-Based Pricing (Headroom
+Analysis) with Indian HTA context</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="batch-processing">Batch Processing<a class="anchor" aria-label="anchor" href="#batch-processing"></a>
+</h3>
+<ul>
+<li>
+<strong><code><a href="../articles/batch-workflow.html">vignette("batch-workflow")</a></code></strong> — Uploading
+CSV files for bulk conversion, including the new HR-based batch
+conversion</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="key-references">Key References<a class="anchor" aria-label="anchor" href="#key-references"></a>
 </h2>
 <ul>
-<li><p><strong>Sonnenberg FA, Beck JR.</strong> Markov models in medical
-decision making: a practical guide. <em>Med Decis Making</em>.
-1993;13(4):322-338.</p></li>
-<li><p><strong>Briggs A, Claxton K, Sculpher M.</strong> <em>Decision
+<li>
+<strong>Sonnenberg FA, Beck JR.</strong> Markov models in medical
+decision making. <em>Med Decis Making</em>. 1993;13(4):322-338.</li>
+<li>
+<strong>Briggs A, Claxton K, Sculpher M.</strong> <em>Decision
 Modelling for Health Economic Evaluation</em>. Oxford University Press;
-2006.</p></li>
-<li><p><strong>Collett D.</strong> <em>Modelling Survival Data in
-Medical Research</em>. 3rd ed. Chapman and Hall/CRC; 2015.</p></li>
-<li><p><strong>Cosh E, et al.</strong> The value of ‘innovation
-headroom’. <em>Value in Health</em>. 2007;10(4):312-315.</p></li>
+2006.</li>
+<li>
+<strong>Collett D.</strong> <em>Modelling Survival Data in Medical
+Research</em>. 3rd ed. Chapman and Hall/CRC; 2015.</li>
+<li>
+<strong>Drummond MF, et al.</strong> <em>Methods for the Economic
+Evaluation of Health Care Programmes</em>. 4th ed. Oxford University
+Press; 2015.</li>
+<li>
+<strong>Cosh E, et al.</strong> The value of ‘innovation headroom’.
+<em>Value in Health</em>. 2007;10(4):312-315.</li>
+<li>
+<strong>NICE DSU.</strong> Technical Support Document 14: Survival
+analysis for economic evaluations. 2013.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

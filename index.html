@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Parameter Converter and Calculator for HTA">
-<meta name="description" content="A decision support tool for Health Technology Assessment (HTA).">
-<meta property="og:description" content="A decision support tool for Health Technology Assessment (HTA).">
+<meta name="description" content="A decision support tool for Health Technology Assessment (HTA). Bridges the gap between clinical evidence and economic models by automating complex parameter estimations including rate-probability conversions, hazard ratio-based probability conversion, survival extrapolation, PSA distribution fitting, and value-based pricing analysis.">
+<meta property="og:description" content="A decision support tool for Health Technology Assessment (HTA). Bridges the gap between clinical evidence and economic models by automating complex parameter estimations including rate-probability conversions, hazard ratio-based probability conversion, survival extrapolation, PSA distribution fitting, and value-based pricing analysis.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ParCC</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,15 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/Tutorial.html">Tutorial</a></li>
+<li><a class="dropdown-item" href="articles/background-mortality.html">Background Mortality Adjustments</a></li>
+    <li><a class="dropdown-item" href="articles/batch-workflow.html">Batch Conversion Workflow</a></li>
+    <li><a class="dropdown-item" href="articles/core-conversions.html">Core Conversions: Rates, Odds, and Time Rescaling</a></li>
+    <li><a class="dropdown-item" href="articles/economic-evaluation.html">Economic Evaluation: ICER, NMB, and Value-Based Pricing</a></li>
+    <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started with ParCC</a></li>
+    <li><a class="dropdown-item" href="articles/hr-probability-converter.html">HR-Based Probability Converter</a></li>
+    <li><a class="dropdown-item" href="articles/psa-distributions.html">Parameterizing Distributions for PSA</a></li>
+    <li><a class="dropdown-item" href="articles/survival-extrapolation.html">Survival Extrapolation from Published Curves</a></li>
+    <li><a class="dropdown-item" href="articles/Tutorial.html">ParCC Tutorial Index</a></li>
   </ul>
 </li>
       </ul>
@@ -70,19 +78,61 @@
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <p>To launch the application:</p>
-<p>R</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ParCC)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">run_app</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/drpakhare/ParCC" class="external-link">ParCC</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
 <ul>
-<li><p><strong>Core Conversions:</strong> Rate/Odds to Probability, Time Rescaling.</p></li>
-<li><p><strong>Survival Analysis:</strong> Weibull/Exponential fitting from summary data.</p></li>
-<li><p><strong>Value-Based Pricing:</strong> Headroom analysis and Breakeven calculation.</p></li>
-<li><p><strong>Reproducibility:</strong> Generates a “Lab Notebook” HTML report for every session.</p></li>
+<li><p><strong>Core Conversions:</strong> Rate/Odds to Probability, Time Rescaling.</p></li>
+<li><p><strong>HR Converter (NEW in v1.3):</strong> Convert control group probabilities to intervention probabilities using Hazard Ratios from clinical trials. Includes CI propagation, ARR/NNT calculation, multi-HR comparison, and batch support.</p></li>
+<li><p><strong>Survival Analysis:</strong> Weibull/Exponential fitting from summary data.</p></li>
+<li><p><strong>Background Mortality:</strong> SMR adjustment, Gompertz fitting, DEALE, linear interpolation.</p></li>
+<li><p><strong>PSA Distributions:</strong> Beta, Gamma, and LogNormal fitting via Method of Moments.</p></li>
+<li><p><strong>Economic Evaluation:</strong> ICER, Net Monetary Benefit, and Value-Based Pricing (Headroom analysis).</p></li>
+<li><p><strong>Reproducibility:</strong> Generates a “Lab Notebook” HTML report with methodology and citations for every session.</p></li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="whats-new-in-v130">What’s New in v1.3.0<a class="anchor" aria-label="anchor" href="#whats-new-in-v130"></a>
+</h2>
+<ul>
+<li>
+<strong>Hazard Ratio Converter</strong> — New dedicated module for converting control probabilities to intervention probabilities using trial HRs, with step-by-step explanation, formula display, and citations on the output panel.</li>
+<li>
+<strong>Multi-HR Comparison</strong> — Compare intervention probabilities across multiple HRs from subgroup analyses or network meta-analyses.</li>
+<li>
+<strong>Batch HR Conversion</strong> — Upload a CSV with control probabilities and HRs to convert an entire dataset at once.</li>
+<li>
+<strong>Expanded Vignettes</strong> — Seven focused vignettes with realistic clinical scenarios (PLATO, RE-LY, UKPDS, CheckMate trials).</li>
+<li>
+<strong>Rich Output Panels</strong> — All converter outputs now include explanatory text, formulas, and citations directly on the results panel.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
+</h2>
+<p>After installation, browse the tutorials:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"ParCC"</span><span class="op">)</span></span></code></pre></div>
+<p>Available vignettes:</p>
+<ul>
+<li>Getting Started</li>
+<li>Core Conversions (Rates, Odds, Time Rescaling)</li>
+<li>HR-Based Probability Converter</li>
+<li>Survival Extrapolation</li>
+<li>Background Mortality Adjustments</li>
+<li>PSA Distribution Fitting</li>
+<li>Economic Evaluation (ICER, NMB, VBP)</li>
+<li>Batch Conversion Workflow</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter &amp; Calculator for Health Economic Evaluation (Version 1.3.0) [Software]. Available at: <a href="https://github.com/drpakhare/ParCC" class="external-link uri">https://github.com/drpakhare/ParCC</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -96,7 +146,9 @@
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 

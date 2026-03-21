@@ -1,9 +1,19 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/articles/Tutorial.html</loc></url>
+<url><loc>/articles/background-mortality.html</loc></url>
+<url><loc>/articles/batch-workflow.html</loc></url>
+<url><loc>/articles/core-conversions.html</loc></url>
+<url><loc>/articles/economic-evaluation.html</loc></url>
+<url><loc>/articles/getting-started.html</loc></url>
+<url><loc>/articles/hr-probability-converter.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/psa-distributions.html</loc></url>
+<url><loc>/articles/survival-extrapolation.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
+<url><loc>/reference/ParCC-package.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/run_app.html</loc></url>
 </urlset>
