@@ -758,6 +758,21 @@ mod_about_ui <- function(id) {
                  "All modules include step-by-step explanations, rendered formulas, and literature citations on the output panel."),
 
                hr(),
+               h4("What's New in v1.4"),
+               tags$ul(
+                 tags$li(strong("Budget Impact Analysis"), " - 5-year BIA framework with population uptake curves and discounting (ISPOR)."),
+                 tags$li(strong("PPP Currency Converter"), " - Purchasing Power Parity conversion across 30 countries with WHO-CHOICE WTP thresholds."),
+                 tags$li(strong("OR-RR & Effect Size Conversions"), " - Zhang & Yu (1998) OR-to-RR, Chinn (2000) SMD-to-log(OR) for NMA preparation."),
+                 tags$li(strong("NNT/NNH Calculator & Log-rank to HR"), " - Standalone NNT from 4 input modes; Peto approximation for published log-rank statistics."),
+                 tags$li(strong("Dirichlet Distribution"), " - Multinomial transition probabilities for Markov model PSA."),
+                 tags$li(strong("Log-Logistic Survival"), " - Third extrapolation option with non-monotonic hazard support."),
+                 tags$li(strong("Annuity / PV Stream"), " - Present value of recurring annual costs."),
+                 tags$li(strong("Global Currency Selector"), " - INR, USD, EUR, GBP, JPY, and more; all economic modules update automatically."),
+                 tags$li(strong("Interactive Tool Overview"), " - Clickable accordion on Home page for direct navigation."),
+                 tags$li(strong("5 New Vignettes"), " - Worked tutorials for OR-RR, NNT/log-rank, BIA, Dirichlet/Log-Logistic, and PPP.")
+               ),
+
+               hr(),
                h4("Technical Acknowledgement"),
                p("This application was architected and code-generated with the assistance of Large Language Models (Google Gemini, Anthropic Claude), under the supervision of RRC-HTA researchers."),
 
