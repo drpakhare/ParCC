@@ -2,7 +2,7 @@
 mod_home_ui <- function(id) {
   ns <- NS(id)
 
-  # ── Accordion CSS & JS ──────────────────────────────────────────────────────
+  # -- Accordion CSS & JS ------------------------------------------------------
   accordion_assets <- tags$head(tags$style(HTML("
     .tool-accordion { max-width: 800px; margin: 0 auto; }
     .tool-section {
@@ -62,7 +62,7 @@ mod_home_ui <- function(id) {
     });
   "))))
 
-  # ── Helper to build one accordion section ──────────────────────────────────
+  # -- Helper to build one accordion section ----------------------------------
   # tab = navbar tab name to navigate to on click (NULL = no navigation)
   make_section <- function(title, icon_name, tools) {
     n <- length(tools)
@@ -86,7 +86,7 @@ mod_home_ui <- function(id) {
     )
   }
 
-  # ── Tool data with navigation targets ──────────────────────────────────────
+  # -- Tool data with navigation targets --------------------------------------
   # tab values must match the tabPanel titles in app_ui.R exactly
   sec_convert <- make_section("Convert", "exchange-alt", list(
     list(name = "Rate \u2194 Probability",    desc = "Instantaneous rate to/from time-bound probability",          tab = "Rate \u2194 Probability"),
@@ -141,7 +141,7 @@ mod_home_ui <- function(id) {
     list(name = "HTML Report Export", desc = "Download your full session as a reproducibility appendix",           tab = "Lab Notebook")
   ))
 
-  # ── Page layout ────────────────────────────────────────────────────────────
+  # -- Page layout ------------------------------------------------------------
   fluidPage(
     accordion_assets,
     fluidRow(
@@ -156,7 +156,7 @@ mod_home_ui <- function(id) {
     fluidRow(
       column(10, offset = 1,
 
-             # Tool Overview (Accordion) — FIRST
+             # Tool Overview (Accordion) - FIRST
              div(class = "about-card",
                  h4(icon("sitemap"), " Tool Overview", style = "color: #003366; text-align: center; margin-bottom: 5px;"),
                  p(style = "text-align: center; color: #888; font-size: 0.9em; margin-bottom: 15px;",
@@ -174,7 +174,7 @@ mod_home_ui <- function(id) {
                  )
              ),
 
-             # What's New — SECOND
+             # What's New - SECOND
              div(class = "about-card", style = "border-top: 4px solid #28a745;",
                  h4(icon("star"), " What's New in v1.4", style = "color: #155724;"),
                  tags$ul(

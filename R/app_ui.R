@@ -37,10 +37,10 @@ app_ui <- function() {
     id = "main_nav",
     header = list(custom_css, withMathJax()),
 
-    # 1 ── Home ────────────────────────────────────────────────
+    # 1 -- Home ------------------------------------------------
     tabPanel("Home", mod_home_ui("home_1"), icon = icon("home")),
 
-    # 2 ── Convert ─────────────────────────────────────────────
+    # 2 -- Convert ---------------------------------------------
     navbarMenu("Convert",
       icon = icon("exchange-alt"),
       tabPanel("Rate \u2194 Probability", mod_core_conv_ui("core_1")),
@@ -48,17 +48,17 @@ app_ui <- function() {
       tabPanel("Bulk CSV Upload", mod_batch_ui("batch_1"))
     ),
 
-    # 3 ── Survival Curves ─────────────────────────────────────
+    # 3 -- Survival Curves -------------------------------------
     navbarMenu("Survival Curves",
       icon = icon("heartbeat"),
       tabPanel("Fit Survival Curve", mod_survival_ui("surv_1")),
       tabPanel("Adjust Background Mortality", mod_lifetable_ui("life_1"))
     ),
 
-    # 4 ── Uncertainty (PSA) ───────────────────────────────────
+    # 4 -- Uncertainty (PSA) -----------------------------------
     tabPanel("Uncertainty (PSA)", mod_psa_ui("psa_1"), icon = icon("chart-area")),
 
-    # 5 ── Costs & Outcomes ────────────────────────────────────
+    # 5 -- Costs & Outcomes ------------------------------------
     navbarMenu("Costs & Outcomes",
       icon = icon("calculator"),
       tabPanel("Inflate & Discount Costs", mod_financial_ui("fin_1")),
@@ -67,23 +67,23 @@ app_ui <- function() {
       tabPanel("Budget Impact Analysis", mod_bia_ui("bia_1"))
     ),
 
-    # 6 ── PPP Currency Converter ─────────────────────────────
+    # 6 -- PPP Currency Converter -----------------------------
     tabPanel("PPP Converter", mod_ppp_ui("ppp_1"), icon = icon("globe-americas")),
 
-    # 7 ── Diagnostics ─────────────────────────────────────────
+    # 7 -- Diagnostics -----------------------------------------
     tabPanel("Diagnostics", mod_diagnostic_ui("diag_1"), icon = icon("microscope")),
 
-    # 8 ── Lab Notebook ────────────────────────────────────────
+    # 8 -- Lab Notebook ----------------------------------------
     tabPanel("Lab Notebook", mod_report_ui("rep_1"), icon = icon("clipboard")),
 
-    # 9 ── Learn ───────────────────────────────────────────────
+    # 9 -- Learn -----------------------------------------------
     navbarMenu("Learn",
       icon = icon("graduation-cap"),
       tabPanel("Tutorials", mod_howtouse_ui("help_1")),
       tabPanel("Formula Reference", mod_formulae_ui("form_1"))
     ),
 
-    # 10 ── Settings (gear icon) ───────────────────────────────
+    # 10 -- Settings (gear icon) -------------------------------
     tabPanel(
       title = span(icon("cog")),
       value = "settings_tab",

@@ -4,7 +4,7 @@
 #' @importFrom magrittr %>%
 app_server <- function(input, output, session) {
 
-  # ── Global Currency Reactive ──────────────────────────────────────
+  # -- Global Currency Reactive --------------------------------------
   currency_symbol_map <- c(
     INR = "\u20b9", USD = "$", EUR = "\u20ac", GBP = "\u00a3",
     JPY = "\u00a5", BRL = "R$", THB = "\u0e3f", AUD = "A$", CAD = "C$"
@@ -28,7 +28,7 @@ app_server <- function(input, output, session) {
     }
   })
 
-  # ── Global Logging State ──────────────────────────────────────────
+  # -- Global Logging State ------------------------------------------
   global_logger <- reactiveValues(
     entries = data.frame(
       Time = character(),
@@ -41,7 +41,7 @@ app_server <- function(input, output, session) {
     )
   )
 
-  # ── Call Modules ──────────────────────────────────────────────────
+  # -- Call Modules --------------------------------------------------
   mod_home_server("home_1", parent_session = session)
 
   # Parameter Estimation Modules

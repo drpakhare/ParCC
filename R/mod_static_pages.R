@@ -768,13 +768,13 @@ mod_about_ui <- function(id) {
                    icon("globe"), " ",
                    tags$a(href = "https://drpakhare.github.io/ParCC/",
                           target = "_blank", "Documentation & Vignettes"),
-                   tags$span(style = "color: #888; font-size: 0.85em;", " — pkgdown site with tutorials and formula references")
+                   tags$span(style = "color: #888; font-size: 0.85em;", " - pkgdown site with tutorials and formula references")
                  ),
                  tags$li(style = "margin-bottom: 8px;",
                    icon("github"), " ",
                    tags$a(href = "https://github.com/drpakhare/ParCC",
                           target = "_blank", "GitHub Repository"),
-                   tags$span(style = "color: #888; font-size: 0.85em;", " — source code, issues, and releases")
+                   tags$span(style = "color: #888; font-size: 0.85em;", " - source code, issues, and releases")
                  ),
                  tags$li(style = "margin-bottom: 8px;",
                    icon("box-open"), " ",

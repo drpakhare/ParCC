@@ -2,7 +2,7 @@
 # MODULE: PPP CURRENCY CONVERTER WITH WTP THRESHOLDS
 # ==============================================================================
 
-# ── Static World Bank data (2022 ICP round, latest available) ─────────────────
+# -- Static World Bank data (2022 ICP round, latest available) -----------------
 # PPP conversion factor (LCU per international $), GDP per capita (current US$),
 # and market exchange rate (LCU per US$).
 # Source: World Bank Open Data, International Comparison Program.
@@ -71,7 +71,7 @@
   stringsAsFactors = FALSE
 )
 
-# ── UI ────────────────────────────────────────────────────────────────────────
+# -- UI ------------------------------------------------------------------------
 mod_ppp_ui <- function(id) {
   ns <- NS(id)
 
@@ -117,7 +117,7 @@ mod_ppp_ui <- function(id) {
   )
 }
 
-# ── Server ────────────────────────────────────────────────────────────────────
+# -- Server --------------------------------------------------------------------
 mod_ppp_server <- function(id, logger, currency) {
   moduleServer(id, function(input, output, session) {
 
@@ -152,17 +152,17 @@ mod_ppp_server <- function(id, logger, currency) {
 
       cost_lcu <- input$cost_input
 
-      # ── Step 1: Convert source LCU to International Dollars ──
+      # -- Step 1: Convert source LCU to International Dollars --
       cost_intl <- cost_lcu / ppp_src
 
-      # ── Step 2: Convert International Dollars to target LCU (PPP) ──
+      # -- Step 2: Convert International Dollars to target LCU (PPP) --
       cost_ppp_target <- cost_intl * ppp_tgt
 
-      # ── Step 3: Market exchange rate conversion (for comparison) ──
+      # -- Step 3: Market exchange rate conversion (for comparison) --
       cost_usd <- cost_lcu / fx_src
       cost_fx_target <- cost_usd * fx_tgt
 
-      # ── Step 4: WTP thresholds in target country ──
+      # -- Step 4: WTP thresholds in target country --
       # Common HTA thresholds: 1x and 3x GDP per capita (WHO-CHOICE)
       wtp_1x <- gdp_tgt  # in US$, convert to target LCU
       wtp_3x <- 3 * gdp_tgt
@@ -172,7 +172,7 @@ mod_ppp_server <- function(id, logger, currency) {
       # PPP-adjusted GDP per capita in target LCU
       gdp_pc_ppp_tgt <- gdp_tgt * ppp_tgt  # International $ * PPP = LCU
 
-      # ── Ratio for context ──
+      # -- Ratio for context --
       ppp_fx_ratio <- cost_ppp_target / cost_fx_target
 
       # Format helpers
@@ -181,7 +181,7 @@ mod_ppp_server <- function(id, logger, currency) {
       src_sym <- src$currency_symbol
       tgt_sym <- tgt$currency_symbol
 
-      # ── Assessment ──
+      # -- Assessment --
       # Is the PPP-converted cost below 1x or 3x GDP/capita?
       assess_col <- if (cost_ppp_target <= wtp_1x_lcu) {
         "#27ae60"
@@ -199,7 +199,7 @@ mod_ppp_server <- function(id, logger, currency) {
         "Above 3\u00d7 GDP/capita \u2014 Not cost-effective by WHO-CHOICE criteria."
       }
 
-      # ── Output ──
+      # -- Output --
       output$res_ppp <- renderUI(tagList(
         div(class = "result-box", style = paste0("border-left-color:", assess_col),
           HTML(paste0(
@@ -283,7 +283,7 @@ mod_ppp_server <- function(id, logger, currency) {
         mathjax_trigger
       ))
 
-      # ── Plot: Waterfall comparison ──
+      # -- Plot: Waterfall comparison --
       output$plot_ppp <- renderPlot({
         plot_df <- data.frame(
           Method = factor(c(
@@ -323,7 +323,7 @@ mod_ppp_server <- function(id, logger, currency) {
           scale_y_continuous(expand = expansion(mult = c(0, 0.15)))
       })
 
-      # ── Comparison Table ──
+      # -- Comparison Table --
       output$tbl_ppp <- DT::renderDataTable({
         comp_df <- data.frame(
           Metric = c(
@@ -353,7 +353,7 @@ mod_ppp_server <- function(id, logger, currency) {
                       extensions = 'Buttons', rownames = FALSE)
       })
 
-      # ── Log ──
+      # -- Log --
       add_to_log(input$label, "PPP Converter",
                  paste0(input$source_country, " ", sfmt(cost_lcu, src_sym),
                         " -> ", input$target_country),
