@@ -1,7 +1,6 @@
 #' @import shiny
 #' @import shinythemes
 #' @importFrom plotly plotlyOutput
-#' @importFrom DT dataTableOutput
 #' @importFrom DiagrammeR grVizOutput
 app_ui <- function() {
   
@@ -26,16 +25,17 @@ app_ui <- function() {
   )
   
   navbarPage(
-    title = "ParCC v1.2",
+    title = "ParCC v1.3",
     theme = shinytheme("flatly"),
     id = "main_nav",
     header = list(custom_css, withMathJax()),
-    
+
     tabPanel("Home", mod_home_ui("home_1")),
     tabPanel("How to Use", mod_howtouse_ui("help_1")),
-    
+
     # Calculation Tools
     tabPanel("Converters", mod_core_conv_ui("core_1")),
+    tabPanel("HR Converter", mod_hr_converter_ui("hr_1")),
     tabPanel("Bulk Conversion", mod_batch_ui("batch_1")),
     tabPanel("Survival", mod_survival_ui("surv_1")),
     tabPanel("Bg Mortality", mod_lifetable_ui("life_1")),

@@ -1,0 +1,117 @@
+---
+title: "Background Mortality Adjustments"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Background Mortality Adjustments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Why Background Mortality Matters
+
+Health economic models track cohorts over long time horizons (often lifetime). Patients can die from the disease being modelled, but they also face **background (all-cause) mortality** from other causes. Census life tables provide general population mortality rates, but these must be adjusted for your specific patient population.
+
+ParCC provides four methods for handling background mortality.
+
+## Method 1: SMR Adjustment
+
+### The Scenario — Heart Failure Cohort
+
+You are modelling a cohort of 65-year-old heart failure patients. The general population mortality rate for age 65 (from the Indian Census life table) is **0.013 per year**. Published literature reports that heart failure patients have a **Standardized Mortality Ratio (SMR) of 2.5** compared to the general population (Meta-analysis by Jhund et al., Eur Heart J 2009).
+
+### The Formula
+
+$$r_{disease} = r_{population} \times SMR$$
+
+$$p_{disease} = 1 - e^{-r_{disease} \times t}$$
+
+### Worked Example
+
+```{r}
+r_pop <- 0.013   # General population rate, age 65
+smr <- 2.5        # From published meta-analysis
+
+r_disease <- r_pop * smr
+p_disease <- 1 - exp(-r_disease)
+
+cat("Population rate:", r_pop, "\n")
+cat("SMR:", smr, "\n")
+cat("Disease-adjusted rate:", round(r_disease, 5), "\n")
+cat("Annual mortality probability:", round(p_disease, 5), "\n")
+```
+
+## Method 2: DEALE (Declining Exponential Approximation of Life Expectancy)
+
+### The Scenario — Rare Disease with Known Life Expectancy
+
+For Duchenne Muscular Dystrophy, the **observed mean life expectancy is 25 years** (from a registry study). The background life expectancy for the same age-sex group is **65 years**.
+
+### The Formula
+
+$$r_{disease} = \frac{1}{LE_{observed}} - \frac{1}{LE_{background}}$$
+
+### Worked Example
+
+```{r}
+le_observed <- 25    # Disease-specific life expectancy
+le_background <- 65  # General population
+
+r_excess <- (1 / le_observed) - (1 / le_background)
+cat("Excess mortality rate:", round(r_excess, 5), "\n")
+cat("This means patients face an additional", round(r_excess * 1000, 2),
+    "deaths per 1,000 person-years beyond background\n")
+```
+
+## Method 3: Gompertz Parameterization
+
+### When to Use
+
+The Gompertz law describes how mortality increases exponentially with age, which closely matches human mortality patterns above age 30:
+
+$$r(age) = \alpha \times e^{\beta \times age}$$
+
+This is useful when you need age-specific mortality rates and only have a few data points from the life table.
+
+### Worked Example
+
+```{r}
+# Fit Gompertz from two life table points
+# Age 60: rate = 0.008
+# Age 80: rate = 0.065
+
+r1 <- 0.008; age1 <- 60
+r2 <- 0.065; age2 <- 80
+
+beta <- log(r2 / r1) / (age2 - age1)
+alpha <- r1 / exp(beta * age1)
+
+cat("Gompertz alpha:", format(alpha, scientific = TRUE), "\n")
+cat("Gompertz beta:", round(beta, 5), "\n\n")
+
+# Generate age-specific rates
+ages <- seq(50, 90, by = 5)
+rates <- alpha * exp(beta * ages)
+probs <- 1 - exp(-rates)
+
+data.frame(
+  Age = ages,
+  Rate = round(rates, 5),
+  Annual_Prob = round(probs, 5)
+)
+```
+
+## Method 4: Linear Interpolation
+
+For ages between available life table entries, linear interpolation provides a simple estimate:
+
+$$r(age) = r_1 + (age - age_1) \times \frac{r_2 - r_1}{age_2 - age_1}$$
+
+## References
+
+- Beck JR, et al. A convenient approximation of life expectancy (the "DEALE"). *Am J Med*. 1982;73(6):883-888.
+- Gompertz B. On the nature of the function expressive of the law of human mortality. *Phil Trans Royal Soc*. 1825;115:513-583.
+- Jhund PS, et al. Long-term trends in first hospitalization for heart failure and subsequent survival. *Eur Heart J*. 2009;30(4):1807-1812.

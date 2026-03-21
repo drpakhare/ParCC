@@ -1,0 +1,139 @@
+---
+title: "Survival Extrapolation from Published Curves"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Survival Extrapolation from Published Curves}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## The Problem
+
+Clinical trials typically follow patients for 2-5 years, but health economic models often require lifetime projections (20-40 years). When Individual Patient Data (IPD) is unavailable, you must extract information from published Kaplan-Meier curves and fit parametric distributions.
+
+## Method 1: Exponential (From Median Survival)
+
+### When to Use
+
+The exponential distribution assumes a **constant hazard** — the risk of the event is the same at every time point. This is rarely true biologically, but can be a reasonable approximation when:
+
+- You only have median survival reported
+- The Kaplan-Meier curve appears roughly linear on a log scale
+
+### The Scenario — Metastatic Colorectal Cancer
+
+A Phase III trial of Bevacizumab + FOLFOX reports median Overall Survival of **21.3 months** in the control arm (Hurwitz et al., NEJM 2004).
+
+### Worked Example
+
+```{r}
+median_os <- 21.3  # months
+
+# Hazard rate from median
+lambda <- log(2) / median_os
+cat("Hazard rate (lambda):", round(lambda, 5), "per month\n")
+
+# Survival function: S(t) = exp(-lambda * t)
+t_seq <- c(6, 12, 24, 36, 60)
+surv <- exp(-lambda * t_seq)
+
+data.frame(
+  Month = t_seq,
+  Survival = round(surv, 3),
+  Event_Prob = round(1 - surv, 3)
+)
+```
+
+## Method 2: Weibull (From Two KM Points)
+
+### When to Use
+
+The Weibull distribution allows the hazard to increase or decrease over time (monotonically). This is more flexible than exponential and is frequently used in oncology HTA.
+
+### The Scenario — NSCLC (CheckMate 017)
+
+A published Kaplan-Meier curve for nivolumab in squamous NSCLC shows:
+
+- At 12 months, survival is approximately **42%**
+- At 24 months, survival is approximately **23%**
+
+### The Formula
+
+The Weibull survival function is:
+
+$$S(t) = e^{-\lambda t^{\gamma}}$$
+
+Using the log-log transformation:
+
+$$\ln(-\ln(S(t))) = \ln(\lambda) + \gamma \ln(t)$$
+
+With two points, we solve a system of two linear equations.
+
+### Worked Example
+
+```{r}
+# Two points from the KM curve
+t1 <- 12; s1 <- 0.42
+t2 <- 24; s2 <- 0.23
+
+# Log-log transformation
+y1 <- log(-log(s1)); x1 <- log(t1)
+y2 <- log(-log(s2)); x2 <- log(t2)
+
+# Solve for shape (gamma) and scale (lambda)
+gamma <- (y2 - y1) / (x2 - x1)
+lambda <- exp(y1 - gamma * x1)
+
+cat("Weibull Shape (gamma):", round(gamma, 4), "\n")
+cat("Weibull Scale (lambda):", format(lambda, scientific = TRUE, digits = 4), "\n")
+
+# Generate survival table
+t_seq <- seq(0, 60, by = 6)
+surv <- exp(-lambda * t_seq^gamma)
+
+# Transition probabilities (monthly)
+t_monthly <- 0:60
+s_monthly <- exp(-lambda * t_monthly^gamma)
+tp <- c(1, s_monthly[-1] / s_monthly[-length(s_monthly)])
+
+cat("\nSurvival projections:\n")
+data.frame(
+  Month = seq(0, 60, by = 6),
+  Survival = round(exp(-lambda * seq(0, 60, by = 6)^gamma), 3)
+)
+```
+
+### Interpretation
+
+- If $\gamma > 1$: hazard is increasing over time (common in cancer)
+- If $\gamma = 1$: constant hazard (reduces to exponential)
+- If $\gamma < 1$: hazard is decreasing over time (common post-surgery)
+
+## Generating Markov Trace
+
+Both methods produce cycle-specific transition probabilities for your Markov model:
+
+```{r}
+# Generate annual transition probabilities from Weibull
+cycles <- 0:10
+s_t <- exp(-lambda * (cycles * 12)^gamma)  # Convert years to months for calculation
+tp <- c(1, s_t[-1] / s_t[-length(s_t)])
+
+trace <- data.frame(
+  Year = cycles,
+  Survival = round(s_t, 4),
+  Annual_TP = round(tp, 4),
+  Cumulative_Death = round(1 - s_t, 4)
+)
+print(trace)
+```
+
+## References
+
+- Collett D. *Modelling Survival Data in Medical Research*. 3rd ed. Chapman and Hall/CRC; 2015.
+- Latimer NR. Survival analysis for economic evaluations alongside clinical trials. *Med Decis Making*. 2013;33(6):743-754.
+- NICE Decision Support Unit. TSD 14: Survival analysis for economic evaluations. 2013.

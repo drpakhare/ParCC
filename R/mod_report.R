@@ -74,6 +74,11 @@ mod_report_server <- function(id, logger) {
                                                   "Probabilities were adjusted from an original time ($t_{old}$) to a new cycle ($t_{new}$) assuming constant hazards:\n\n$$p_{new} = 1 - (1 - p_{old})^{\\frac{t_{new}}{t_{old}}}$$\n\n> **Reference:** Fleurence RL, et al. 2007."))
         }
         
+        if (any(grepl("HR Conversion", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Hazard Ratio-Based Probability Conversion",
+                                                  "Intervention probabilities were derived from control group probabilities using published Hazard Ratios under the proportional hazards assumption:\n\n1. $r_{control} = -\\ln(1 - p_{control}) / t$\n2. $r_{intervention} = r_{control} \\times HR$\n3. $p_{intervention} = 1 - e^{-r_{intervention} \\times t_{cycle}}$\n\n> **References:** Sonnenberg FA, Beck JR. *Med Decis Making*. 1993; Briggs A, et al. OUP. 2006; NICE DSU TSD 14. 2013."))
+        }
+
         if (any(grepl("Survival", mods))) {
           meth_text <- paste0(meth_text, add_sect("Parametric Survival Analysis", 
                                                   "**Exponential:** Rate $\\lambda$ derived from median survival ($M$): $\\lambda = \\ln(2)/M$.\n\n**Weibull:** Shape ($\\gamma$) and Scale ($\\lambda$) estimated via linear regression of log-log transformation:\n\n$$\\ln(-\\ln(S(t))) = \\ln(\\lambda) + \\gamma \\ln(t)$$\n\n> **Reference:** Collett D. 2015."))

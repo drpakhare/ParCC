@@ -40,7 +40,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > Rate ↔ Probability"), "."),
+                 tags$li("Navigate to ", strong("Converters > Rate \u2194 Probability"), "."),
                  tags$li("Input Rate = ", strong("2.5"), "."),
                  tags$li("Select Multiplier = ", strong("'Per 100'"), "."),
                  tags$li("Input Time = ", strong("1"), " (for a 1-year model cycle)."),
@@ -67,6 +67,53 @@ mod_howtouse_ui <- function(id) {
                p("Notice that 2.23% is ", em("higher"), " than the simple average (2.0%). This correction ensures your model doesn't underestimate early events.")
       ),
       
+      tabPanel("HR Conversion",
+               h3("Tutorial 2B: Applying a Hazard Ratio from a Trial"),
+               p(class="text-info", strong("Concept:"), " When a trial reports a Hazard Ratio (HR), you cannot simply multiply the control probability by the HR. The HR operates on the instantaneous rate, not on the probability."),
+
+               h4("The Real-World Scenario (PLATO Trial)"),
+               p("You are building a cost-effectiveness model for ", strong("Ticagrelor vs Aspirin"), " in Acute Coronary Syndrome. The PLATO trial (Wallentin et al., NEJM 2009) reports:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("CV Death in the Aspirin (control) arm: ", strong("5.25%"), " at 12 months"),
+                     tags$li("Hazard Ratio for CV Death (Ticagrelor vs Aspirin): ", strong("HR = 0.79"), " (95% CI: 0.69 - 0.91)")
+                   )
+               ),
+
+               h4("The Common Mistake"),
+               p("A beginner might calculate 0.0525 \u00d7 0.79 = 0.0415 (4.15%). This is ", strong("incorrect"), " because the HR acts on the instantaneous rate, not the probability. The error grows larger with higher event rates and longer time horizons."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("HR Converter"), "."),
+                 tags$li("Enter Control Probability = ", strong("0.0525"), "."),
+                 tags$li("Set Time Horizon = ", strong("1 Year"), "."),
+                 tags$li("Enter HR = ", strong("0.79"), ", with CI ", strong("0.69"), " to ", strong("0.91"), "."),
+                 tags$li("Click ", strong("Convert & Log"), ".")
+               ),
+
+               h4("The Result"),
+               p("ParCC calculates:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("Control Rate: -ln(1 - 0.0525) / 1 = ", strong("0.05391"), " per year"),
+                     tags$li("Intervention Rate: 0.05391 \u00d7 0.79 = ", strong("0.04259"), " per year"),
+                     tags$li("Intervention Probability: 1 - e^(-0.04259) = ", strong("0.04170"), " (correct)"),
+                     tags$li("ARR = 1.08% | NNT = 93")
+                   )
+               ),
+
+               p("Compare: the naive multiplication gives 4.15%, while the correct method gives 4.17%. For high-event-rate outcomes (e.g., mortality in metastatic cancer where control p = 0.40), the discrepancy can exceed ", strong("2 percentage points"), "."),
+
+               h4("When to Use This Tool"),
+               tags$ul(
+                 tags$li("Converting trial HRs into Markov model transition probabilities"),
+                 tags$li("Applying relative treatment effects from network meta-analyses"),
+                 tags$li("Adjusting subgroup-specific probabilities using pooled HRs"),
+                 tags$li("Any scenario where you have a baseline probability and an HR from a different study")
+               )
+      ),
+
       "Advanced Modeling",
       tabPanel("Survival Curves",
                h3("Tutorial 3: Extrapolating Survival"),
@@ -193,7 +240,7 @@ mod_howtouse_ui <- function(id) {
                h4("The ParCC Solution"),
                tags$ol(
                  tags$li("Navigate to ", strong("ICER / NMB > Value-Based Pricing"), "."),
-                 tags$li("Input Incremental QALYs (ΔE) = ", strong("0.02"), "."),
+                 tags$li("Input Incremental QALYs (\u0394E) = ", strong("0.02"), "."),
                  tags$li("Input Comparator Cost = ", strong("500"), "."),
                  tags$li("Input Associated Costs = ", strong("200"), "."),
                  tags$li("Input Target WTP = ", strong("100000"), "."),
@@ -203,7 +250,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The Interpretation (Waterfall Logic)"),
                tags$ul(
-                 tags$li(strong("Clinical Value:"), " 0.02 × 100,000 = INR 2,000 (Value created)."),
+                 tags$li(strong("Clinical Value:"), " 0.02 * 100,000 = INR 2,000 (Value created)."),
                  tags$li(strong("Savings:"), " + INR 500 (Money diverted from old test)."),
                  tags$li(strong("Total Headroom:"), " INR 2,500 (Total Budget in the pot)."),
                  tags$li(strong("Minus Nurse Time:"), " - INR 200 (Must pay the nurse first)."),
@@ -260,7 +307,28 @@ mod_formulae_ui <- function(id) {
                ),
                tags$small(icon("book"), " Reference: Fleurence RL, et al. Pharmacoeconomics. 2007.")
       ),
-      
+
+      tabPanel("HR-Based Conversion",
+               h3("Hazard Ratio to Intervention Probability"),
+               p("When a clinical trial reports a Hazard Ratio (HR) comparing an intervention to a control, the intervention probability is derived by applying the HR to the control group's underlying rate."),
+               div(class = "well",
+                   p(strong("Step 1: Control Probability to Rate")),
+                   p("$$r_{control} = -\\frac{\\ln(1 - p_{control})}{t}$$"),
+                   p(strong("Step 2: Apply Hazard Ratio")),
+                   p("$$r_{intervention} = r_{control} \\times HR$$"),
+                   p(strong("Step 3: Rate to Intervention Probability")),
+                   p("$$p_{intervention} = 1 - e^{-r_{intervention} \\times t_{cycle}}$$")
+               ),
+               p(strong("Key Assumption:"), " The Proportional Hazards assumption states that the HR is constant over time. This is standard in Markov cohort models."),
+               p(strong("Clinical Measures:")),
+               div(class = "well",
+                   p("$$ARR = p_{control} - p_{intervention}$$"),
+                   p("$$RRR = \\frac{ARR}{p_{control}}$$"),
+                   p("$$NNT = \\lceil \\frac{1}{ARR} \\rceil$$")
+               ),
+               tags$small(icon("book"), " References: Sonnenberg FA, Beck JR. Med Decis Making. 1993; Briggs A, et al. Oxford University Press; 2006; NICE DSU TSD 14. 2013.")
+      ),
+
       "Advanced Models",
       tabPanel("Survival Analysis",
                h3("Parametric Survival Models"),
@@ -328,29 +396,85 @@ mod_about_ui <- function(id) {
   fluidPage(
     column(8, offset = 2,
            div(class = "about-header",
-               h1("ParCC"),
-               p("Parameter Converter & Calculator for Health Economic Evaluation")
+               h1("ParCC v1.3"),
+               p("Parameter Converter & Calculator for Health Economic Evaluation"),
+               p(style = "font-size: 0.9em; opacity: 0.8;", "R Package Edition")
            ),
-           
+
            div(class = "about-card",
                h3("Development Team"),
                p(class = "lead", "This tool was developed by the Regional Resource Centre for Health Technology Assessment (RRC-HTA), AIIMS Bhopal team."),
                p(strong("Under the aegis of:"), " HTAIn, DHR, MoHFW, GoI."),
-               
+
+               hr(),
+               h4("Features"),
+               tags$table(style = "width:100%; border-collapse: collapse;",
+                 tags$thead(
+                   tags$tr(style = "border-bottom: 2px solid #003366;",
+                     tags$th(style = "padding: 8px; text-align: left;", "Module"),
+                     tags$th(style = "padding: 8px; text-align: left;", "Capabilities")
+                   )
+                 ),
+                 tags$tbody(
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Converters"),
+                     tags$td(style = "padding: 8px;", "Rate-Probability, Odds-Probability, Time Rescaling")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
+                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "HR Converter (New)"),
+                     tags$td(style = "padding: 8px;", "Control-to-intervention probability via hazard ratios, multi-HR comparison, ARR/NNT, CI propagation")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Survival"),
+                     tags$td(style = "padding: 8px;", "Exponential & Weibull extrapolation from KM data")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Bg Mortality"),
+                     tags$td(style = "padding: 8px;", "SMR adjustment, Linear interpolation, Gompertz fit, DEALE")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "PSA Distributions"),
+                     tags$td(style = "padding: 8px;", "Beta, Gamma, LogNormal fitting via Method of Moments")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Diagnostics"),
+                     tags$td(style = "padding: 8px;", "PPV/NPV from sensitivity, specificity, and prevalence")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Financial"),
+                     tags$td(style = "padding: 8px;", "Cost inflation (rate & CPI methods), discounting to present value")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "ICER & NMB"),
+                     tags$td(style = "padding: 8px;", "Incremental cost-effectiveness ratio, incremental net monetary benefit")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee;",
+                     tags$td(style = "padding: 8px; font-weight: bold;", "Value-Based Pricing"),
+                     tags$td(style = "padding: 8px;", "Headroom analysis, maximum justifiable price, WTP breakeven")
+                   ),
+                   tags$tr(style = "border-bottom: 1px solid #eee; background: #f0fff0;",
+                     tags$td(style = "padding: 8px; font-weight: bold; color: #155724;", "Batch Processing (Enhanced)"),
+                     tags$td(style = "padding: 8px;", "Bulk rate-probability, odds-probability, and HR-based conversions with CSV upload/download")
+                   )
+                 )
+               ),
+               p(style = "margin-top: 10px; font-size: 0.85em; color: #666;",
+                 "All modules include step-by-step explanations, rendered formulas, and literature citations on the output panel."),
+
                hr(),
                h4("Technical Acknowledgement"),
-               p("This application was architected and code-generated with the assistance of Large Language Models (Google Gemini), under the supervision of RRC-HTA researchers."),
-               
+               p("This application was architected and code-generated with the assistance of Large Language Models (Google Gemini, Anthropic Claude), under the supervision of RRC-HTA researchers."),
+
                hr(),
                h4("Suggested Citation"),
                div(class = "well", style = "font-family: monospace; font-size: 0.9em;",
-                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 6.2) [Software]. Available at: [URL]"
+                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.3.0) [R package]. Available at: [URL]"
                ),
-               
+
                hr(),
                h4("Disclaimer"),
                p("This tool is intended for research and educational purposes only. While every effort has been made to ensure the accuracy of the algorithms, the developers accept no liability for errors or omissions in the calculations or for decisions made based on these results. Users are encouraged to verify critical parameters manually."),
-               
+
                hr(),
                h4("License"),
                p("Released under the MIT Open Source License."),

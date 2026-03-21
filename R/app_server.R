@@ -1,7 +1,6 @@
 #' @import shiny
 #' @import ggplot2
 #' @importFrom plotly renderPlotly
-#' @importFrom DT renderDataTable
 #' @importFrom DiagrammeR renderGrViz
 #' @importFrom magrittr %>%
 app_server <- function(input, output, session) {
@@ -24,7 +23,8 @@ app_server <- function(input, output, session) {
   
   # Parameter Estimation Modules
   mod_core_conv_server("core_1", logger = global_logger)
-  mod_batch_server("batch_1") 
+  mod_hr_converter_server("hr_1", logger = global_logger)
+  mod_batch_server("batch_1", logger = global_logger)
   mod_survival_server("surv_1", logger = global_logger)
   mod_lifetable_server("life_1", logger = global_logger)
   mod_psa_server("psa_1", logger = global_logger)
