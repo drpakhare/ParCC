@@ -12,3 +12,4 @@
 ^ParCC_Validation.*\.xlsx$
 ^app\.R$
 ^manifest\.json$
+^cran-comments\.md$

@@ -17,9 +17,9 @@ Description: An interactive 'shiny' application for Health Technology
     life-table methods. Designed for researchers building cost-effectiveness
     and budget-impact models who need auditable, formula-documented
     parameter transformations. Methods include Zhang and Yu (1998)
-    <doi:10.1001/jama.280.19.1690> for OR-to-RR conversion and Chinn (2000)
-    <doi:10.1002/1097-0258(20001130)19:22%3C3127::AID-SIM784%3E3.0.CO;2-M>
-    for effect-size transformations.
+    <doi:10.1001/jama.280.19.1690> for OR-to-RR conversion and
+    Chinn (2000, Statistics in Medicine, 19, 3127-3131) for effect-size
+    transformations.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:

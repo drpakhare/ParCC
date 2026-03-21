@@ -4,20 +4,26 @@
 \name{ParCC-package}
 \alias{ParCC}
 \alias{ParCC-package}
-\title{ParCC: Parameter Converter and Calculator for HTA}
+\title{ParCC: Parameter Converter and Calculator for Health Technology Assessment}
 \description{
-A decision support tool for Health Technology Assessment (HTA). Bridges the gap between clinical evidence and economic models by automating complex parameter estimations including rate-probability conversions, hazard ratio-based probability conversion, survival extrapolation, PSA distribution fitting, and value-based pricing analysis.
+An interactive 'shiny' application for Health Technology Assessment (HTA) parameter estimation. Converts between rates, probabilities, odds, and hazard ratios; extrapolates survival curves (Exponential, Weibull, Log-Logistic); fits PSA distributions (Beta, Gamma, LogNormal, Dirichlet) via the method of moments; calculates ICERs, net monetary benefit, value-based pricing, and budget impact; adjusts costs for inflation, discounting, and purchasing power parity (PPP) across 30 countries; and adjusts background mortality using life-table methods. Designed for researchers building cost-effectiveness and budget-impact models who need auditable, formula-documented parameter transformations. Methods include Zhang and Yu (1998) \doi{10.1001/jama.280.19.1690} for OR-to-RR conversion and Chinn (2000, Statistics in Medicine, 19, 3127-3131) for effect-size transformations.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://drpakhare.github.io/ParCC/}
   \item \url{https://github.com/drpakhare/ParCC}
   \item Report bugs at \url{https://github.com/drpakhare/ParCC/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: RRC-HTA Team \email{hta.aiimsbhopal@gmail.com}
+\strong{Maintainer}: Abhijit Pakhare \email{drpakhare@gmail.com}
+
+Authors:
+\itemize{
+  \item RRC-HTA Team, AIIMS Bhopal
+}
 
 }
 \keyword{internal}
