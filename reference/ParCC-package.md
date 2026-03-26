@@ -2,18 +2,19 @@
 
 An interactive 'shiny' application for Health Technology Assessment
 (HTA) parameter estimation. Converts between rates, probabilities, odds,
-and hazard ratios; extrapolates survival curves (Exponential, Weibull,
-Log-Logistic); fits PSA distributions (Beta, Gamma, LogNormal,
-Dirichlet) via the method of moments; calculates ICERs, net monetary
-benefit, value-based pricing, and budget impact; adjusts costs for
-inflation, discounting, and purchasing power parity (PPP) across 30
-countries; and adjusts background mortality using life-table methods.
-Designed for researchers building cost-effectiveness and budget-impact
-models who need auditable, formula-documented parameter transformations.
-Methods include Zhang and Yu (1998)
+and hazard ratios (HR); extrapolates survival curves (Exponential,
+Weibull, Log-Logistic); fits probabilistic sensitivity analysis (PSA)
+distributions (Beta, Gamma, LogNormal, Dirichlet) via the method of
+moments; calculates incremental cost-effectiveness ratios (ICERs), net
+monetary benefit (NMB), value-based pricing, and budget impact; adjusts
+costs for inflation, discounting, and purchasing power parity (PPP)
+across 30 countries; and adjusts background mortality using life-table
+methods. Designed for researchers building cost-effectiveness and
+budget-impact models who need auditable, formula-documented parameter
+transformations. Methods include Zhang and Yu (1998)
 [doi:10.1001/jama.280.19.1690](https://doi.org/10.1001/jama.280.19.1690)
-for OR-to-RR conversion and Chinn (2000, Statistics in Medicine, 19,
-3127-3131) for effect-size transformations.
+for odds ratio (OR) to relative risk (RR) conversion and Chinn (2000,
+Statistics in Medicine, 19, 3127-3131) for effect-size transformations.
 
 ## See also
 

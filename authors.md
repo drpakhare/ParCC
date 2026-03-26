@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/drpakhare/ParCC/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/drpakhare/ParCC/blob/main/DESCRIPTION)
 
 Pakhare A, RRC-HTA Team, AIIMS Bhopal (2026). *ParCC: Parameter
 Converter and Calculator for Health Technology Assessment*. R package
