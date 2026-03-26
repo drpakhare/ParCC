@@ -13,3 +13,4 @@
 ^app\.R$
 ^manifest\.json$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
