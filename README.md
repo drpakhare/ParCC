@@ -20,8 +20,14 @@ transformations with full formula documentation and literature citations.
 
 ## Installation
 
-You can install ParCC from
-[GitHub](https://github.com/drpakhare/ParCC) with:
+Install the stable release from CRAN:
+
+``` r
+install.packages("ParCC")
+```
+
+Or install the development version from
+[GitHub](https://github.com/drpakhare/ParCC):
 
 ``` r
 # install.packages("remotes")
