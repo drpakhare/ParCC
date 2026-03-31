@@ -4,7 +4,13 @@ Version: 1.4.0
 Authors@R: c(
     person("Abhijit", "Pakhare", email = "drpakhare@gmail.com",
            role = c("aut", "cre")),
-    person("RRC-HTA Team, AIIMS Bhopal", role = "aut")
+    person("Soumya", "Jain", role = "aut"),
+    person("Anvita", "Malhotra", role = "aut"),
+    person("Shivansh", "Verma", role = "aut"),
+    person("Biju", "Somen", role = "aut"),
+    person("Oshima", "Sachin", role = "aut"),
+    person("Beena", "Joshi", role = "aut"),
+    person("Ankur", "Joshi", role = "aut")
     )
 Description: An interactive 'shiny' application for Health Technology
     Assessment (HTA) parameter estimation. Converts between rates,
