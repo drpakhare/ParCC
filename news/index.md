@@ -2,6 +2,8 @@
 
 ## ParCC 1.4.0
 
+CRAN release: 2026-03-30
+
 ### New Modules
 
 - **Budget Impact Analysis** – 5-year BIA framework with population

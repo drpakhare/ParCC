@@ -13,6 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Parameter Converter and Calculator for Health Technology Assessment">
 <meta name="description" content="An interactive shiny application for Health Technology Assessment (HTA) parameter estimation. Converts between rates, probabilities, odds, and hazard ratios (HR); extrapolates survival curves (Exponential, Weibull, Log-Logistic); fits probabilistic sensitivity analysis (PSA) distributions (Beta, Gamma, LogNormal, Dirichlet) via the method of moments; calculates incremental cost-effectiveness ratios (ICERs), net monetary benefit (NMB), value-based pricing, and budget impact; adjusts costs for inflation, discounting, and purchasing power parity (PPP) across 30 countries; and adjusts background mortality using life-table methods. Designed for researchers building cost-effectiveness and budget-impact models who need auditable, formula-documented parameter transformations. Methods include Zhang and Yu (1998) &lt;doi:10.1001/jama.280.19.1690&gt; for odds ratio (OR) to relative risk (RR) conversion and Chinn (2000, Statistics in Medicine, 19, 3127-3131) for effect-size transformations.">
 <meta property="og:description" content="An interactive shiny application for Health Technology Assessment (HTA) parameter estimation. Converts between rates, probabilities, odds, and hazard ratios (HR); extrapolates survival curves (Exponential, Weibull, Log-Logistic); fits probabilistic sensitivity analysis (PSA) distributions (Beta, Gamma, LogNormal, Dirichlet) via the method of moments; calculates incremental cost-effectiveness ratios (ICERs), net monetary benefit (NMB), value-based pricing, and budget impact; adjusts costs for inflation, discounting, and purchasing power parity (PPP) across 30 countries; and adjusts background mortality using life-table methods. Designed for researchers building cost-effectiveness and budget-impact models who need auditable, formula-documented parameter transformations. Methods include Zhang and Yu (1998) &lt;doi:10.1001/jama.280.19.1690&gt; for odds ratio (OR) to relative risk (RR) conversion and Chinn (2000, Statistics in Medicine, 19, 3127-3131) for effect-size transformations.">
+<meta property="og:image" content="https://drpakhare.github.io/ParCC/logo.svg">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,8 +57,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="parcc-parameter-converter--calculator-for-hta">ParCC: Parameter Converter &amp; Calculator for HTA<a class="anchor" aria-label="anchor" href="#parcc-parameter-converter--calculator-for-hta"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.svg" class="logo" alt=""><h1 id="parcc-parameter-converter--calculator-for-hta-">ParCC: Parameter Converter &amp; Calculator for HTA 
+<a class="anchor" aria-label="anchor" href="#parcc-parameter-converter--calculator-for-hta-"></a>
+</h1>
+</div>
 <!-- badges: start -->
 
 <!-- badges: end -->
@@ -138,6 +142,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=ParCC" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/drpakhare/ParCC/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/drpakhare/ParCC/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -164,13 +169,20 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Abhijit Pakhare <br><small class="roles"> Author, maintainer </small>   </li>
-<li>RRC-HTA Team, AIIMS Bhopal <br><small class="roles"> Author </small>   </li>
+<li>Soumya Jain <br><small class="roles"> Author </small>   </li>
+<li>Anvita Malhotra <br><small class="roles"> Author </small>   </li>
+<li>Shivansh Verma <br><small class="roles"> Author </small>   </li>
+<li>Biju Somen <br><small class="roles"> Author </small>   </li>
+<li>Oshima Sachin <br><small class="roles"> Author </small>   </li>
+<li>Beena Joshi <br><small class="roles"> Author </small>   </li>
+<li>Ankur Joshi <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=ParCC" class="external-link"><img src="https://www.r-pkg.org/badges/version/ParCC" alt="CRAN status"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
@@ -180,7 +192,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Abhijit Pakhare, RRC-HTA Team, AIIMS Bhopal.</p>
+  <p>Developed by Abhijit Pakhare, Soumya Jain, Anvita Malhotra, Shivansh Verma, Biju Somen, Oshima Sachin, Beena Joshi, Ankur Joshi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
