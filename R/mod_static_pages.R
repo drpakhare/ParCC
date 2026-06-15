@@ -625,6 +625,67 @@ mod_formulae_ui <- function(id) {
                p("$$r_{disease} = \\frac{1}{LE_{observed}} - \\frac{1}{LE_{background}}$$")
       ),
       
+      "Diagnostics",
+      tabPanel("PPV / NPV (Bayes' Theorem)",
+               h3("Predictive Values"),
+               p("Positive and Negative Predictive Values are derived from Sensitivity (\\(Se\\)), Specificity (\\(Sp\\)), and disease Prevalence (\\(Prev\\)) using Bayes' Theorem."),
+               div(class = "well",
+                   p(strong("Positive Predictive Value:")),
+                   p("$$PPV = \\frac{Se \\times Prev}{Se \\times Prev + (1 - Sp) \\times (1 - Prev)}$$"),
+                   p(strong("Negative Predictive Value:")),
+                   p("$$NPV = \\frac{Sp \\times (1 - Prev)}{Sp \\times (1 - Prev) + (1 - Se) \\times Prev}$$"),
+                   p(strong("Likelihood Ratios:")),
+                   p("$$LR+ = \\frac{Se}{1 - Sp} \\qquad LR- = \\frac{1 - Se}{Sp}$$")
+               ),
+               p(style = "font-size:0.85em; color:#666;",
+                 "Note: PPV and NPV are prevalence-dependent. At low prevalence (e.g., screening), even a highly specific test may yield many false positives."),
+               tags$small(icon("book"), " References: Altman DG, Bland JM. BMJ. 1994; Deeks JJ, Altman DG. BMJ. 2004.")
+      ),
+
+      "Financial Adjustments",
+      tabPanel("Inflation",
+               h3("Cost Inflation Adjustment"),
+               p("Cost data from different price years must be inflated to a common year for valid comparison."),
+               div(class = "well",
+                   p(strong("Average Rate Method (Compound Growth):")),
+                   p("$$Cost_{target} = Cost_{base} \\times (1 + r)^{n}$$"),
+                   p("where \\(r\\) = average annual inflation rate and \\(n\\) = number of years."),
+                   hr(),
+                   p(strong("CPI Method (Price Index Ratio):")),
+                   p("$$Cost_{target} = Cost_{base} \\times \\frac{CPI_{target}}{CPI_{base}}$$")
+               ),
+               p(style = "font-size:0.85em; color:#666;",
+                 "The CPI method is preferred when actual index values are available, as it captures year-to-year variation rather than assuming a constant rate."),
+               tags$small(icon("book"), " Reference: Drummond MF, et al. Methods for the Economic Evaluation of Health Care Programmes. 4th ed. OUP; 2015. Chapter 7.")
+      ),
+
+      tabPanel("Discounting",
+               h3("Present Value Discounting"),
+               p("Future costs and health outcomes are discounted to present value to reflect society's time preference."),
+               div(class = "well",
+                   p(strong("Single Future Value:")),
+                   p("$$PV = \\frac{FV}{(1 + r)^t}$$"),
+                   p("where \\(FV\\) = future value, \\(r\\) = annual discount rate, \\(t\\) = years into the future.")
+               ),
+               p(style = "font-size:0.85em; color:#666;",
+                 "Common discount rates: India (HTAIn) 3%, UK (NICE) 3.5%, WHO-CHOICE 3%."),
+               tags$small(icon("book"), " References: Drummond MF, et al. OUP; 2015. Chapter 4; NICE. Guide to the Methods of Technology Appraisal. 2013.")
+      ),
+
+      tabPanel("PPP Conversion",
+               h3("Purchasing Power Parity"),
+               p("Costs can be converted between countries using PPP conversion factors, which adjust for differences in purchasing power rather than market exchange rates."),
+               div(class = "well",
+                   p(strong("PPP Conversion:")),
+                   p("$$Cost_{target} = Cost_{source} \\times \\frac{PPP_{target}}{PPP_{source}}$$"),
+                   p("where \\(PPP_i\\) = PPP conversion factor for country \\(i\\) (local currency units per international dollar)."),
+                   hr(),
+                   p(strong("WHO-CHOICE WTP Thresholds:")),
+                   p("$$WTP_{1\\times} = GDP_{per\\ capita} \\qquad WTP_{3\\times} = 3 \\times GDP_{per\\ capita}$$")
+               ),
+               tags$small(icon("book"), " References: World Bank International Comparison Program (ICP) 2022; WHO-CHOICE cost-effectiveness thresholds.")
+      ),
+
       "Economic Results",
       tabPanel("ICER & NMB",
                h3("Outcome Metrics"),
