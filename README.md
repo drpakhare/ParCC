@@ -1,10 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ParCC: Parameter Converter & Calculator for HTA
+# ParCC: Parameter Converter & Calculator for HTA <a href="https://drpakhare.github.io/ParCC/"><img src="man/figures/logo.png" align="right" height="139" alt="ParCC website" /></a>
 
 <!-- badges: start -->
 
+[![CRAN status](https://www.r-pkg.org/badges/version/ParCC)](https://CRAN.R-project.org/package=ParCC)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
@@ -19,8 +20,14 @@ transformations with full formula documentation and literature citations.
 
 ## Installation
 
-You can install ParCC from
-[GitHub](https://github.com/drpakhare/ParCC) with:
+Install the stable release from CRAN:
+
+``` r
+install.packages("ParCC")
+```
+
+Or install the development version from
+[GitHub](https://github.com/drpakhare/ParCC):
 
 ``` r
 # install.packages("remotes")

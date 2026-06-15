@@ -96,24 +96,81 @@ mod_report_server <- function(id, logger) {
         }
         
         if (any(grepl("ICER|Value-Based Pricing", mods))) {
-          meth_text <- paste0(meth_text, add_sect("Economic Results", 
+          meth_text <- paste0(meth_text, add_sect("Economic Results",
                                                   "**iNMB:** $(\\Delta E \\times WTP) - \\Delta C$. Cost-Effective if $>0$.\n\n**Value-Based Price ($P_{max}$):** Calculated via Headroom method:\n\n$$P_{max} = \\frac{(\\Delta E \\times WTP) + C_{comparator} - C_a}{N}$$\n\n> **Reference:** Cosh E, et al. 2007."))
         }
-        
+
+        if (any(grepl("Diagnostics", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Diagnostic Test Accuracy",
+                                                  "Predictive values were calculated using **Bayes' Theorem**:\n\n$$PPV = \\frac{Se \\times Prev}{Se \\times Prev + (1-Sp)(1-Prev)}$$\n\n$$NPV = \\frac{Sp \\times (1-Prev)}{Sp(1-Prev) + (1-Se) \\times Prev}$$\n\nLikelihood ratios: $LR+ = Se/(1-Sp)$, $LR- = (1-Se)/Sp$.\n\n> **References:** Altman DG, Bland JM. *BMJ*. 1994; Deeks JJ, Altman DG. *BMJ*. 2004."))
+        }
+
+        if (any(grepl("Inflation", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Cost Inflation",
+                                                  "Costs were inflated to a common price year using either:\n\n* **Compound rate:** $Cost_{target} = Cost_{base} \\times (1+r)^n$\n* **CPI ratio:** $Cost_{target} = Cost_{base} \\times CPI_{target}/CPI_{base}$\n\n> **Reference:** Drummond MF, et al. *Methods for the Economic Evaluation of Health Care Programmes*. 4th ed. OUP; 2015."))
+        }
+
+        if (any(grepl("Discounting|Annuity", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Discounting",
+                                                  "Future values were discounted to present value:\n\n$$PV = \\frac{FV}{(1+r)^t}$$\n\nFor recurring costs, the **annuity formula** was applied: $PV = C \\times [1-(1+r)^{-n}]/r$.\n\n> **Reference:** Drummond MF, et al. OUP; 2015."))
+        }
+
+        if (any(grepl("OR->RR|RR->OR", mods))) {
+          meth_text <- paste0(meth_text, add_sect("OR-RR Conversion",
+                                                  "Odds Ratios and Relative Risks were converted using the Zhang & Yu method:\n\n$$RR = \\frac{OR}{1 - p_0 + p_0 \\times OR}$$\n\nwhere $p_0$ is the baseline risk in the control group.\n\n> **Reference:** Zhang J, Yu KF. *JAMA*. 1998;280(19):1690-1691."))
+        }
+
+        if (any(grepl("SMD->logOR|logOR->SMD|logOR->logRR", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Effect Size Conversions",
+                                                  "Standardised Mean Differences were converted to log Odds Ratios using the Chinn formula:\n\n$$\\ln(OR) = SMD \\times \\frac{\\pi}{\\sqrt{3}}$$\n\n> **Reference:** Chinn S. *Stat Med*. 2000;19(22):3127-3131."))
+        }
+
+        if (any(grepl("NNT|NNH", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Number Needed to Treat",
+                                                  "NNT was calculated as the ceiling of $1/ARR$, where $ARR = p_{control} - p_{intervention}$.\n\n> **Reference:** Laupacis A, et al. *NEJM*. 1988;318(26):1728-1733."))
+        }
+
+        if (any(grepl("Log-rank", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Log-rank to Hazard Ratio",
+                                                  "Hazard Ratios were estimated from log-rank statistics using the Peto approximation:\n\n$$\\ln(HR) = \\pm \\frac{\\sqrt{\\chi^2}}{\\sqrt{E/4}}$$\n\nwhere $E$ = total events across both arms.\n\n> **Reference:** Tierney JF, et al. *Trials*. 2007;8:16."))
+        }
+
+        if (any(grepl("Budget Impact", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Budget Impact Analysis",
+                                                  "Budget impact was estimated using the ISPOR framework:\n\n$$BI_t = N_{target} \\times Uptake_t \\times (C_{new} - C_{current}) \\times \\frac{1}{(1+r)^t}$$\n\n> **Reference:** Sullivan SD, et al. *Value Health*. 2014;17(1):5-14."))
+        }
+
+        if (any(grepl("PPP Converter", mods))) {
+          meth_text <- paste0(meth_text, add_sect("PPP Currency Conversion",
+                                                  "Costs were converted between countries using Purchasing Power Parity factors:\n\n$$Cost_{target} = Cost_{source} \\times PPP_{target} / PPP_{source}$$\n\nPPP factors from the World Bank International Comparison Program (ICP) 2022.\n\n> **Reference:** World Bank ICP 2022; WHO-CHOICE cost-effectiveness thresholds."))
+        }
+
+        if (any(grepl("Dirichlet", mods))) {
+          meth_text <- paste0(meth_text, add_sect("Dirichlet Distribution",
+                                                  "Multinomial transition probabilities were fitted using the **Dirichlet distribution** with $\\alpha_i$ = observed counts. Sampling via Gamma decomposition ensures row sums equal 1.\n\n> **Reference:** Briggs A, et al. OUP; 2006."))
+        }
+
         if (meth_text == "") meth_text <- "No specific methodology modules recorded."
         
         # --- STEP B: Write Simple Rmd Container ---
         # This Rmd does NO calculation. It just prints the strings we prepared above.
-        
+
         tempReport <- file.path(tempdir(), "report.Rmd")
-        
+
+        # Get package version for report stamp
+        pkg_version <- tryCatch(
+          as.character(utils::packageVersion("ParCC")),
+          error = function(e) "1.4.0"
+        )
+
         rmd_header <- paste0(
           "---\n",
-          "title: 'ParCC Analysis Report'\n",
+          "title: 'ParCC v", pkg_version, " Analysis Report'\n",
           "date: '", format(Sys.time(), "%d %B %Y"), "'\n",
           "params:\n",
           "  table_data: NA\n",
           "  method_text: NA\n",
+          "  pkg_version: NA\n",
           "output: \n",
           "  html_document:\n",
           "    theme: flatly\n",
@@ -136,7 +193,7 @@ cat(params$method_text)
 ```
 
 <br><hr>
-<center><small>Generated by ParCC (RRC-HTA, AIIMS Bhopal)</small></center>
+<center><small>Generated by ParCC v`r params$pkg_version` (RRC-HTA, AIIMS Bhopal)</small></center>
 "
         # Write file
         writeLines(paste0(rmd_header, rmd_body), tempReport, useBytes = TRUE)
@@ -146,7 +203,8 @@ cat(params$method_text)
         rmarkdown::render(tempReport, output_file = file,
                           params = list(
                             table_data = logger$entries,
-                            method_text = meth_text
+                            method_text = meth_text,
+                            pkg_version = pkg_version
                           ),
                           envir = new.env(parent = globalenv()))
       }
