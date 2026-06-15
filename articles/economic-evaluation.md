@@ -4,7 +4,9 @@
 
 ### The Formula
 
-$$ICER = \frac{\Delta Cost}{\Delta Effect} = \frac{C_{intervention} - C_{comparator}}{E_{intervention} - E_{comparator}}$$
+``` math
+ICER = \frac{\Delta Cost}{\Delta Effect} = \frac{C_{intervention} - C_{comparator}}{E_{intervention} - E_{comparator}}
+```
 
 ### The Scenario – New Diabetes Drug
 
@@ -17,6 +19,7 @@ metformin monotherapy over 5 years:
 | QALYs      | 3.82       | 4.15            |
 
 ``` r
+
 c_new <- 142000; c_old <- 85000
 e_new <- 4.15; e_old <- 3.82
 
@@ -44,11 +47,14 @@ effective). Compare the ICER to the Willingness-to-Pay (WTP) threshold:
 
 ### The Formula
 
-$$iNMB = (\Delta E \times WTP) - \Delta C$$
+``` math
+iNMB = (\Delta E \times WTP) - \Delta C
+```
 
 iNMB \> 0 means cost-effective at the given WTP.
 
 ``` r
+
 wtp <- 100000  # INR per QALY (HTAIn threshold)
 
 inmb <- (delta_e * wtp) - delta_c
@@ -77,13 +83,18 @@ You are pricing a new rapid diagnostic test for sepsis. The evidence:
 
 ### The Formulas
 
-$$C_{max} = (\Delta E \times WTP) + C_{comparator}$$
+``` math
+C_{max} = (\Delta E \times WTP) + C_{comparator}
+```
 
-$$P_{max} = \frac{C_{max} - C_{associated}}{N}$$
+``` math
+P_{max} = \frac{C_{max} - C_{associated}}{N}
+```
 
 ### Worked Example
 
 ``` r
+
 delta_e_test <- 0.02
 wtp_threshold <- 100000
 c_comparator <- 500
@@ -108,6 +119,7 @@ cat("= Maximum Justifiable Price: INR", format(p_max, big.mark = ","), "\n")
 ### What If You Price Above the Headroom?
 
 ``` r
+
 proposed_price <- 3000
 overpriced_by <- ((proposed_price - p_max) / p_max) * 100
 

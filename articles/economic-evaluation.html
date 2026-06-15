@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Economic Evaluation: ICER, NMB, and Value-Based Pricing • ParCC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Economic Evaluation: ICER, NMB, and Value-Based Pricing">
 </head>
@@ -73,7 +73,7 @@
 <div class="section level3">
 <h3 id="the-formula">The Formula<a class="anchor" aria-label="anchor" href="#the-formula"></a>
 </h3>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>C</mi><mi>E</mi><mi>R</mi><mo>=</mo><mfrac><mrow><mi>Δ</mi><mi>C</mi><mi>o</mi><mi>s</mi><mi>t</mi></mrow><mrow><mi>Δ</mi><mi>E</mi><mi>f</mi><mi>f</mi><mi>e</mi><mi>c</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>C</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow><mrow><msub><mi>E</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>E</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">ICER = \frac{\Delta Cost}{\Delta Effect} = \frac{C_{intervention} - C_{comparator}}{E_{intervention} - E_{comparator}}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>C</mi><mi>E</mi><mi>R</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">Δ</mi><mi>C</mi><mi>o</mi><mi>s</mi><mi>t</mi></mrow><mrow><mi mathvariant="normal">Δ</mi><mi>E</mi><mi>f</mi><mi>f</mi><mi>e</mi><mi>c</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>C</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow><mrow><msub><mi>E</mi><mrow><mi>i</mi><mi>n</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi>v</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow></msub><mo>−</mo><msub><mi>E</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">ICER = \frac{\Delta Cost}{\Delta Effect} = \frac{C_{intervention} - C_{comparator}}{E_{intervention} - E_{comparator}}</annotation></semantics></math></p>
 </div>
 <div class="section level3">
 <h3 id="the-scenario-new-diabetes-drug">The Scenario – New Diabetes Drug<a class="anchor" aria-label="anchor" href="#the-scenario-new-diabetes-drug"></a>
@@ -132,7 +132,7 @@ costly, more effective). Compare the ICER to the Willingness-to-Pay
 <div class="section level3">
 <h3 id="the-formula-1">The Formula<a class="anchor" aria-label="anchor" href="#the-formula-1"></a>
 </h3>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>N</mi><mi>M</mi><mi>B</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Δ</mi><mi>E</mi><mo>×</mo><mi>W</mi><mi>T</mi><mi>P</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>Δ</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">iNMB = (\Delta E \times WTP) - \Delta C</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>N</mi><mi>M</mi><mi>B</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">Δ</mi><mi>E</mi><mo>×</mo><mi>W</mi><mi>T</mi><mi>P</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi mathvariant="normal">Δ</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">iNMB = (\Delta E \times WTP) - \Delta C</annotation></semantics></math></p>
 <p>iNMB &gt; 0 means cost-effective at the given WTP.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wtp</span> <span class="op">&lt;-</span> <span class="fl">100000</span>  <span class="co"># INR per QALY (HTAIn threshold)</span></span>
@@ -174,7 +174,7 @@ testing)</li>
 <div class="section level3">
 <h3 id="the-formulas">The Formulas<a class="anchor" aria-label="anchor" href="#the-formulas"></a>
 </h3>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Δ</mi><mi>E</mi><mo>×</mo><mi>W</mi><mi>T</mi><mi>P</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msub><mi>C</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">C_{max} = (\Delta E \times WTP) + C_{comparator}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">Δ</mi><mi>E</mi><mo>×</mo><mi>W</mi><mi>T</mi><mi>P</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>C</mi><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>o</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">C_{max} = (\Delta E \times WTP) + C_{comparator}</annotation></semantics></math></p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>C</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>−</mo><msub><mi>C</mi><mrow><mi>a</mi><mi>s</mi><mi>s</mi><mi>o</mi><mi>c</mi><mi>i</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex">P_{max} = \frac{C_{max} - C_{associated}}{N}</annotation></semantics></math></p>
 </div>
 <div class="section level3">

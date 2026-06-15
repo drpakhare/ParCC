@@ -23,7 +23,9 @@ the Indian market.
 
 At the 2022 market rate of ~INR 78.6 per USD:
 
-$$\$ 50,000 \times 78.6 = INR39,30,000$$
+``` math
+\$50{,}000 \times 78.6 = INR 39{,}30{,}000
+```
 
 But this dramatically overstates the burden, because goods and services
 are much cheaper in India. A doctor’s consultation, hospital bed-day, or
@@ -34,17 +36,23 @@ meal costs far less in India than in the US.
 PPP conversion uses **international dollars** as an intermediate
 currency:
 
-$$C_{target}^{PPP} = \frac{C_{source}}{PPP_{source}} \times PPP_{target}$$
+``` math
+C_{target}^{PPP} = \frac{C_{source}}{PPP_{source}} \times PPP_{target}
+```
 
 **Step 1:** Convert US dollars to international dollars:
 
-$$\$ 50,000 \div 1.00 = \text{Int}\$ 50,000$$
+``` math
+\$50{,}000 \div 1.00 = \text{Int}\$50{,}000
+```
 
 (The US PPP factor is 1.00 by definition.)
 
 **Step 2:** Convert international dollars to Indian rupees:
 
-$$\text{Int}\$ 50,000 \times 23.2 = INR11,60,000$$
+``` math
+\text{Int}\$50{,}000 \times 23.2 = INR 11{,}60{,}000
+```
 
 ### In ParCC
 

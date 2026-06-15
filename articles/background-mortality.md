@@ -23,13 +23,18 @@ Eur Heart J 2009).
 
 ### The Formula
 
-$$r_{disease} = r_{population} \times SMR$$
+``` math
+r_{disease} = r_{population} \times SMR
+```
 
-$$p_{disease} = 1 - e^{- r_{disease} \times t}$$
+``` math
+p_{disease} = 1 - e^{-r_{disease} \times t}
+```
 
 ### Worked Example
 
 ``` r
+
 r_pop <- 0.013   # General population rate, age 65
 smr <- 2.5        # From published meta-analysis
 
@@ -56,11 +61,14 @@ the same age-sex group is **65 years**.
 
 ### The Formula
 
-$$r_{disease} = \frac{1}{LE_{observed}} - \frac{1}{LE_{background}}$$
+``` math
+r_{disease} = \frac{1}{LE_{observed}} - \frac{1}{LE_{background}}
+```
 
 ### Worked Example
 
 ``` r
+
 le_observed <- 25    # Disease-specific life expectancy
 le_background <- 65  # General population
 
@@ -79,7 +87,9 @@ cat("This means patients face an additional", round(r_excess * 1000, 2),
 The Gompertz law describes how mortality increases exponentially with
 age, which closely matches human mortality patterns above age 30:
 
-$$r(age) = \alpha \times e^{\beta \times age}$$
+``` math
+r(age) = \alpha \times e^{\beta \times age}
+```
 
 This is useful when you need age-specific mortality rates and only have
 a few data points from the life table.
@@ -87,6 +97,7 @@ a few data points from the life table.
 ### Worked Example
 
 ``` r
+
 # Fit Gompertz from two life table points
 # Age 60: rate = 0.008
 # Age 80: rate = 0.065
@@ -129,7 +140,9 @@ data.frame(
 For ages between available life table entries, linear interpolation
 provides a simple estimate:
 
-$$r(age) = r_{1} + \left( age - age_{1} \right) \times \frac{r_{2} - r_{1}}{age_{2} - age_{1}}$$
+``` math
+r(age) = r_1 + (age - age_1) \times \frac{r_2 - r_1}{age_2 - age_1}
+```
 
 ## References
 

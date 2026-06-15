@@ -13,6 +13,7 @@ and partitioned survival models.
 Install ParCC from GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("drpakhare/ParCC")
 ```
@@ -20,6 +21,7 @@ remotes::install_github("drpakhare/ParCC")
 ## Launching the Application
 
 ``` r
+
 library(ParCC)
 run_app()
 ```

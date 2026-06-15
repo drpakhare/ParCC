@@ -12,9 +12,9 @@ whenever:
 - You need transition probabilities for both arms of a Markov model
 
 A common mistake is to multiply the probability directly by the HR
-(i.e., $p_{int} = p_{ctrl} \times HR$). This is mathematically incorrect
-because the HR operates on the **instantaneous rate**, not on the
-cumulative probability.
+(i.e., $`p_{int} = p_{ctrl} \times HR`$). This is mathematically
+incorrect because the HR operates on the **instantaneous rate**, not on
+the cumulative probability.
 
 ## The Three-Step Method
 
@@ -23,15 +23,21 @@ time):
 
 **Step 1: Convert control probability to rate**
 
-$$r_{control} = - \frac{\ln\left( 1 - p_{control} \right)}{t}$$
+``` math
+r_{control} = -\frac{\ln(1 - p_{control})}{t}
+```
 
 **Step 2: Apply the Hazard Ratio**
 
-$$r_{intervention} = r_{control} \times HR$$
+``` math
+r_{intervention} = r_{control} \times HR
+```
 
 **Step 3: Convert back to probability**
 
-$$p_{intervention} = 1 - e^{- r_{intervention} \times t_{cycle}}$$
+``` math
+p_{intervention} = 1 - e^{-r_{intervention} \times t_{cycle}}
+```
 
 ## Worked Example 1: PLATO Trial (Ticagrelor vs Aspirin)
 
@@ -48,6 +54,7 @@ Aspirin in Acute Coronary Syndrome. Key results at 12 months:
 ### CV Death Conversion
 
 ``` r
+
 # PLATO trial - CV Death
 p_control <- 0.0525   # 5.25% at 12 months
 hr <- 0.79             # Ticagrelor vs Aspirin
@@ -81,6 +88,7 @@ cat("Difference:", round((p_intervention - p_naive) * 10000, 2), "per 10,000 pat
 ### With 95% Confidence Interval
 
 ``` r
+
 # Apply CI bounds
 hr_low <- 0.69
 hr_high <- 0.91
@@ -108,6 +116,7 @@ Consider an oncology model where the control arm 2-year mortality is
 40%:
 
 ``` r
+
 p_control_onc <- 0.40
 hr_onc <- 0.75
 t_onc <- 2
@@ -140,6 +149,7 @@ Often you need monthly transition probabilities for your Markov model.
 You can combine HR conversion with time rescaling:
 
 ``` r
+
 # PLATO CV Death, but for a monthly model
 p_annual_ctrl <- 0.0525
 hr <- 0.79

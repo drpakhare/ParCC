@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>OR &lt;-&gt; RR Conversion &amp; Effect Size Transformations • ParCC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="OR &lt;-&gt; RR Conversion &amp; Effect Size Transformations">
 </head>
@@ -129,7 +129,7 @@ NMA.</p>
 <h3 id="step-2-convert-smd-to-logor-chinn-method">Step 2: Convert SMD to log(OR) (Chinn Method)<a class="anchor" aria-label="anchor" href="#step-2-convert-smd-to-logor-chinn-method"></a>
 </h3>
 <p>The Chinn (2000) approximation uses the logistic distribution:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>S</mi><mi>M</mi><mi>D</mi><mo>×</mo><mfrac><mi>π</mi><msqrt><mn>3</mn></msqrt></mfrac><mo>≈</mo><mi>S</mi><mi>M</mi><mi>D</mi><mo>×</mo><mn>1.8138</mn></mrow><annotation encoding="application/x-tex">\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>S</mi><mi>M</mi><mi>D</mi><mo>×</mo><mfrac><mi>π</mi><msqrt><mn>3</mn></msqrt></mfrac><mo>≈</mo><mi>S</mi><mi>M</mi><mi>D</mi><mo>×</mo><mn>1.8138</mn></mrow><annotation encoding="application/x-tex">\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138</annotation></semantics></math></p>
 <p><strong>In ParCC:</strong></p>
 <ol style="list-style-type: decimal">
 <li>Switch to the <strong>Effect Size Conversions</strong> tab.</li>
@@ -143,7 +143,7 @@ NMA.</p>
 <h3 id="step-3-convert-logor-to-logrr">Step 3: Convert log(OR) to log(RR)<a class="anchor" aria-label="anchor" href="#step-3-convert-logor-to-logrr"></a>
 </h3>
 <p>To bring Trial C onto the RR scale (matching Trials A and B):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msup><mi>e</mi><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>0</mn></msub><mo>+</mo><msub><mi>p</mi><mn>0</mn></msub><mo>×</mo><msup><mi>e</mi><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\ln(RR) = \ln\left(\frac{e^{\ln(OR)}}{1 - p_0 + p_0 \times e^{\ln(OR)}}\right)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msup><mi>e</mi><mrow><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mn>0</mn></msub><mo>+</mo><msub><mi>p</mi><mn>0</mn></msub><mo>×</mo><msup><mi>e</mi><mrow><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>O</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\ln(RR) = \ln\left(\frac{e^{\ln(OR)}}{1 - p_0 + p_0 \times e^{\ln(OR)}}\right)</annotation></semantics></math></p>
 <p>ParCC chains the Chinn and Zhang &amp; Yu methods automatically.</p>
 </div>
 </div>

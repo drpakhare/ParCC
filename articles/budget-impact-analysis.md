@@ -15,15 +15,15 @@ implements the ISPOR BIA Good Practice framework.
 You are advising a state health insurance programme on adopting a new
 oral anticoagulant (NOAC) to replace warfarin for Atrial Fibrillation.
 
-| Parameter                    | Value                                                 |
-|------------------------------|-------------------------------------------------------|
-| Covered population           | 10,000,000 enrolees                                   |
-| AF prevalence                | 0.8% (80,000 patients)                                |
-| Eligible for anticoagulation | 60% of AF patients (48,000)                           |
-| Uptake trajectory            | Yr 1: 10%, Yr 2: 25%, Yr 3: 45%, Yr 4: 60%, Yr 5: 70% |
-| Current therapy (warfarin)   | INR 8,000/patient/year (drug + INR monitoring)        |
-| New therapy (NOAC)           | INR 22,000/patient/year (drug only)                   |
-| Discount rate                | 3% per year                                           |
+| Parameter | Value |
+|----|----|
+| Covered population | 10,000,000 enrolees |
+| AF prevalence | 0.8% (80,000 patients) |
+| Eligible for anticoagulation | 60% of AF patients (48,000) |
+| Uptake trajectory | Yr 1: 10%, Yr 2: 25%, Yr 3: 45%, Yr 4: 60%, Yr 5: 70% |
+| Current therapy (warfarin) | INR 8,000/patient/year (drug + INR monitoring) |
+| New therapy (NOAC) | INR 22,000/patient/year (drug only) |
+| Discount rate | 3% per year |
 
 ### The Framework
 
@@ -33,7 +33,9 @@ The BIA compares two scenarios:
 - **New scenario:** A proportion (based on uptake) switch to the NOAC;
   the rest stay on warfarin.
 
-$$BI_{t} = N_{target} \times Uptake_{t} \times \left( C_{new} - C_{current} \right) \times \frac{1}{(1 + r)^{t - 1}}$$
+``` math
+BI_t = N_{target} \times Uptake_t \times (C_{new} - C_{current}) \times \frac{1}{(1+r)^{t-1}}
+```
 
 ### In ParCC
 

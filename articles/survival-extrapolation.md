@@ -28,6 +28,7 @@ Survival of **21.3 months** in the control arm (Hurwitz et al., NEJM
 ### Worked Example
 
 ``` r
+
 median_os <- 21.3  # months
 
 # Hazard rate from median
@@ -71,17 +72,22 @@ A published Kaplan-Meier curve for nivolumab in squamous NSCLC shows:
 
 The Weibull survival function is:
 
-$$S(t) = e^{- \lambda t^{\gamma}}$$
+``` math
+S(t) = e^{-\lambda t^{\gamma}}
+```
 
 Using the log-log transformation:
 
-$$\ln\left( - \ln\left( S(t) \right) \right) = \ln(\lambda) + \gamma\ln(t)$$
+``` math
+\ln(-\ln(S(t))) = \ln(\lambda) + \gamma \ln(t)
+```
 
 With two points, we solve a system of two linear equations.
 
 ### Worked Example
 
 ``` r
+
 # Two points from the KM curve
 t1 <- 12; s1 <- 0.42
 t2 <- 24; s2 <- 0.23
@@ -131,9 +137,10 @@ data.frame(
 
 ### Interpretation
 
-- If $\gamma > 1$: hazard is increasing over time (common in cancer)
-- If $\gamma = 1$: constant hazard (reduces to exponential)
-- If $\gamma < 1$: hazard is decreasing over time (common post-surgery)
+- If $`\gamma > 1`$: hazard is increasing over time (common in cancer)
+- If $`\gamma = 1`$: constant hazard (reduces to exponential)
+- If $`\gamma < 1`$: hazard is decreasing over time (common
+  post-surgery)
 
 ## Generating Markov Trace
 
@@ -141,6 +148,7 @@ Both methods produce cycle-specific transition probabilities for your
 Markov model:
 
 ``` r
+
 # Generate annual transition probabilities from Weibull
 cycles <- 0:10
 s_t <- exp(-lambda * (cycles * 12)^gamma)  # Convert years to months for calculation

@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Core Conversions: Rates, Odds, and Time Rescaling • ParCC</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Core Conversions: Rates, Odds, and Time Rescaling">
 </head>
@@ -101,7 +101,7 @@ different risk.</p>
 <div class="section level3">
 <h3 id="the-formula">The Formula<a class="anchor" aria-label="anchor" href="#the-formula"></a>
 </h3>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>r</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex">p = 1 - e^{-rt}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mi>−</mi><mi>r</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex">p = 1 - e^{-rt}</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
 is the instantaneous rate and
@@ -164,7 +164,7 @@ conversion accounts for this compounding.</p>
 <div class="section level3">
 <h3 id="the-formula-1">The Formula<a class="anchor" aria-label="anchor" href="#the-formula-1"></a>
 </h3>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><msub><mi>t</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mi>/</mi><msub><mi>t</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub></mrow></msup></mrow><annotation encoding="application/x-tex">p_{new} = 1 - (1 - p_{old})^{t_{new}/t_{old}}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><msup><mo stretchy="false" form="postfix">)</mo><mrow><msub><mi>t</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mi>/</mi><msub><mi>t</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub></mrow></msup></mrow><annotation encoding="application/x-tex">p_{new} = 1 - (1 - p_{old})^{t_{new}/t_{old}}</annotation></semantics></math></p>
 </div>
 <div class="section level3">
 <h3 id="worked-example-1">Worked Example<a class="anchor" aria-label="anchor" href="#worked-example-1"></a>

@@ -7,11 +7,11 @@ parameters from appropriate distributions. Using the wrong distribution
 can produce impossible values (e.g., probabilities \> 1 or negative
 costs) and bias the results.
 
-| Parameter Type              | Recommended Distribution | Reason                       |
-|-----------------------------|--------------------------|------------------------------|
-| Probabilities / Utilities   | Beta                     | Bounded between 0 and 1      |
-| Costs / Resource Use        | Gamma                    | Non-negative, right-skewed   |
-| Hazard Ratios / Odds Ratios | LogNormal                | Non-negative, multiplicative |
+| Parameter Type | Recommended Distribution | Reason |
+|----|----|----|
+| Probabilities / Utilities | Beta | Bounded between 0 and 1 |
+| Costs / Resource Use | Gamma | Non-negative, right-skewed |
+| Hazard Ratios / Odds Ratios | LogNormal | Non-negative, multiplicative |
 
 ## Tutorial 1: Utilities with Beta Distribution
 
@@ -24,13 +24,18 @@ reports the EQ-5D utility for “Moderate COPD (GOLD Stage II)” as:
 
 ### The Method of Moments
 
-$$\alpha = \mu\left( \frac{\mu(1 - \mu)}{SE^{2}} - 1 \right)$$
+``` math
+\alpha = \mu \left(\frac{\mu(1-\mu)}{SE^2} - 1\right)
+```
 
-$$\beta = (1 - \mu)\left( \frac{\mu(1 - \mu)}{SE^{2}} - 1 \right)$$
+``` math
+\beta = (1-\mu) \left(\frac{\mu(1-\mu)}{SE^2} - 1\right)
+```
 
 ### Worked Example
 
 ``` r
+
 mu <- 0.76
 se <- 0.03
 
@@ -69,11 +74,14 @@ A micro-costing study reports the cost of CABG surgery as:
 
 ### The Method of Moments
 
-$$k = \frac{\mu^{2}}{SE^{2}},\quad\theta = \frac{SE^{2}}{\mu}$$
+``` math
+k = \frac{\mu^2}{SE^2}, \quad \theta = \frac{SE^2}{\mu}
+```
 
 ### Worked Example
 
 ``` r
+
 mu_cost <- 250000
 se_cost <- 50000
 
@@ -110,6 +118,7 @@ A network meta-analysis reports the HR for Drug A vs placebo as:
 ### The Method
 
 ``` r
+
 hr_mean <- 0.72
 hr_low <- 0.58
 hr_high <- 0.89
@@ -141,12 +150,15 @@ cat("97.5th percentile:", round(quantile(samples_hr, 0.975), 3), "(target:", hr_
 
 If only a range (min, max) is available instead of SE, estimate:
 
-$$SE \approx \frac{High - Low}{4}$$
+``` math
+SE \approx \frac{High - Low}{4}
+```
 
 This assumes the range covers approximately 95% of the distribution
 (i.e., +/-2 SE).
 
 ``` r
+
 # Example: cost range INR 1,50,000 to INR 3,50,000
 cost_low <- 150000
 cost_high <- 350000

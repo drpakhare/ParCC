@@ -26,13 +26,16 @@ different risk.
 
 ### The Formula
 
-$$p = 1 - e^{- rt}$$
+``` math
+p = 1 - e^{-rt}
+```
 
-where $r$ is the instantaneous rate and $t$ is the time horizon.
+where $`r`$ is the instantaneous rate and $`t`$ is the time horizon.
 
 ### Worked Example
 
 ``` r
+
 # RE-LY trial: Warfarin arm major bleeding
 rate_per_100 <- 3.36
 r <- rate_per_100 / 100   # Convert to per-person rate
@@ -71,11 +74,14 @@ accounts for this compounding.
 
 ### The Formula
 
-$$p_{new} = 1 - \left( 1 - p_{old} \right)^{t_{new}/t_{old}}$$
+``` math
+p_{new} = 1 - (1 - p_{old})^{t_{new}/t_{old}}
+```
 
 ### Worked Example
 
 ``` r
+
 p_10yr <- 0.20
 t_old <- 10
 t_new <- 1
@@ -108,11 +114,14 @@ baseline infection probability (no diabetes) is 8%.
 
 ### The Conversion
 
-$$p = \frac{\text{Odds}}{1 + \text{Odds}}$$
+``` math
+p = \frac{\text{Odds}}{1 + \text{Odds}}
+```
 
 ### Worked Example
 
 ``` r
+
 p_baseline <- 0.08
 odds_baseline <- p_baseline / (1 - p_baseline)
 odds_diabetes <- odds_baseline * 2.5

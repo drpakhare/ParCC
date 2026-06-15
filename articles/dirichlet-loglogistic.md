@@ -29,7 +29,9 @@ distributions, they will almost never sum to 1 – breaking the model.
 The Dirichlet distribution is the multivariate generalisation of the
 Beta. Its parameters are the observed counts:
 
-$${\mathbf{α}} = (150,35,15)$$
+``` math
+\boldsymbol{\alpha} = (150, 35, 15)
+```
 
 Each sample from a Dirichlet is a complete probability vector that sums
 to exactly 1.0.
@@ -38,11 +40,10 @@ to exactly 1.0.
 
 ParCC uses the standard algorithm:
 
-1.  Draw $X_{i} \sim \text{Gamma}\left( \alpha_{i},1 \right)$ for each
-    state
-2.  Compute $p_{i} = X_{i}/\sum_{j}X_{j}$
-3.  The resulting $\left( p_{1},p_{2},p_{3} \right)$ is
-    Dirichlet-distributed and sums to 1
+1.  Draw $`X_i \sim \text{Gamma}(\alpha_i, 1)`$ for each state
+2.  Compute $`p_i = X_i / \sum_j X_j`$
+3.  The resulting $`(p_1, p_2, p_3)`$ is Dirichlet-distributed and sums
+    to 1
 
 ### In ParCC
 
@@ -58,12 +59,12 @@ loop.
 
 ### When to Use Dirichlet vs Independent Betas
 
-| Situation                                      | Use                                    |
-|------------------------------------------------|----------------------------------------|
-| Single probability (e.g., utility, event rate) | Beta distribution                      |
-| Two mutually exclusive outcomes                | Beta (one parameter determines both)   |
-| Three or more mutually exclusive outcomes      | **Dirichlet** – guarantees row-sum = 1 |
-| Transition matrix row in a Markov model        | **Dirichlet** for each row             |
+| Situation | Use |
+|----|----|
+| Single probability (e.g., utility, event rate) | Beta distribution |
+| Two mutually exclusive outcomes | Beta (one parameter determines both) |
+| Three or more mutually exclusive outcomes | **Dirichlet** – guarantees row-sum = 1 |
+| Transition matrix row in a Markov model | **Dirichlet** for each row |
 
 ## Part B: Log-Logistic Survival
 
@@ -83,13 +84,17 @@ capture this **hump-shaped** pattern.
 
 The survival function is:
 
-$$S(t) = \frac{1}{1 + (t/\alpha)^{\beta}}$$
+``` math
+S(t) = \frac{1}{1 + (t/\alpha)^\beta}
+```
 
 The hazard function is:
 
-$$h(t) = \frac{(\beta/\alpha)(t/\alpha)^{\beta - 1}}{1 + (t/\alpha)^{\beta}}$$
+``` math
+h(t) = \frac{(\beta/\alpha)(t/\alpha)^{\beta-1}}{1 + (t/\alpha)^\beta}
+```
 
-When $\beta > 1$, the hazard rises to a peak then falls – exactly the
+When $`\beta > 1`$, the hazard rises to a peak then falls – exactly the
 hump shape needed.
 
 ### In ParCC
@@ -109,19 +114,21 @@ From a published Kaplan-Meier curve, identify two time-survival points:
 ### Calibration Method
 
 ParCC uses the log-odds transformation. Since
-$S(t) = 1/\left( 1 + (t/\alpha)^{\beta} \right)$:
+$`S(t) = 1/(1 + (t/\alpha)^\beta)`$:
 
-$$\ln\left( \frac{1 - S(t)}{S(t)} \right) = \beta\ln(t) - \beta\ln(\alpha)$$
+``` math
+\ln\left(\frac{1 - S(t)}{S(t)}\right) = \beta \ln(t) - \beta \ln(\alpha)
+```
 
 Two points yield two equations, solved for alpha and beta.
 
 ### Choosing the Right Survival Distribution
 
-| Distribution     | Hazard Shape                         | Best For                                    |
-|------------------|--------------------------------------|---------------------------------------------|
-| Exponential      | Constant                             | Stable chronic conditions                   |
-| Weibull          | Monotonic (increasing or decreasing) | Cancer mortality, device failure            |
-| **Log-Logistic** | **Hump-shaped or decreasing**        | **Post-surgical revision, immune response** |
+| Distribution | Hazard Shape | Best For |
+|----|----|----|
+| Exponential | Constant | Stable chronic conditions |
+| Weibull | Monotonic (increasing or decreasing) | Cancer mortality, device failure |
+| **Log-Logistic** | **Hump-shaped or decreasing** | **Post-surgical revision, immune response** |
 
 ### Extrapolation Warning
 

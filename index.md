@@ -13,6 +13,7 @@ citations.
 Install the stable release from CRAN:
 
 ``` r
+
 install.packages("ParCC")
 ```
 
@@ -20,6 +21,7 @@ Or install the development version from
 [GitHub](https://github.com/drpakhare/ParCC):
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("drpakhare/ParCC")
 ```
@@ -27,6 +29,7 @@ remotes::install_github("drpakhare/ParCC")
 ## Quick Start
 
 ``` r
+
 library(ParCC)
 run_app()
 ```
@@ -73,6 +76,7 @@ run_app()
 After installation, browse the tutorials:
 
 ``` r
+
 browseVignettes("ParCC")
 ```
 

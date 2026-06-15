@@ -25,13 +25,17 @@ meta-analysis.
 When only summary log-rank statistics are available, the Peto method
 estimates:
 
-$$\ln(HR) = \pm \frac{\sqrt{\chi^{2}}}{\sqrt{E/4}}$$
+``` math
+\ln(HR) = \pm \frac{\sqrt{\chi^2}}{\sqrt{E/4}}
+```
 
 with a 95% confidence interval:
 
-$$\ln(HR) \pm \frac{1.96}{\sqrt{E/4}}$$
+``` math
+\ln(HR) \pm \frac{1.96}{\sqrt{E/4}}
+```
 
-where $E$ is the total number of events.
+where $`E`$ is the total number of events.
 
 ### In ParCC
 
@@ -49,7 +53,7 @@ If the paper reports only “log-rank p = 0.009”:
 1.  Select input type: **p-value**.
 2.  Enter p = **0.009**, Total events = **142**.
 3.  ParCC converts the p-value to a z-statistic via
-    $z = \Phi^{- 1}(1 - p/2)$, then applies the same Peto formula.
+    $`z = \Phi^{-1}(1 - p/2)`$, then applies the same Peto formula.
 
 ## Tutorial B: Computing NNT for a Formulary Decision
 
@@ -62,7 +66,9 @@ treat with Drug X to prevent one additional death?” The trial reports:
 
 ### The Formula
 
-$$NNT = \left\lceil \frac{1}{ARR} \right\rceil = \left\lceil \frac{1}{p_{control} - p_{intervention}} \right\rceil$$
+``` math
+NNT = \left\lceil \frac{1}{ARR} \right\rceil = \left\lceil \frac{1}{p_{control} - p_{intervention}} \right\rceil
+```
 
 ### In ParCC
 
@@ -78,12 +84,12 @@ months, one additional death is prevented.
 
 ParCC supports four ways to compute NNT:
 
-| Input Mode        | You provide                          | ParCC calculates                                   |
-|-------------------|--------------------------------------|----------------------------------------------------|
-| Direct ARR        | Absolute risk reduction              | NNT = ceil(1/ARR)                                  |
-| Two Probabilities | Control & intervention probabilities | ARR, then NNT                                      |
-| RR + Baseline     | Relative Risk + control probability  | ARR = p0 x (1 - RR), then NNT                      |
-| OR + Baseline     | Odds Ratio + control probability     | Converts to probabilities via Zhang & Yu, then NNT |
+| Input Mode | You provide | ParCC calculates |
+|----|----|----|
+| Direct ARR | Absolute risk reduction | NNT = ceil(1/ARR) |
+| Two Probabilities | Control & intervention probabilities | ARR, then NNT |
+| RR + Baseline | Relative Risk + control probability | ARR = p0 x (1 - RR), then NNT |
+| OR + Baseline | Odds Ratio + control probability | Converts to probabilities via Zhang & Yu, then NNT |
 
 ### NNT vs NNH
 

@@ -58,6 +58,7 @@ model spreadsheet.
 ### Example Output
 
 ``` r
+
 # Simulate what ParCC produces
 df <- data.frame(
   Endpoint = c("CV Death", "MI", "Stroke", "Major Bleeding", "Dyspnea AE", "All-cause Mortality"),

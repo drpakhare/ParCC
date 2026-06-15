@@ -27,9 +27,11 @@ To pool these in a single NMA, you need all three on the same scale.
 
 The Zhang & Yu (1998) formula accounts for baseline risk:
 
-$$RR = \frac{OR}{1 - p_{0} + p_{0} \times OR}$$
+``` math
+RR = \frac{OR}{1 - p_0 + p_0 \times OR}
+```
 
-where $p_{0}$ is the baseline risk in the control group.
+where $`p_0`$ is the baseline risk in the control group.
 
 **In ParCC:**
 
@@ -50,7 +52,9 @@ NMA.
 
 The Chinn (2000) approximation uses the logistic distribution:
 
-$$\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138$$
+``` math
+\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138
+```
 
 **In ParCC:**
 
@@ -63,22 +67,24 @@ $$\ln(OR) = SMD \times \frac{\pi}{\sqrt{3}} \approx SMD \times 1.8138$$
 
 To bring Trial C onto the RR scale (matching Trials A and B):
 
-$$\ln(RR) = \ln\left( \frac{e^{\ln{(OR)}}}{1 - p_{0} + p_{0} \times e^{\ln{(OR)}}} \right)$$
+``` math
+\ln(RR) = \ln\left(\frac{e^{\ln(OR)}}{1 - p_0 + p_0 \times e^{\ln(OR)}}\right)
+```
 
 ParCC chains the Chinn and Zhang & Yu methods automatically.
 
 ## When to Use These Conversions
 
-| Scenario                                | Conversion                              | Method                                    |
-|-----------------------------------------|-----------------------------------------|-------------------------------------------|
-| NMA mixing binary effect measures       | OR -\> RR or RR -\> OR                  | Zhang & Yu (1998)                         |
-| NMA mixing binary + continuous outcomes | SMD -\> log(OR)                         | Chinn (2000)                              |
-| Clinical interpretation of OR           | OR -\> RR                               | Zhang & Yu – RR is more intuitive         |
+| Scenario | Conversion | Method |
+|----|----|----|
+| NMA mixing binary effect measures | OR -\> RR or RR -\> OR | Zhang & Yu (1998) |
+| NMA mixing binary + continuous outcomes | SMD -\> log(OR) | Chinn (2000) |
+| Clinical interpretation of OR | OR -\> RR | Zhang & Yu – RR is more intuitive |
 | Checking the rare-disease approximation | Compare OR and RR at your baseline risk | If they diverge \>10%, convert explicitly |
 
 ## The Rare-Disease Approximation
 
-When the baseline risk is very low ($p_{0} < 0.10$), OR ~ RR
+When the baseline risk is very low ($`p_0 < 0.10`$), OR ~ RR
 mathematically. ParCC displays a note when this approximation holds. For
 common outcomes (\>10%), always convert explicitly.
 

@@ -342,11 +342,11 @@ adoption across the global HTA community.
 
 ## Key URLs
 
-| Resource         | URL                                                                       |
-|------------------|---------------------------------------------------------------------------|
+| Resource | URL |
+|----|----|
 | Live application | <https://019d0dce-b522-bb76-f20b-8cfa598859a4.share.connect.posit.cloud/> |
-| Documentation    | <https://drpakhare.github.io/ParCC/>                                      |
-| Source code      | <https://github.com/drpakhare/ParCC>                                      |
-| License          | <https://github.com/drpakhare/ParCC/blob/master/LICENSE>                  |
-| Vignettes        | <https://drpakhare.github.io/ParCC/articles/>                             |
-| Bug reports      | <https://github.com/drpakhare/ParCC/issues>                               |
+| Documentation | <https://drpakhare.github.io/ParCC/> |
+| Source code | <https://github.com/drpakhare/ParCC> |
+| License | <https://github.com/drpakhare/ParCC/blob/master/LICENSE> |
+| Vignettes | <https://drpakhare.github.io/ParCC/articles/> |
+| Bug reports | <https://github.com/drpakhare/ParCC/issues> |
