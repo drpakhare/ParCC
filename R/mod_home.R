@@ -147,10 +147,14 @@ mod_home_ui <- function(id) {
     fluidRow(
       column(12,
              div(class = "about-header",
-                 tags$img(src = "logo.png", alt = "ParCC logo", style = "height: 120px; margin-bottom: 12px;"),
-                 h1("ParCC v1.4", style = "font-weight: 700;"),
-                 p("Parameter Converter & Calculator for Health Economic Evaluation", style = "font-size: 1.2em; opacity: 0.9;"),
-                 p(style="font-size: 0.9em; margin-top: 10px;", "R Package Edition | RRC-HTA, AIIMS Bhopal")
+                 div(style = "display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;",
+                   tags$img(src = "logo.png", alt = "ParCC logo", style = "height: 130px; flex-shrink: 0;"),
+                   div(style = "text-align: left;",
+                     h1("ParCC v1.4", style = "font-weight: 700; margin: 0;"),
+                     p("Parameter Converter & Calculator for Health Economic Evaluation", style = "font-size: 1.2em; opacity: 0.9; margin: 8px 0 0;"),
+                     p(style="font-size: 0.9em; margin-top: 6px; opacity: 0.8;", "R Package Edition | RRC-HTA, AIIMS Bhopal")
+                   )
+                 )
              )
       )
     ),
