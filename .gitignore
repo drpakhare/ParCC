@@ -11,3 +11,5 @@ docs
 *.tar.gz
 *.Rcheck/
 .~lock.*
+ParCC.Rcheck/
+*.tar.gz
