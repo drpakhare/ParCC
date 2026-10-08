@@ -117,11 +117,14 @@ calc_arr <- function(p_control, p_intervention) {
 
 #' Calculate number needed to treat
 #' @param arr Absolute risk reduction
-#' @return NNT (ceiling-rounded integer)
+#' @return Named list with exact (decimal) and ceiling (integer) NNT
 #' @noRd
 calc_nnt <- function(arr) {
   stopifnot(arr != 0)
-  ceiling(1 / abs(arr))
+  list(
+    exact   = 1 / abs(arr),
+    ceiling = ceiling(1 / abs(arr))
+  )
 }
 
 #' Convert log-rank statistic to hazard ratio (Peto approximation)

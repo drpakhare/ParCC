@@ -208,7 +208,16 @@ mod_hr_converter_server <- function(id, logger) {
 
       p_c <- input$p_control
       hr  <- input$hr
-      t_c <- input$t_control * unit_to_years[[input$t_unit]]
+      t_control_val <- input$t_control
+      t_unit_val <- input$t_unit
+      t_c <- t_control_val * unit_to_years[[t_unit_val]]
+      use_ci_val <- input$use_ci
+      hr_low_val <- input$hr_low
+      hr_high_val <- input$hr_high
+      rescale_val <- input$rescale
+      t_new_val <- input$t_new
+      t_new_unit_val <- input$t_new_unit
+      label_val <- input$label
 
       # Validate
       if (p_c <= 0 || p_c >= 1) {
@@ -230,12 +239,12 @@ mod_hr_converter_server <- function(id, logger) {
 
       # ---- STEP 3: Rate to Probability (intervention) ----
       # Determine output time horizon
-      if (input$rescale) {
-        t_out <- input$t_new * unit_to_years[[input$t_new_unit]]
-        t_out_label <- paste(input$t_new, input$t_new_unit)
+      if (rescale_val) {
+        t_out <- t_new_val * unit_to_years[[t_new_unit_val]]
+        t_out_label <- paste(t_new_val, t_new_unit_val)
       } else {
         t_out <- t_c
-        t_out_label <- paste(input$t_control, input$t_unit)
+        t_out_label <- paste(t_control_val, t_unit_val)
       }
 
       p_intervention <- 1 - exp(-r_intervention * t_out)
@@ -246,9 +255,9 @@ mod_hr_converter_server <- function(id, logger) {
       # ---- CI Calculations ----
       ci_html <- ""
       p_low <- NA; p_high <- NA
-      if (input$use_ci) {
-        r_low  <- r_control * input$hr_low
-        r_high <- r_control * input$hr_high
+      if (use_ci_val) {
+        r_low  <- r_control * hr_low_val
+        r_high <- r_control * hr_high_val
         p_low  <- 1 - exp(-r_low * t_out)
         p_high <- 1 - exp(-r_high * t_out)
         ci_html <- paste0(
@@ -262,26 +271,34 @@ mod_hr_converter_server <- function(id, logger) {
       # ---- Absolute & Relative Risk Reduction ----
       arr <- p_control_out - p_intervention
       rrr <- arr / p_control_out
+      nnt_exact <- ifelse(arr > 0, 1 / arr, NA)
       nnt <- ifelse(arr > 0, ceiling(1 / arr), NA)
 
       risk_html <- ""
       if (hr < 1) {
+        nnt_display <- ifelse(!is.na(nnt),
+          paste0(nnt, " (exact: ", round(nnt_exact, 4), ")"),
+          "N/A")
         risk_html <- paste0(
           "<br><span class='result-label'>Clinical Impact</span>",
           "<span style='color:#27ae60; font-weight:600;'>",
           "ARR = ", round(arr * 100, 2), "% | ",
           "RRR = ", round(rrr * 100, 1), "% | ",
-          "NNT = ", ifelse(!is.na(nnt), nnt, "N/A"),
+          "NNT = ", nnt_display,
           "</span>"
         )
       } else if (hr > 1) {
         ari <- abs(arr)
+        nnh_exact <- ifelse(ari > 0, 1 / ari, NA)
         nnh <- ifelse(ari > 0, ceiling(1 / ari), NA)
+        nnh_display <- ifelse(!is.na(nnh),
+          paste0(nnh, " (exact: ", round(nnh_exact, 4), ")"),
+          "N/A")
         risk_html <- paste0(
           "<br><span class='result-label'>Clinical Impact</span>",
           "<span style='color:#e74c3c; font-weight:600;'>",
           "ARI = ", round(ari * 100, 2), "% (Harm) | ",
-          "NNH = ", ifelse(!is.na(nnh), nnh, "N/A"),
+          "NNH = ", nnh_display,
           "</span>"
         )
       }
@@ -417,7 +434,7 @@ mod_hr_converter_server <- function(id, logger) {
       steps_df <- data.frame(
         Step = c("1. Input", "2. Control Rate", "3. Intervention Rate", "4. Intervention Prob"),
         Description = c(
-          paste0("Control p = ", round(p_c, 5), " over ", input$t_control, " ", input$t_unit),
+          paste0("Control p = ", round(p_c, 5), " over ", t_control_val, " ", t_unit_val),
           paste0("r_control = -ln(1 - ", round(p_c, 5), ") / ", round(t_c, 4)),
           paste0("r_intervention = ", round(r_control, 5), " x ", hr),
           paste0("p_intervention = 1 - exp(-", round(r_intervention, 5), " x ", round(t_out, 4), ")")
@@ -431,10 +448,10 @@ mod_hr_converter_server <- function(id, logger) {
         stringsAsFactors = FALSE
       )
 
-      if (input$use_ci) {
+      if (use_ci_val) {
         steps_df <- rbind(steps_df, data.frame(
           Step = "5. 95% CI",
-          Description = paste0("HR range [", input$hr_low, ", ", input$hr_high, "]"),
+          Description = paste0("HR range [", hr_low_val, ", ", hr_high_val, "]"),
           Value = paste0("[", round(p_low, 5), ", ", round(p_high, 5), "]"),
           stringsAsFactors = FALSE
         ))
@@ -456,32 +473,34 @@ mod_hr_converter_server <- function(id, logger) {
 
       # ---- Log ----
       log_input <- paste0("p_ctrl=", round(p_c, 5), ", HR=", hr,
-                          ", t=", input$t_control, " ", input$t_unit)
+                          ", t=", t_control_val, " ", t_unit_val)
       log_result <- paste0("p_int=", round(p_intervention, 5))
-      if (input$use_ci) {
+      if (use_ci_val) {
         log_result <- paste0(log_result, " [", round(p_low, 5), "-", round(p_high, 5), "]")
       }
 
-      add_to_log(input$label, "HR Conversion", log_input, log_result, "Proportional Hazards")
+      add_to_log(label_val, "HR Conversion", log_input, log_result, "Proportional Hazards")
     })
 
     # ============================================================
     # NNT / NNH CALCULATOR
     # ============================================================
     observeEvent(input$calc_nnt, {
+      nnt_label_val <- input$nnt_label
+      nnt_input_val <- input$nnt_input
       arr <- NULL
       p_ctrl <- NULL; p_int <- NULL
       method_note <- ""
 
-      if (input$nnt_input == "arr") {
+      if (nnt_input_val == "arr") {
         arr <- input$nnt_arr
         method_note <- "Direct ARR"
-      } else if (input$nnt_input == "probs") {
+      } else if (nnt_input_val == "probs") {
         p_ctrl <- input$nnt_pc
         p_int <- input$nnt_pi
         arr <- p_ctrl - p_int
         method_note <- "From probabilities"
-      } else if (input$nnt_input == "rr") {
+      } else if (nnt_input_val == "rr") {
         rr <- input$nnt_rr
         p0 <- input$nnt_p0_rr
         p_ctrl <- p0
@@ -500,14 +519,18 @@ mod_hr_converter_server <- function(id, logger) {
 
       is_harm <- arr < 0
       abs_arr <- abs(arr)
+      nnt_exact <- if (abs_arr > 0) 1 / abs_arr else NA
       nnt_val <- if (abs_arr > 0) ceiling(1 / abs_arr) else NA
       label <- if (is_harm) "NNH" else "NNT"
       col <- if (is_harm) "#e74c3c" else "#27ae60"
+      nnt_display <- if (!is.na(nnt_val))
+        paste0(nnt_val, " (exact: ", round(nnt_exact, 4), ")")
+      else "N/A"
 
       output$res_nnt <- renderUI(tagList(
         div(class="result-box", style=paste0("border-left-color:", col), HTML(paste0(
           "<span class='result-label'>", label, " Calculation</span>",
-          "<span class='result-value' style='color:", col, "'>", label, " = ", ifelse(!is.na(nnt_val), nnt_val, "N/A"), "</span>",
+          "<span class='result-value' style='color:", col, "'>", label, " = ", nnt_display, "</span>",
           "<br><small>ARR = ", round(arr, 5), " (", round(arr*100, 2), "%)",
           if (!is.null(p_ctrl)) paste0(" | Control p = ", round(p_ctrl, 4), " | Intervention p = ", round(p_int, 4)) else "",
           "</small>"
@@ -536,7 +559,7 @@ mod_hr_converter_server <- function(id, logger) {
         tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
       ))
 
-      add_to_log(input$nnt_label, paste0(label, " Calculator"),
+      add_to_log(nnt_label_val, paste0(label, " Calculator"),
                  paste0("ARR=", round(arr, 5), " (", method_note, ")"),
                  paste0(label, "=", ifelse(!is.na(nnt_val), nnt_val, "N/A")), method_note)
     })
@@ -545,9 +568,12 @@ mod_hr_converter_server <- function(id, logger) {
     # LOG-RANK TO HR CONVERTER
     # ============================================================
     observeEvent(input$calc_lr, {
+      lr_label_val <- input$lr_label
+      lr_input_val <- input$lr_input
+      lr_direction_val <- input$lr_direction
       E <- input$lr_events
 
-      if (input$lr_input == "chi2") {
+      if (lr_input_val == "chi2") {
         chi2 <- input$lr_chi2
         z <- sqrt(chi2)
       } else {
@@ -559,7 +585,7 @@ mod_hr_converter_server <- function(id, logger) {
       # Peto method: log(HR) ~ z / sqrt(E/4) = 2*z / sqrt(E)
       # More precisely: O - E ~ z * sqrt(V) where V ~ E/4
       # So log(HR) ~ (O-E)/V ~ z * sqrt(V) / V = z / sqrt(V) = z / sqrt(E/4) = 2z/sqrt(E)
-      sign_factor <- if (input$lr_direction == "better") -1 else 1
+      sign_factor <- if (lr_direction_val == "better") -1 else 1
       log_hr <- sign_factor * 2 * z / sqrt(E)
       se_log_hr <- 2 / sqrt(E)
       hr_est <- exp(log_hr)
@@ -605,7 +631,7 @@ mod_hr_converter_server <- function(id, logger) {
         tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
       ))
 
-      add_to_log(input$lr_label, "Log-rank->HR",
+      add_to_log(lr_label_val, "Log-rank->HR",
                  paste0("Chi2=", round(chi2, 2), ", Events=", E),
                  paste0("HR=", round(hr_est, 3), " [", round(hr_low, 3), "-", round(hr_high, 3), "]"),
                  "Peto Approximation")
@@ -635,6 +661,7 @@ mod_hr_converter_server <- function(id, logger) {
         stringsAsFactors = FALSE
       )
       results$ARR <- p_c - results$Probability
+      results$NNT_exact <- ifelse(results$ARR > 0, round(1 / results$ARR, 4), NA)
       results$NNT <- ifelse(results$ARR > 0, ceiling(1 / results$ARR), NA)
 
       output$mc_result <- renderUI({

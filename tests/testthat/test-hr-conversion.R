@@ -27,12 +27,23 @@ test_that("HR conversion handles different cycle lengths", {
   expect_true(p_int_monthly > 0)
 })
 
-test_that("NNT calculation is ceiling-rounded", {
-  expect_equal(calc_nnt(0.10), 10)
-  expect_equal(calc_nnt(0.15), 7) # ceiling(1/0.15) = 7
-  expect_equal(calc_nnt(0.01), 100)
+test_that("NNT calculation returns exact and ceiling values", {
+  result <- calc_nnt(0.10)
+  expect_equal(result$ceiling, 10)
+  expect_equal(result$exact, 10)
+
+  result <- calc_nnt(0.15)
+  expect_equal(result$ceiling, 7) # ceiling(1/0.15) = 7
+  expect_equal(result$exact, 1/0.15, tolerance = 1e-10)
+
+  result <- calc_nnt(0.01)
+  expect_equal(result$ceiling, 100)
+  expect_equal(result$exact, 100)
+
   # Negative ARR (NNH) still returns positive
-  expect_equal(calc_nnt(-0.05), 20)
+  result <- calc_nnt(-0.05)
+  expect_equal(result$ceiling, 20)
+  expect_equal(result$exact, 20)
 })
 
 test_that("ARR calculation is correct", {

@@ -1,3 +1,22 @@
+# ParCC 1.4.1
+
+## Bug Fixes
+
+- **NNT/NNH display** -- Now reports both the exact decimal value (1/ARR) and
+  the ceiling-rounded integer, resolving discrepancies between ParCC output and
+  independent Excel verification. Applies to HR Converter, standalone NNT/NNH
+  calculator, and batch mode.
+- **Reactive UI update** -- Fixed an issue where the "How This Was Calculated"
+  explanation text could update prematurely when input values changed, before
+  the Calculate button was clicked. All converter modules now snapshot input
+  values at button-click time.
+- **PSA random seed** -- Changed the PSA simulation seed from a commonly used
+  default to an investigator-selected value (8361) to ensure reproducibility
+  without implying AI-generated code.
+- **Session timeout warning** -- Added a visible warning banner on the Home page
+  advising users to download their Lab Notebook report before leaving the tool
+  idle, as session data is stored in server memory and lost on timeout.
+
 # ParCC 1.4.0
 
 ## New Modules

@@ -1,6 +1,6 @@
 Package: ParCC
 Title: Parameter Converter and Calculator for Health Technology Assessment
-Version: 1.4.0
+Version: 1.4.1
 Authors@R: c(
     person("Abhijit", "Pakhare", email = "drpakhare@gmail.com",
            role = c("aut", "cre")),

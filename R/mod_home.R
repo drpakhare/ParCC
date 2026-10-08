@@ -150,6 +150,13 @@ mod_home_ui <- function(id) {
                  h1("ParCC v1.4", style = "font-weight: 700;"),
                  p("Parameter Converter & Calculator for Health Economic Evaluation", style = "font-size: 1.2em; opacity: 0.9;"),
                  p(style="font-size: 0.9em; margin-top: 10px;", "R Package Edition | RRC-HTA, AIIMS Bhopal")
+             ),
+             div(style = "background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 12px 18px; margin: 10px auto; max-width: 800px; text-align: center;",
+                 icon("exclamation-triangle", style = "color: #856404; margin-right: 6px;"),
+                 tags$span(style = "color: #856404; font-size: 0.9em;",
+                   "Your session data (Lab Notebook) is stored in server memory. If the session times out due to inactivity, progress will be lost. ",
+                   tags$strong("Download your report before leaving the tool idle.")
+                 )
              )
       )
     ),

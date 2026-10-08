@@ -145,6 +145,7 @@ mod_batch_server <- function(id, logger = NULL) {
         df$Rate_Intervention <- round(r_intervention, 6)
         df$Intervention_Prob <- 1 - exp(-r_intervention * t)
         df$ARR <- p_control - df$Intervention_Prob
+        df$NNT_exact <- ifelse(df$ARR > 0, round(1 / df$ARR, 4), NA)
         df$NNT <- ifelse(df$ARR > 0, ceiling(1 / df$ARR), NA)
         df$Conversion_Note <- paste0("HR(", input$hr_col, ") applied to ", input$val_col)
       }
