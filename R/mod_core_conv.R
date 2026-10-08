@@ -131,8 +131,13 @@ mod_core_conv_server <- function(id, logger) {
     # ==================================================================
     observeEvent(input$calc_rp, {
       t <- input$val_time
-      if(input$rp_dir == "r2p") {
-        r <- input$val_rate / as.numeric(input$rate_mult)
+      val_rate <- input$val_rate
+      rate_mult <- input$rate_mult
+      lbl_rp <- input$lbl_rp
+      rp_dir <- input$rp_dir
+      val_prob <- input$val_prob
+      if(rp_dir == "r2p") {
+        r <- val_rate / as.numeric(rate_mult)
         p <- 1 - exp(-r*t)
 
         output$res_rp <- renderUI(tagList(
@@ -143,8 +148,8 @@ mod_core_conv_server <- function(id, logger) {
           div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
               h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
               p(HTML(paste0(
-                "The reported rate of ", strong(input$val_rate), " per ", input$rate_mult,
-                " was converted to a per-person rate: r = ", input$val_rate, " / ", input$rate_mult, " = ", strong(round(r, 5)), ".",
+                "The reported rate of ", strong(val_rate), " per ", rate_mult,
+                " was converted to a per-person rate: r = ", val_rate, " / ", rate_mult, " = ", strong(round(r, 5)), ".",
                 " Over a time horizon of ", strong(t), ", the probability was computed using the exponential formula: ",
                 "p = 1 - e<sup>-", round(r, 5), " \u00d7 ", t, "</sup> = ", strong(round(p, 5)), "."
               ))),
@@ -169,11 +174,11 @@ mod_core_conv_server <- function(id, logger) {
           mathjax_trigger
         ))
 
-        add_to_log(input$lbl_rp, "Rate->Prob",
-                   paste0("r=", input$val_rate, "/", input$rate_mult, ", t=", t),
+        add_to_log(lbl_rp, "Rate->Prob",
+                   paste0("r=", val_rate, "/", rate_mult, ", t=", t),
                    paste0("p=", round(p,5)), "Exponential")
       } else {
-        p_in <- input$val_prob
+        p_in <- val_prob
         r <- -log(1 - p_in)/t
 
         output$res_rp <- renderUI(tagList(
@@ -202,7 +207,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_rp, "Prob->Rate", paste0("p=", p_in, ", t=", t), paste0("r=", round(r,5)), "Inverse Exponential")
+        add_to_log(lbl_rp, "Prob->Rate", paste0("p=", p_in, ", t=", t), paste0("r=", round(r,5)), "Inverse Exponential")
       }
     })
 
@@ -210,7 +215,9 @@ mod_core_conv_server <- function(id, logger) {
     # ODDS <-> PROBABILITY
     # ==================================================================
     observeEvent(input$calc_op, {
-      if(input$op_dir == "o2p") {
+      lbl_op <- input$lbl_op
+      op_dir <- input$op_dir
+      if(op_dir == "o2p") {
         odds_in <- input$val_odds
         p <- odds_in / (1 + odds_in)
 
@@ -234,7 +241,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_op, "Odds->Prob", paste0("Odds=", odds_in), paste0("p=", round(p,5)), "Logistic")
+        add_to_log(lbl_op, "Odds->Prob", paste0("Odds=", odds_in), paste0("p=", round(p,5)), "Logistic")
       } else {
         p_in <- input$val_prob_o
         o <- p_in / (1 - p_in)
@@ -259,7 +266,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_op, "Prob->Odds", paste0("p=", p_in), paste0("Odds=", round(o,5)), "Logistic")
+        add_to_log(lbl_op, "Prob->Odds", paste0("p=", p_in), paste0("Odds=", round(o,5)), "Logistic")
       }
     })
 
@@ -268,8 +275,14 @@ mod_core_conv_server <- function(id, logger) {
     # ==================================================================
     unit_factors <- list("Years" = 365.25, "Months" = 30.4375, "Weeks" = 7, "Days" = 1)
     observeEvent(input$calc_tr, {
-      ratio <- (input$tr_t2 * unit_factors[[input$tr_u2]]) / (input$tr_t1 * unit_factors[[input$tr_u1]])
-      p_new <- 1 - (1 - input$tr_prob)^(ratio)
+      tr_prob <- input$tr_prob
+      tr_t1 <- input$tr_t1
+      tr_u1 <- input$tr_u1
+      tr_t2 <- input$tr_t2
+      tr_u2 <- input$tr_u2
+      lbl_tr <- input$lbl_tr
+      ratio <- (tr_t2 * unit_factors[[tr_u2]]) / (tr_t1 * unit_factors[[tr_u1]])
+      p_new <- 1 - (1 - tr_prob)^(ratio)
 
       output$res_tr <- renderUI(tagList(
         div(class="result-box", HTML(paste0(
@@ -280,9 +293,9 @@ mod_core_conv_server <- function(id, logger) {
         div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
             h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
             p(HTML(paste0(
-              "The original probability of ", strong(round(input$tr_prob, 5)),
-              " over ", strong(paste0(input$tr_t1, " ", input$tr_u1)),
-              " was rescaled to ", strong(paste0(input$tr_t2, " ", input$tr_u2)),
+              "The original probability of ", strong(round(tr_prob, 5)),
+              " over ", strong(paste0(tr_t1, " ", tr_u1)),
+              " was rescaled to ", strong(paste0(tr_t2, " ", tr_u2)),
               " using the constant-rate assumption."
             ))),
             p(HTML(paste0(
@@ -304,7 +317,7 @@ mod_core_conv_server <- function(id, logger) {
         ),
         mathjax_trigger
       ))
-      add_to_log(input$lbl_tr, "Time Rescale", paste0("p_old=", input$tr_prob, ", Ratio=", round(ratio,3)),
+      add_to_log(lbl_tr, "Time Rescale", paste0("p_old=", tr_prob, ", Ratio=", round(ratio,3)),
                  paste0("p_new=", round(p_new,5)), "Linear Rate Assumption")
     })
 
@@ -313,8 +326,10 @@ mod_core_conv_server <- function(id, logger) {
     # ==================================================================
     observeEvent(input$calc_or, {
       p0 <- input$p0_or
+      lbl_or <- input$lbl_or
+      or_dir <- input$or_dir
 
-      if (input$or_dir == "or2rr") {
+      if (or_dir == "or2rr") {
         or_val <- input$val_or
         # Zhang & Yu formula: RR = OR / (1 - p0 + p0 * OR)
         rr <- or_val / (1 - p0 + p0 * or_val)
@@ -353,7 +368,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_or, "OR->RR", paste0("OR=", or_val, ", p0=", p0), paste0("RR=", round(rr,4)), "Zhang & Yu")
+        add_to_log(lbl_or, "OR->RR", paste0("OR=", or_val, ", p0=", p0), paste0("RR=", round(rr,4)), "Zhang & Yu")
 
       } else {
         rr_val <- input$val_rr
@@ -386,7 +401,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_or, "RR->OR", paste0("RR=", rr_val, ", p0=", p0), paste0("OR=", round(or_out,4)), "Inverse Zhang & Yu")
+        add_to_log(lbl_or, "RR->OR", paste0("RR=", rr_val, ", p0=", p0), paste0("OR=", round(or_out,4)), "Inverse Zhang & Yu")
       }
     })
 
@@ -394,8 +409,10 @@ mod_core_conv_server <- function(id, logger) {
     # EFFECT SIZE CONVERSIONS
     # ==================================================================
     observeEvent(input$calc_es, {
+      lbl_es <- input$lbl_es
+      es_dir <- input$es_dir
 
-      if (input$es_dir == "smd2lor") {
+      if (es_dir == "smd2lor") {
         # Chinn (2000): log(OR) = SMD * pi / sqrt(3)
         smd <- input$val_smd
         se_smd <- input$se_smd
@@ -437,10 +454,10 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_es, "SMD->logOR", paste0("SMD=", smd, " SE=", se_smd),
+        add_to_log(lbl_es, "SMD->logOR", paste0("SMD=", smd, " SE=", se_smd),
                    paste0("logOR=", round(lor,4), " OR=", round(or_val,4)), "Chinn 2000")
 
-      } else if (input$es_dir == "lor2smd") {
+      } else if (es_dir == "lor2smd") {
         lor <- input$val_lor
         se_lor <- input$se_lor
         smd <- lor * sqrt(3) / pi
@@ -470,7 +487,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_es, "logOR->SMD", paste0("logOR=", lor, " SE=", se_lor),
+        add_to_log(lbl_es, "logOR->SMD", paste0("logOR=", lor, " SE=", se_lor),
                    paste0("SMD=", round(smd,4)), "Chinn 2000")
 
       } else {
@@ -511,7 +528,7 @@ mod_core_conv_server <- function(id, logger) {
           ),
           mathjax_trigger
         ))
-        add_to_log(input$lbl_es, "logOR->logRR", paste0("logOR=", lor, ", p0=", p0),
+        add_to_log(lbl_es, "logOR->logRR", paste0("logOR=", lor, ", p0=", p0),
                    paste0("logRR=", round(lrr,4), " RR=", round(rr,4)), "Zhang & Yu + NMA")
       }
     })

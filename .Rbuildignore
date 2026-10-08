@@ -14,3 +14,7 @@
 ^manifest\.json$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^IJTAHC Submission$
+^IJMR Submission$
+^Manuscript Review$
+^Reply.*\.docx$

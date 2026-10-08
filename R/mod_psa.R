@@ -329,7 +329,7 @@ mod_psa_server <- function(id, logger) {
       # Generate sample draws to display
       n_show <- min(input$dir_n_samples, 20)
       # Use Gamma-based sampling for Dirichlet
-      set.seed(42)
+      set.seed(8361)
       samples <- matrix(0, nrow = n_show, ncol = K)
       for (i in 1:n_show) {
         g <- rgamma(K, shape = alpha, rate = 1)

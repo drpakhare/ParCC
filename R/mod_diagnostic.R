@@ -39,7 +39,11 @@ mod_diagnostic_server <- function(id, logger) {
     mathjax_trigger <- tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
 
     observeEvent(input$calc, {
-      se <- input$sens/100; sp <- input$spec/100; p <- input$prev/100
+      sens_val <- input$sens
+      spec_val <- input$spec
+      prev_val <- input$prev
+      label_val <- input$label
+      se <- sens_val/100; sp <- spec_val/100; p <- prev_val/100
 
       ppv <- (se * p) / (se * p + (1 - sp) * (1 - p))
       npv <- (sp * (1 - p)) / (sp * (1 - p) + (1 - se) * p)
@@ -62,9 +66,9 @@ mod_diagnostic_server <- function(id, logger) {
         div(style = "background:#f8f9fa; border-left:4px solid #28a745; padding:15px; margin-top:15px; border-radius:0 4px 4px 0;",
             h5(icon("lightbulb"), " How This Was Calculated", style = "color:#155724; margin-top:0;"),
             p(HTML(paste0(
-              "With Sensitivity = ", strong(paste0(input$sens, "%")),
-              ", Specificity = ", strong(paste0(input$spec, "%")),
-              ", and Prevalence = ", strong(paste0(input$prev, "%")), ":"
+              "With Sensitivity = ", strong(paste0(sens_val, "%")),
+              ", Specificity = ", strong(paste0(spec_val, "%")),
+              ", and Prevalence = ", strong(paste0(prev_val, "%")), ":"
             ))),
             tags$ul(
               tags$li(HTML(paste0(
@@ -85,7 +89,7 @@ mod_diagnostic_server <- function(id, logger) {
               icon("info-circle"), " ",
               "The plot below shows that PPV changes dramatically with prevalence. ",
               "At low prevalence (e.g., screening), even a highly specific test produces many false positives. ",
-              "At the current prevalence of ", input$prev, "%, the pre-test odds are ",
+              "At the current prevalence of ", prev_val, "%, the pre-test odds are ",
               round(pre_odds, 3), " and the post-test odds (if positive) are ", round(post_odds_pos, 3), "."
             )))
         ),
@@ -111,8 +115,8 @@ mod_diagnostic_server <- function(id, logger) {
         mathjax_trigger
       ))
 
-      add_to_log(input$label, "Diagnostics",
-                 paste0("Sens=", input$sens, "%, Spec=", input$spec, "%, Prev=", input$prev, "%"),
+      add_to_log(label_val, "Diagnostics",
+                 paste0("Sens=", sens_val, "%, Spec=", spec_val, "%, Prev=", prev_val, "%"),
                  paste0("PPV=", round(ppv*100,1), "%, NPV=", round(npv*100,1), "%"),
                  "Bayes Theorem")
 
