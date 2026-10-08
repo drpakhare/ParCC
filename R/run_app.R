@@ -15,6 +15,5 @@
 #'
 #' @export
 run_app <- function() {
-  shiny::addResourcePath("www", system.file("www", package = "ParCC"))
   shiny::shinyApp(ui = app_ui, server = app_server)
 }
