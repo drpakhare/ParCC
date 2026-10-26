@@ -86,6 +86,17 @@ mod_survival_server <- function(id, logger) {
     mathjax_trigger <- tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
 
     observeEvent(input$calc, {
+      # Input validation
+      validate(need(is.numeric(input$max_t) && input$max_t > 0, "Max time must be greater than 0."))
+
+      if (input$surv_method == "exp") {
+        if (input$exp_dir == "med2rate") {
+          validate(need(is.numeric(input$val_med) && input$val_med > 0, "Median survival must be greater than 0."))
+        } else {
+          validate(need(is.numeric(input$val_haz) && input$val_haz > 0, "Hazard rate must be greater than 0."))
+        }
+      }
+
       # 1. Setup Time Sequences
       t_seq_plot <- seq(0, input$max_t, length.out = 100)
       t_seq_tbl <- 0:input$max_t
@@ -165,8 +176,8 @@ mod_survival_server <- function(id, logger) {
         t1 <- input$w_t1; s1 <- input$w_s1
         t2 <- input$w_t2; s2 <- input$w_s2
 
-        if(s1 <= 0 || s1 >= 1 || s2 <= 0 || s2 >= 1 || t1 == t2) {
-          output$res <- renderUI(div(class="result-box", style="color:red", "Error: Inputs must be distinct and probabilities between 0-1."))
+        if(s1 <= 0 || s1 >= 1 || s2 <= 0 || s2 >= 1 || t1 == t2 || t1 <= 0 || t2 <= 0) {
+          output$res <- renderUI(div(class="result-box", style="color:red", "Error: Time points must be > 0, distinct, and survival probabilities between 0 and 1 (exclusive)."))
           surv_plot_data(NULL)
           surv_table_data(NULL)
           return()
@@ -236,8 +247,8 @@ mod_survival_server <- function(id, logger) {
         t1 <- input$ll_t1; s1 <- input$ll_s1
         t2 <- input$ll_t2; s2 <- input$ll_s2
 
-        if(s1 <= 0 || s1 >= 1 || s2 <= 0 || s2 >= 1 || t1 == t2) {
-          output$res <- renderUI(div(class="result-box", style="color:red", "Error: Inputs must be distinct and probabilities between 0-1."))
+        if(s1 <= 0 || s1 >= 1 || s2 <= 0 || s2 >= 1 || t1 == t2 || t1 <= 0 || t2 <= 0) {
+          output$res <- renderUI(div(class="result-box", style="color:red", "Error: Time points must be > 0, distinct, and survival probabilities between 0 and 1 (exclusive)."))
           surv_plot_data(NULL)
           surv_table_data(NULL)
           return()

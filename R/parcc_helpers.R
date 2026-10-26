@@ -123,7 +123,7 @@ calc_nnt <- function(arr) {
   stopifnot(arr != 0)
   list(
     exact   = 1 / abs(arr),
-    ceiling = ceiling(1 / abs(arr))
+    ceiling = ceiling(round(1 / abs(arr), 8))
   )
 }
 
