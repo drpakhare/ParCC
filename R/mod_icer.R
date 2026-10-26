@@ -78,7 +78,34 @@ mod_icer_server <- function(id, logger, currency) {
       col <- ""
       quadrant_explain <- ""
 
-      if (d_cost < 0 && d_eff > 0) {
+      # Handle boundary cases first (on axes: one or both deltas = 0)
+      if (d_eff == 0 && d_cost == 0) {
+        quadrant <- "Origin: Equivalent"
+        status <- "Equivalent (No difference in cost or effect)"
+        col <- "#7f8c8d"
+        quadrant_explain <- "The intervention and comparator have identical costs and effects. There is no basis for preferring one over the other."
+      } else if (d_eff == 0 && d_cost > 0) {
+        quadrant <- "NW: Dominated"
+        status <- "Not Cost-Effective (More costly, no additional benefit)"
+        col <- "#c0392b"
+        quadrant_explain <- "The intervention costs more but provides no additional health benefit. It is dominated and should not be adopted."
+      } else if (d_eff == 0 && d_cost < 0) {
+        quadrant <- "SE: Dominant"
+        status <- "Cost-Effective (Less costly, equal effect)"
+        col <- "#27ae60"
+        quadrant_explain <- "The intervention is less costly with equal health effect. It dominates the comparator - adopt without needing a WTP threshold."
+      } else if (d_cost == 0 && d_eff > 0) {
+        quadrant <- "SE: Dominant"
+        status <- "Cost-Effective (More effective, same cost)"
+        col <- "#27ae60"
+        quadrant_explain <- "The intervention is more effective at the same cost. It dominates the comparator."
+      } else if (d_cost == 0 && d_eff < 0) {
+        quadrant <- "NW: Dominated"
+        status <- "Not Cost-Effective (Less effective, same cost)"
+        col <- "#c0392b"
+        quadrant_explain <- "The intervention is less effective at the same cost. It is dominated and should not be adopted."
+      # Standard quadrant logic
+      } else if (d_cost < 0 && d_eff > 0) {
         quadrant <- "SE: Dominant"
         status <- "Cost-Effective (Better & Cheaper)"
         col <- "#27ae60"
@@ -99,6 +126,7 @@ mod_icer_server <- function(id, logger, currency) {
         }
         quadrant_explain <- paste0("The intervention is more effective but also more costly. The ICER of ", icer_str, " is compared to the WTP threshold of ", format(wtp, big.mark = ","), " to determine cost-effectiveness.")
       } else {
+        # SW quadrant: d_cost < 0 && d_eff < 0
         quadrant <- "SW: Trade-off"
         if(inmb > 0) {
           status <- "Cost-Effective (Savings justify health loss)"

@@ -176,7 +176,7 @@ mod_ppp_server <- function(id, logger, currency) {
       ppp_fx_ratio <- cost_ppp_target / cost_fx_target
 
       # Format helpers
-      sfmt <- function(x, sym) paste0(sym, " ", format(round(x, 0), big.mark = ","))
+      sfmt <- function(x, sym) paste0(sym, " ", format(round(x, 2), big.mark = ",", nsmall = 2))
 
       src_sym <- src$currency_symbol
       tgt_sym <- tgt$currency_symbol
@@ -303,7 +303,7 @@ mod_ppp_server <- function(id, logger, currency) {
 
         ggplot(plot_df, aes(x = Method, y = Value, fill = Fill)) +
           geom_col(width = 0.6, alpha = 0.85) +
-          geom_text(aes(label = format(round(Value, 0), big.mark = ",")),
+          geom_text(aes(label = format(round(Value, 2), big.mark = ",", nsmall = 2)),
                     vjust = -0.5, size = 3.5, fontface = "bold") +
           geom_hline(yintercept = wtp_1x_lcu, linetype = "dashed", color = "#27ae60", linewidth = 0.8) +
           geom_hline(yintercept = wtp_3x_lcu, linetype = "dashed", color = "#e74c3c", linewidth = 0.8) +

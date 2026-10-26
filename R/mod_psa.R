@@ -252,7 +252,16 @@ mod_psa_server <- function(id, logger) {
           output$res <- renderUI(div(class="result-box", style="color:red", "Error: Mean must be positive."))
           psa_data(NULL)
         } else {
-          s2 <- log(1 + v/mu^2); s <- sqrt(s2); m <- log(mu) - 0.5*s2
+          # For LogNormal from 95% CI: derive on log scale directly
+          # CI for HRs/RRs/ORs is symmetric on the log scale
+          if (input$source_type == "ci" && input$ci_low > 0 && input$ci_high > 0) {
+            m <- log(mu)
+            s <- (log(input$ci_high) - log(input$ci_low)) / 3.92
+            se <- mu * sqrt(exp(s^2) - 1)  # back-derive natural-scale SE for display
+            method_note <- "Log-scale CI method"
+          } else {
+            s2 <- log(1 + v/mu^2); s <- sqrt(s2); m <- log(mu) - 0.5*s2
+          }
           x <- seq(0, qlnorm(0.99, m, s), length.out=200)
           y <- dlnorm(x, m, s)
           psa_data(data.frame(x=x, y=y))

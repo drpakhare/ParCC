@@ -272,7 +272,7 @@ mod_hr_converter_server <- function(id, logger) {
       arr <- p_control_out - p_intervention
       rrr <- arr / p_control_out
       nnt_exact <- ifelse(arr > 0, 1 / arr, NA)
-      nnt <- ifelse(arr > 0, ceiling(1 / arr), NA)
+      nnt <- ifelse(arr > 0, ceiling(round(1 / arr, 8)), NA)
 
       risk_html <- ""
       if (hr < 1) {
@@ -520,7 +520,7 @@ mod_hr_converter_server <- function(id, logger) {
       is_harm <- arr < 0
       abs_arr <- abs(arr)
       nnt_exact <- if (abs_arr > 0) 1 / abs_arr else NA
-      nnt_val <- if (abs_arr > 0) ceiling(1 / abs_arr) else NA
+      nnt_val <- if (abs_arr > 0) ceiling(round(1 / abs_arr, 8)) else NA
       label <- if (is_harm) "NNH" else "NNT"
       col <- if (is_harm) "#e74c3c" else "#27ae60"
       nnt_display <- if (!is.na(nnt_val))
@@ -572,6 +572,15 @@ mod_hr_converter_server <- function(id, logger) {
       lr_input_val <- input$lr_input
       lr_direction_val <- input$lr_direction
       E <- input$lr_events
+
+      # Input validation
+      validate(need(is.numeric(E) && E > 0, "Total events must be greater than 0."))
+      if (lr_input_val == "chi2") {
+        validate(need(is.numeric(input$lr_chi2) && input$lr_chi2 >= 0, "Chi-square statistic must be non-negative."))
+      } else {
+        validate(need(is.numeric(input$lr_pval) && input$lr_pval > 0 && input$lr_pval < 1,
+                       "P-value must be between 0 and 1 (exclusive)."))
+      }
 
       if (lr_input_val == "chi2") {
         chi2 <- input$lr_chi2
@@ -662,7 +671,7 @@ mod_hr_converter_server <- function(id, logger) {
       )
       results$ARR <- p_c - results$Probability
       results$NNT_exact <- ifelse(results$ARR > 0, round(1 / results$ARR, 4), NA)
-      results$NNT <- ifelse(results$ARR > 0, ceiling(1 / results$ARR), NA)
+      results$NNT <- ifelse(results$ARR > 0, ceiling(round(1 / results$ARR, 8)), NA)
 
       output$mc_result <- renderUI({
         div(class = "result-box",

@@ -136,6 +136,16 @@ mod_core_conv_server <- function(id, logger) {
       lbl_rp <- input$lbl_rp
       rp_dir <- input$rp_dir
       val_prob <- input$val_prob
+
+      # Input validation
+      validate(need(is.numeric(t) && t > 0, "Time horizon must be greater than 0."))
+      if (rp_dir == "r2p") {
+        validate(need(is.numeric(val_rate) && val_rate >= 0, "Rate must be a non-negative number."))
+      } else {
+        validate(need(is.numeric(val_prob) && val_prob > 0 && val_prob < 1,
+                       "Probability must be between 0 and 1 (exclusive)."))
+      }
+
       if(rp_dir == "r2p") {
         r <- val_rate / as.numeric(rate_mult)
         p <- 1 - exp(-r*t)
@@ -217,6 +227,15 @@ mod_core_conv_server <- function(id, logger) {
     observeEvent(input$calc_op, {
       lbl_op <- input$lbl_op
       op_dir <- input$op_dir
+
+      # Input validation
+      if (op_dir == "o2p") {
+        validate(need(is.numeric(input$val_odds) && input$val_odds >= 0, "Odds must be a non-negative number."))
+      } else {
+        validate(need(is.numeric(input$val_prob_o) && input$val_prob_o > 0 && input$val_prob_o < 1,
+                       "Probability must be between 0 and 1 (exclusive)."))
+      }
+
       if(op_dir == "o2p") {
         odds_in <- input$val_odds
         p <- odds_in / (1 + odds_in)
@@ -328,6 +347,15 @@ mod_core_conv_server <- function(id, logger) {
       p0 <- input$p0_or
       lbl_or <- input$lbl_or
       or_dir <- input$or_dir
+
+      # Input validation
+      validate(need(is.numeric(p0) && p0 > 0 && p0 < 1,
+                     "Baseline risk must be between 0 and 1 (exclusive)."))
+      if (or_dir == "rr2or") {
+        validate(need(is.numeric(input$val_rr) && input$val_rr > 0, "Relative Risk must be > 0."))
+        validate(need(input$val_rr * p0 < 1,
+                       "RR × baseline risk must be < 1 (implied intervention probability cannot exceed 100%)."))
+      }
 
       if (or_dir == "or2rr") {
         or_val <- input$val_or

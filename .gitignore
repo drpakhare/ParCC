@@ -11,5 +11,10 @@ docs
 *.tar.gz
 *.Rcheck/
 .~lock.*
-ParCC.Rcheck/
-*.tar.gz
+
+# Manuscript and review folders (not part of the R package)
+IJTAHC Submission/
+IJMR Submission/
+Manuscript Review/
+Reply*.docx
+pkgdown/
