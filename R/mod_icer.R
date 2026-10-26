@@ -66,7 +66,7 @@ mod_icer_server <- function(id, logger, currency) {
         icer_str <- "Undefined (Delta Effect = 0)"
       } else {
         icer <- d_cost / d_eff
-        icer_str <- format(round(icer, 2), big.mark=",")
+        icer_str <- format(round(icer, 2), big.mark=",", nsmall = 2)
       }
 
       # 2. Calculate iNMB
