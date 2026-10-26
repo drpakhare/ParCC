@@ -2,6 +2,8 @@
 
 ## ParCC 1.4.1
 
+CRAN release: 2026-10-08
+
 ### Bug Fixes
 
 - **NNT/NNH display** – Now reports both the exact decimal value (1/ARR)
