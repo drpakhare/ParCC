@@ -21,7 +21,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/drpakhare/ParCC/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/drpakhare/ParCC/blob/master/DESCRIPTION)
 
 Pakhare A, Jain S, Malhotra A, Verma S, Somen B, Sachin O, Joshi B,
 Joshi A (2026). *ParCC: Parameter Converter and Calculator for Health
