@@ -66,6 +66,17 @@ mod_bia_server <- function(id, logger, currency) {
     cfmt <- function(x) paste0(currency$symbol, " ", format(round(x, 0), big.mark = ","))
 
     observeEvent(input$calc, {
+      # Input validation
+      validate(
+        need(is.numeric(input$pop) && input$pop > 0, "Target population must be greater than 0."),
+        need(is.numeric(input$prevalence) && input$prevalence > 0 && input$prevalence <= 100,
+             "Prevalence must be between 0 and 100."),
+        need(is.numeric(input$eligible) && input$eligible > 0 && input$eligible <= 100,
+             "Eligible proportion must be between 0 and 100."),
+        need(is.numeric(input$cost_new) && input$cost_new >= 0, "New intervention cost must be non-negative."),
+        need(is.numeric(input$cost_current) && input$cost_current >= 0, "Current treatment cost must be non-negative."),
+        need(is.numeric(input$bia_disc) && input$bia_disc >= 0, "Discount rate must be non-negative.")
+      )
       # Eligible population
       target_pop <- input$pop * (input$prevalence / 100) * (input$eligible / 100)
       uptakes <- c(input$uptake1, input$uptake2, input$uptake3, input$uptake4, input$uptake5) / 100

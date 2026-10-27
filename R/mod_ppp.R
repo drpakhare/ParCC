@@ -138,7 +138,9 @@ mod_ppp_server <- function(id, logger, currency) {
     mathjax_trigger <- tags$script("if(window.MathJax){MathJax.Hub.Queue(['Typeset', MathJax.Hub]);}")
 
     observeEvent(input$calc, {
-      req(input$cost_input > 0)
+      # Input validation
+      validate(need(is.numeric(input$cost_input) && input$cost_input > 0,
+                    "Cost in source currency must be greater than 0."))
 
       src <- .ppp_data[.ppp_data$country == input$source_country, ]
       tgt <- .ppp_data[.ppp_data$country == input$target_country, ]
