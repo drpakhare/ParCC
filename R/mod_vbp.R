@@ -83,14 +83,30 @@ mod_vbp_server <- function(id, logger, currency) {
 
     observeEvent(input$calc, {
       # Input validation
-      validate(
-        need(is.numeric(input$delta_e) && input$delta_e >= 0, "Incremental effect must be non-negative."),
-        need(is.numeric(input$units) && input$units > 0, "Number of units must be greater than 0."),
-        need(is.numeric(input$wtp_base) && input$wtp_base > 0, "WTP threshold must be greater than 0."),
-        need(is.numeric(input$current_price) && input$current_price >= 0, "Current price must be non-negative."),
-        need(is.numeric(input$cost_c) && input$cost_c >= 0, "Comparator cost must be non-negative."),
-        need(is.numeric(input$cost_assoc) && input$cost_assoc >= 0, "Associated cost must be non-negative.")
-      )
+      if (!is.numeric(input$delta_e) || input$delta_e < 0) {
+        showNotification("Incremental effect must be non-negative.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$units) || input$units <= 0) {
+        showNotification("Number of units must be greater than 0.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$wtp_base) || input$wtp_base <= 0) {
+        showNotification("WTP threshold must be greater than 0.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$current_price) || input$current_price < 0) {
+        showNotification("Current price must be non-negative.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$cost_c) || input$cost_c < 0) {
+        showNotification("Comparator cost must be non-negative.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$cost_assoc) || input$cost_assoc < 0) {
+        showNotification("Associated cost must be non-negative.", type = "error")
+        return()
+      }
       dE <- input$delta_e
       Cc <- input$cost_c
       Ca <- input$cost_assoc

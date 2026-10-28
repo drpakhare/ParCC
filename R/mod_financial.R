@@ -116,11 +116,18 @@ mod_financial_server <- function(id, logger, currency) {
 
       if (input$inf_method == "rate") {
         # Input validation
-        validate(
-          need(is.numeric(input$cost) && input$cost > 0, "Cost must be greater than 0."),
-          need(is.numeric(input$rate) && input$rate >= 0, "Inflation rate must be non-negative."),
-          need(is.numeric(input$y1) && is.numeric(input$y2), "Base year and target year must be numeric.")
-        )
+        if (!is.numeric(input$cost) || input$cost <= 0) {
+          showNotification("Cost must be greater than 0.", type = "error")
+          return()
+        }
+        if (!is.numeric(input$rate) || input$rate < 0) {
+          showNotification("Inflation rate must be non-negative.", type = "error")
+          return()
+        }
+        if (!is.numeric(input$y1) || !is.numeric(input$y2)) {
+          showNotification("Base year and target year must be numeric.", type = "error")
+          return()
+        }
         years <- input$y2 - input$y1
         if(years < 0) {
           output$res_inf <- renderUI(div(class="result-box", style="color:red", "Target year must be >= Base year."))
@@ -247,11 +254,18 @@ mod_financial_server <- function(id, logger, currency) {
     # ================================================================
     observeEvent(input$calc_disc, {
       # Input validation
-      validate(
-        need(is.numeric(input$val) && input$val > 0, "Future value must be greater than 0."),
-        need(is.numeric(input$disc_r) && input$disc_r >= 0, "Discount rate must be non-negative."),
-        need(is.numeric(input$t) && input$t > 0, "Time horizon must be greater than 0.")
-      )
+      if (!is.numeric(input$val) || input$val <= 0) {
+        showNotification("Future value must be greater than 0.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$disc_r) || input$disc_r < 0) {
+        showNotification("Discount rate must be non-negative.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$t) || input$t <= 0) {
+        showNotification("Time horizon must be greater than 0.", type = "error")
+        return()
+      }
       disc_factor <- 1 / ((1 + input$disc_r/100)^input$t)
       discounted_val <- input$val * disc_factor
       value_lost <- input$val - discounted_val
@@ -318,11 +332,18 @@ mod_financial_server <- function(id, logger, currency) {
     # ================================================================
     observeEvent(input$calc_ann, {
       # Input validation
-      validate(
-        need(is.numeric(input$ann_pmt) && input$ann_pmt > 0, "Payment per period must be greater than 0."),
-        need(is.numeric(input$ann_r) && input$ann_r >= 0, "Discount rate must be non-negative."),
-        need(is.numeric(input$ann_n) && input$ann_n > 0, "Number of periods must be greater than 0.")
-      )
+      if (!is.numeric(input$ann_pmt) || input$ann_pmt <= 0) {
+        showNotification("Payment per period must be greater than 0.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$ann_r) || input$ann_r < 0) {
+        showNotification("Discount rate must be non-negative.", type = "error")
+        return()
+      }
+      if (!is.numeric(input$ann_n) || input$ann_n <= 0) {
+        showNotification("Number of periods must be greater than 0.", type = "error")
+        return()
+      }
       C <- input$ann_pmt
       r <- input$ann_r / 100
       n <- input$ann_n

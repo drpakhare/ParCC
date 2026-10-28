@@ -40,7 +40,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > Rate \u2194 Probability"), "."),
+                 tags$li("Navigate to ", strong("Convert > Rate \u2194 Probability"), "."),
                  tags$li("Input Rate = ", strong("2.5"), "."),
                  tags$li("Select Multiplier = ", strong("'Per 100'"), "."),
                  tags$li("Input Time = ", strong("1"), " (for a 1-year model cycle)."),
@@ -58,7 +58,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > Time Rescaling"), "."),
+                 tags$li("Navigate to ", strong("Convert > Rate ↔ Probability > Time Rescaling"), " tab."),
                  tags$li("Input Original Probability = ", strong("0.20"), "."),
                  tags$li("Input Original Time = ", strong("10"), " (Years)."),
                  tags$li("Input New Time = ", strong("1"), " (Year)."),
@@ -66,7 +66,27 @@ mod_howtouse_ui <- function(id) {
                ),
                p("Notice that 2.23% is ", em("higher"), " than the simple average (2.0%). This correction ensures your model doesn't underestimate early events.")
       ),
-      
+
+      tabPanel("Odds vs. Probabilities",
+               h3("Tutorial: Converting Odds from Case-Control Studies"),
+               p(class="text-info", strong("Concept:"), " Case-control studies report Odds, not Probabilities. You cannot enter odds directly into a Markov model; they must be converted to probabilities first."),
+
+               h4("The Real-World Scenario"),
+               p("A case-control study of adverse events reports the odds of nausea with Drug A as ", strong("0.43"), ". You need the probability for your decision model."),
+
+               h4("The Common Mistake"),
+               p("A beginner might use odds = 0.43 as the probability directly. This underestimates the true probability when odds are high, since odds and probability diverge as values increase."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Convert > Rate ↔ Probability > Odds ↔ Probability"), " tab."),
+                 tags$li("Select direction: ", strong("Odds to Prob"), "."),
+                 tags$li("Input Odds = ", strong("0.43"), "."),
+                 tags$li("Click Convert. Result: ", strong("0.3007"), " (approx 30.1%).")
+               ),
+               p("The formula is p = Odds / (1 + Odds). For small odds (<0.1), odds ≈ probability. For larger values, the difference matters.")
+      ),
+
       tabPanel("HR Conversion",
                h3("Tutorial 2B: Applying a Hazard Ratio from a Trial"),
                p(class="text-info", strong("Concept:"), " When a trial reports a Hazard Ratio (HR), you cannot simply multiply the control probability by the HR. The HR operates on the instantaneous rate, not on the probability."),
@@ -85,7 +105,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("HR Converter"), "."),
+                 tags$li("Navigate to ", strong("Convert > HR → Probability & NNT"), "."),
                  tags$li("Enter Control Probability = ", strong("0.0525"), "."),
                  tags$li("Set Time Horizon = ", strong("1 Year"), "."),
                  tags$li("Enter HR = ", strong("0.79"), ", with CI ", strong("0.69"), " to ", strong("0.91"), "."),
@@ -132,7 +152,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("Step 1: Convert OR to RR (Zhang & Yu Method)"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > Core Converters > OR \u2194 RR"), "."),
+                 tags$li("Navigate to ", strong("Convert > Rate \u2194 Probability > OR \u2194 RR"), " tab."),
                  tags$li("Select direction: ", strong("OR \u2192 RR"), "."),
                  tags$li("Input OR = ", strong("1.85"), ", Baseline Risk = ", strong("0.30"), "."),
                  tags$li("Result: ", strong("RR = 1.42"), ".")
@@ -141,7 +161,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("Step 2: Convert SMD to log(OR) (Chinn Method)"),
                tags$ol(
-                 tags$li("Switch to the ", strong("Effect Size Conversions"), " tab."),
+                 tags$li("Switch to the ", strong("Convert > Rate ↔ Probability > Effect Sizes"), " tab."),
                  tags$li("Select direction: ", strong("SMD \u2192 log(OR)"), "."),
                  tags$li("Input SMD = ", strong("0.45"), "."),
                  tags$li("Result: log(OR) = ", strong("0.816"), ", i.e. OR = 2.26.")
@@ -177,7 +197,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("The ParCC Solution (Log-rank \u2192 HR)"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > HR Converter > Log-rank \u2192 HR"), "."),
+                 tags$li("Navigate to ", strong("Convert > HR \u2192 Probability & NNT > Log-rank \u2192 HR"), " tab."),
                  tags$li("Select input: ", strong("Chi-squared statistic"), "."),
                  tags$li("Input chi-squared = ", strong("6.8"), ", Total events = ", strong("142"), "."),
                  tags$li("Select direction: ", strong("Treatment is better"), " (HR < 1)."),
@@ -195,7 +215,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("The ParCC Solution (NNT Calculator)"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Converters > HR Converter > NNT/NNH"), "."),
+                 tags$li("Navigate to ", strong("Convert > HR → Probability & NNT > NNT / NNH"), " tab."),
                  tags$li("Select input mode: ", strong("Two Probabilities"), "."),
                  tags$li("Input Control = ", strong("0.18"), ", Intervention = ", strong("0.12"), "."),
                  tags$li("Result: ARR = ", strong("6.0%"), ", NNT = ", strong("17"), ".")
@@ -227,7 +247,7 @@ mod_howtouse_ui <- function(id) {
                  tags$li("Look at the published curve. Pick two points that summarize the shape."),
                  tags$li("Point 1: At Month 12, survival is ", strong("80%"), "."),
                  tags$li("Point 2: At Month 36, survival is ", strong("50%"), "."),
-                 tags$li("Navigate to ", strong("Survival > Weibull (From 2 Time Points)"), "."),
+                 tags$li("Navigate to ", strong("Survival Curves > Fit Survival Curve"), ", then select ", strong("Weibull (From 2 Time Points)"), "."),
                  tags$li("Input these values."),
                  tags$li("Result: ParCC calculates the ", strong("Shape"), " and ", strong("Scale"), " parameters."),
                  tags$li("Check the Plot: Does the blue line pass through your points? If yes, use these parameters to project out to 20 years.")
@@ -243,7 +263,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Bg Mortality > SMR Adjustment"), "."),
+                 tags$li("Navigate to ", strong("Survival Curves > Adjust Background Mortality"), "."),
                  tags$li("Input Base Rate = ", strong("0.008"), "."),
                  tags$li("Input SMR = ", strong("2.5"), "."),
                  tags$li("Result: ", strong("0.0198"), "."),
@@ -268,7 +288,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("PSA > Dirichlet (Multinomial)"), "."),
+                 tags$li("Navigate to ", strong("Uncertainty (PSA)"), " and select ", strong("Dirichlet (Multinomial)"), " from the Distribution dropdown."),
                  tags$li("Enter observed counts: ", strong("150, 35, 15"), "."),
                  tags$li("Enter state labels: ", strong("Stable, Progressed, Dead"), "."),
                  tags$li("Click ", strong("Fit & Sample"), ".")
@@ -291,7 +311,7 @@ mod_howtouse_ui <- function(id) {
                  tags$li("From a published KM curve, identify two time-survival points:"),
                  tags$li("Point 1: At Year 5, implant survival = ", strong("92%"), "."),
                  tags$li("Point 2: At Year 15, implant survival = ", strong("78%"), "."),
-                 tags$li("Navigate to ", strong("Survival > Log-Logistic (From 2 Time Points)"), "."),
+                 tags$li("Navigate to ", strong("Survival Curves > Fit Survival Curve"), ", then select ", strong("Log-Logistic (From 2 Time Points)"), "."),
                  tags$li("Enter the values. ParCC solves for \u03b1 (scale) and \u03b2 (shape)."),
                  tags$li("Check that \u03b2 > 1 in the output (confirms the hump-shaped hazard you expect).")
                ),
@@ -317,7 +337,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("PSA > Beta Distribution"), " (The standard for bounded 0-1 data)."),
+                 tags$li("Navigate to ", strong("Uncertainty (PSA)"), " and select ", strong("Beta (Proportions)"), " from the Distribution dropdown."),
                  tags$li("Input Mean = ", strong("0.76"), "."),
                  tags$li("Input SE = ", strong("0.03"), "."),
                  tags$li("Result: ParCC calculates ", strong("Alpha = 202.1"), " and ", strong("Beta = 63.8"), "."),
@@ -334,13 +354,31 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("PSA > Gamma Distribution"), " (The standard for costs)."),
+                 tags$li("Navigate to ", strong("Uncertainty (PSA)"), " and select ", strong("Gamma (Costs/Rates)"), " from the Distribution dropdown."),
                  tags$li("Input Mean = ", strong("25000"), ", SE = ", strong("5000"), "."),
                  tags$li("Result: ParCC calculates ", strong("Shape (k)"), " and ", strong("Scale (theta)"), "."),
                  tags$li(strong("Tip:"), " If SE is missing but you have a range (e.g., INR 15k - 35k), use the 'Mean & Range' option to estimate SE via the Rule of 4.")
                )
       ),
-      
+
+      tabPanel("PSA: Relative Risks (LogNormal)",
+               h3("Tutorial 5C: Parameterizing Relative Risks"),
+               p(class="text-info", strong("Concept:"), " Relative Risks (and Hazard Ratios) are always positive and often right-skewed. The LogNormal distribution respects these properties and is the standard choice for PSA."),
+
+               h4("The Real-World Scenario"),
+               p("A meta-analysis reports a pooled Relative Risk of ", strong("0.75"), " with a ", strong("95% CI of 0.60 to 0.94"), " for your intervention vs control."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Uncertainty (PSA)"), " and select ", strong("LogNormal (RR)"), " from the Distribution dropdown."),
+                 tags$li("Select input mode: ", strong("Mean & 95% CI"), "."),
+                 tags$li("Input Mean = ", strong("0.75"), ", Low = ", strong("0.60"), ", High = ", strong("0.94"), "."),
+                 tags$li("Result: ParCC calculates ", strong("μ"), " (mean on log scale) and ", strong("σ"), " (SD on log scale)."),
+                 tags$li("Copy these two parameters into your PSA definition: ", tags$code("rlnorm(n, mu_log, sigma_log)"), ".")
+               ),
+               p("The SE is estimated from the CI width using the Rule of 4: SE ≈ (High - Low) / (2 × 1.96). The Method of Moments then derives the log-scale parameters.")
+      ),
+
       "Finance & Pricing",
       tabPanel("Inflation (Historical Data)",
                h3("Tutorial 6: Updating Old Costs"),
@@ -351,7 +389,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Financial > Inflation"), "."),
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Inflate & Discount Costs > Inflation"), " tab."),
                  tags$li("Input Cost = ", strong("12000"), "."),
                  tags$li("Select 'Using Price Indices (CPI)' for accuracy, or 'Average Rate' (e.g., 5%) for estimates."),
                  tags$li("Set Base Year = ", strong("2019"), ", Target Year = ", strong("2025"), "."),
@@ -368,7 +406,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Financial > Discounting"), "."),
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Inflate & Discount Costs > Discounting"), " tab."),
                  tags$li("Input Undiscounted Value = ", strong("200000"), "."),
                  tags$li("Input Discount Rate = ", strong("3"), "."),
                  tags$li("Input Time = ", strong("10"), "."),
@@ -395,7 +433,7 @@ mod_howtouse_ui <- function(id) {
                
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("ICER / NMB > Value-Based Pricing"), "."),
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Value-Based Pricing"), "."),
                  tags$li("Input Incremental QALYs (\u0394E) = ", strong("0.02"), "."),
                  tags$li("Input Comparator Cost = ", strong("500"), "."),
                  tags$li("Input Associated Costs = ", strong("200"), "."),
@@ -436,7 +474,7 @@ mod_howtouse_ui <- function(id) {
 
                h4("The ParCC Solution"),
                tags$ol(
-                 tags$li("Navigate to ", strong("Economics > Budget Impact"), "."),
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Budget Impact Analysis"), "."),
                  tags$li("Enter Population = ", strong("10,000,000"), "."),
                  tags$li("Enter Prevalence = ", strong("0.008"), ", Eligible % = ", strong("60"), "."),
                  tags$li("Enter the 5-year uptake values: ", strong("10, 25, 45, 60, 70"), "."),
@@ -465,6 +503,107 @@ mod_howtouse_ui <- function(id) {
                      tags$li("Run scenario analyses on uptake rates and eligible population")
                    )
                )
+      ),
+
+      "Diagnostics",
+      tabPanel("Diagnostic Test Accuracy",
+               h3("Tutorial: Interpreting a Rapid Screening Test"),
+               p(class="text-info", strong("Concept:"), " A positive test result does not mean the patient has the disease. The Positive Predictive Value (PPV) depends heavily on how common the disease is (prevalence). Even a highly accurate test produces many false positives when screening a low-prevalence population."),
+
+               h4("The Real-World Scenario"),
+               p("You are evaluating a rapid antigen test for Tuberculosis in a community screening programme:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("Sensitivity = ", strong("85%")),
+                     tags$li("Specificity = ", strong("97%")),
+                     tags$li("TB Prevalence in the community = ", strong("5%"))
+                   )
+               ),
+               p("A health officer asks: 'If someone tests positive, what is the probability they actually have TB?'"),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Diagnostics"), "."),
+                 tags$li("Input Sensitivity = ", strong("85"), ", Specificity = ", strong("97"), ", Prevalence = ", strong("5"), "."),
+                 tags$li("Click ", strong("Calculate & Log"), "."),
+                 tags$li("Result: PPV = ", strong("59.9%"), ", NPV = ", strong("99.2%"), ".")
+               ),
+               p("Despite 97% specificity, only about 60% of positive results are true TB cases. The prevalence-dependence plot shows this clearly. At 1% prevalence, PPV would drop to just 22%."),
+
+               h4("When to Use This Tool"),
+               div(class = "use-case-box",
+                   span(class = "use-case-title", "Key Applications"),
+                   tags$ul(
+                     tags$li("Evaluating screening programmes (where prevalence is typically low)"),
+                     tags$li("Comparing confirmatory vs screening test strategies"),
+                     tags$li("Communicating test accuracy to clinicians and policymakers"),
+                     tags$li("Deciding whether positive results warrant further (expensive) confirmatory testing")
+                   )
+               )
+      ),
+
+      "Economic Outcomes",
+      tabPanel("ICER & Net Monetary Benefit",
+               h3("Tutorial: Interpreting a Cost-Effectiveness Result"),
+               p(class="text-info", strong("Concept:"), " The Incremental Cost-Effectiveness Ratio (ICER) tells you how much extra you pay for each extra unit of health (QALY). If the ICER is below the willingness-to-pay (WTP) threshold, the intervention is considered cost-effective."),
+
+               h4("The Real-World Scenario"),
+               p("Your CEA model produces these results for Drug A vs. Standard of Care:"),
+               div(class = "well",
+                   tags$ul(
+                     tags$li("Intervention total cost: ", strong("INR 250,000"), ", QALYs: ", strong("5.2")),
+                     tags$li("Comparator total cost: ", strong("INR 180,000"), ", QALYs: ", strong("4.8")),
+                     tags$li("WTP threshold (HTAIn): ", strong("INR 171,000"), " per QALY")
+                   )
+               ),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Calculate ICER & NMB"), "."),
+                 tags$li("Input Intervention Cost = ", strong("250000"), ", QALYs = ", strong("5.2"), "."),
+                 tags$li("Input Comparator Cost = ", strong("180000"), ", QALYs = ", strong("4.8"), "."),
+                 tags$li("Set WTP Threshold = ", strong("171000"), "."),
+                 tags$li("Result: ICER = ", strong("175,000"), " per QALY (NE quadrant). iNMB = ", strong("-1,600"), ".")
+               ),
+               p("Since the ICER (175,000) exceeds the WTP (171,000), the intervention is ", strong("not cost-effective"), " at this threshold. The negative iNMB confirms this. The cost-effectiveness plane shows the result in the NE quadrant above the WTP line.")
+      ),
+
+      tabPanel("PPP Currency Conversion",
+               h3("Tutorial: Transferring Cost Data Across Countries"),
+               p(class="text-info", strong("Concept:"), " Market exchange rates reflect trade flows, not what money buys locally. Purchasing Power Parity (PPP) adjusts for the actual cost of goods and services in each country, making cross-country cost comparisons meaningful."),
+
+               h4("The Real-World Scenario"),
+               p("You are adapting a UK cost-effectiveness model for India. The UK study reports a hospitalisation cost of ", strong("£3,500"), ". You need the Indian equivalent."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("PPP Converter"), "."),
+                 tags$li("Select Source Country = ", strong("United Kingdom"), ", Target Country = ", strong("India"), "."),
+                 tags$li("Input Cost = ", strong("3500"), "."),
+                 tags$li("Result: ParCC shows the PPP-adjusted cost in INR and compares it with the market exchange rate conversion."),
+                 tags$li("Use the PPP-adjusted value in your model. The market rate value is shown for reference only.")
+               ),
+               p("PPP conversion is recommended by WHO-CHOICE and ISPOR for cross-country economic evaluations. ParCC also shows the WHO-CHOICE WTP thresholds (1× and 3× GDP per capita) for each country.")
+      ),
+
+      tabPanel("Annuity / PV of Recurring Costs",
+               h3("Tutorial: Lifetime Cost of a Chronic Medication"),
+               p(class="text-info", strong("Concept:"), " When a patient takes a medication every year for many years, you cannot simply multiply annual cost by number of years. Future costs must be discounted to present value, and the annuity formula does this efficiently."),
+
+               h4("The Real-World Scenario"),
+               p("A patient with diabetes takes a medication costing ", strong("INR 12,000/year"), ". The model horizon is ", strong("20 years"), " and the discount rate is ", strong("3%"), "."),
+               p("Simple multiplication gives 12,000 × 20 = INR 240,000. But this overstates the economic burden because money spent 20 years from now is worth less today."),
+
+               h4("The ParCC Solution"),
+               tags$ol(
+                 tags$li("Navigate to ", strong("Costs & Outcomes > Inflate & Discount Costs > Annuity"), " tab."),
+                 tags$li("Input Annual Payment = ", strong("12000"), "."),
+                 tags$li("Input Discount Rate = ", strong("3"), "%."),
+                 tags$li("Input Number of Years = ", strong("20"), "."),
+                 tags$li("Select ", strong("Ordinary Annuity"), " (payments at end of period)."),
+                 tags$li("Result: PV = ", strong("INR 178,564"), ".")
+               ),
+               p("The discounted lifetime cost (INR 178,564) is substantially less than the undiscounted sum (INR 240,000). Use this present value in your CEA.")
       )
     )
   )
@@ -741,7 +880,7 @@ mod_about_ui <- function(id) {
   fluidPage(
     column(8, offset = 2,
            div(class = "about-header",
-               h1("ParCC v1.4"),
+               h1("ParCC v1.4.1"),
                p("Parameter Converter & Calculator for Health Economic Evaluation"),
                p(style = "font-size: 0.9em; opacity: 0.8;", "R Package Edition")
            ),
@@ -819,6 +958,12 @@ mod_about_ui <- function(id) {
                  "All modules include step-by-step explanations, rendered formulas, and literature citations on the output panel."),
 
                hr(),
+               h4("What's New in v1.4.1"),
+               tags$ul(
+                 tags$li(strong("Input Validation"), " - All calculators now show clear error messages for invalid inputs instead of failing silently."),
+                 tags$li(strong("6 New Tutorials"), " - Worked examples for Odds-Probability, Diagnostics (PPV/NPV), ICER & NMB, PPP Converter, Annuity, and LogNormal PSA."),
+                 tags$li(strong("Navigation Corrections"), " - All tutorial navigation paths now match the actual app menu structure.")
+               ),
                h4("What's New in v1.4"),
                tags$ul(
                  tags$li(strong("Budget Impact Analysis"), " - 5-year BIA framework with population uptake curves and discounting (ISPOR)."),
@@ -862,7 +1007,7 @@ mod_about_ui <- function(id) {
                hr(),
                h4("Suggested Citation"),
                div(class = "well", style = "font-family: monospace; font-size: 0.9em;",
-                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.4.0) [R package]. Available at: https://drpakhare.github.io/ParCC/"
+                   "Regional Resource Centre for HTA, AIIMS Bhopal. (2025). ParCC: Parameter Converter & Calculator for Health Economic Evaluation (Version 1.4.1) [R package]. Available at: https://drpakhare.github.io/ParCC/"
                ),
 
                hr(),

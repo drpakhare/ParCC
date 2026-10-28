@@ -32,7 +32,7 @@ app_ui <- function() {
   )
 
   navbarPage(
-    title = "ParCC v1.4",
+    title = "ParCC v1.4.1",
     theme = shinytheme("flatly"),
     id = "main_nav",
     header = list(custom_css, withMathJax()),

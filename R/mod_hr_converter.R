@@ -574,12 +574,20 @@ mod_hr_converter_server <- function(id, logger) {
       E <- input$lr_events
 
       # Input validation
-      validate(need(is.numeric(E) && E > 0, "Total events must be greater than 0."))
+      if (!is.numeric(E) || E <= 0) {
+        showNotification("Total events must be greater than 0.", type = "error")
+        return()
+      }
       if (lr_input_val == "chi2") {
-        validate(need(is.numeric(input$lr_chi2) && input$lr_chi2 >= 0, "Chi-square statistic must be non-negative."))
+        if (!is.numeric(input$lr_chi2) || input$lr_chi2 < 0) {
+          showNotification("Chi-square statistic must be non-negative.", type = "error")
+          return()
+        }
       } else {
-        validate(need(is.numeric(input$lr_pval) && input$lr_pval > 0 && input$lr_pval < 1,
-                       "P-value must be between 0 and 1 (exclusive)."))
+        if (!is.numeric(input$lr_pval) || input$lr_pval <= 0 || input$lr_pval >= 1) {
+          showNotification("P-value must be between 0 and 1 (exclusive).", type = "error")
+          return()
+        }
       }
 
       if (lr_input_val == "chi2") {

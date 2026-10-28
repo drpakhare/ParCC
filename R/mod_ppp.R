@@ -139,8 +139,10 @@ mod_ppp_server <- function(id, logger, currency) {
 
     observeEvent(input$calc, {
       # Input validation
-      validate(need(is.numeric(input$cost_input) && input$cost_input > 0,
-                    "Cost in source currency must be greater than 0."))
+      if (!is.numeric(input$cost_input) || input$cost_input <= 0) {
+        showNotification("Cost in source currency must be greater than 0.", type = "error")
+        return()
+      }
 
       src <- .ppp_data[.ppp_data$country == input$source_country, ]
       tgt <- .ppp_data[.ppp_data$country == input$target_country, ]

@@ -87,13 +87,22 @@ mod_survival_server <- function(id, logger) {
 
     observeEvent(input$calc, {
       # Input validation
-      validate(need(is.numeric(input$max_t) && input$max_t > 0, "Max time must be greater than 0."))
+      if (!is.numeric(input$max_t) || input$max_t <= 0) {
+        showNotification("Max time must be greater than 0.", type = "error")
+        return()
+      }
 
       if (input$surv_method == "exp") {
         if (input$exp_dir == "med2rate") {
-          validate(need(is.numeric(input$val_med) && input$val_med > 0, "Median survival must be greater than 0."))
+          if (!is.numeric(input$val_med) || input$val_med <= 0) {
+            showNotification("Median survival must be greater than 0.", type = "error")
+            return()
+          }
         } else {
-          validate(need(is.numeric(input$val_haz) && input$val_haz > 0, "Hazard rate must be greater than 0."))
+          if (!is.numeric(input$val_haz) || input$val_haz <= 0) {
+            showNotification("Hazard rate must be greater than 0.", type = "error")
+            return()
+          }
         }
       }
 

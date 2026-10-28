@@ -138,12 +138,20 @@ mod_core_conv_server <- function(id, logger) {
       val_prob <- input$val_prob
 
       # Input validation
-      validate(need(is.numeric(t) && t > 0, "Time horizon must be greater than 0."))
+      if (!is.numeric(t) || t <= 0) {
+        showNotification("Time horizon must be greater than 0.", type = "error")
+        return()
+      }
       if (rp_dir == "r2p") {
-        validate(need(is.numeric(val_rate) && val_rate >= 0, "Rate must be a non-negative number."))
+        if (!is.numeric(val_rate) || val_rate < 0) {
+          showNotification("Rate must be a non-negative number.", type = "error")
+          return()
+        }
       } else {
-        validate(need(is.numeric(val_prob) && val_prob > 0 && val_prob < 1,
-                       "Probability must be between 0 and 1 (exclusive)."))
+        if (!is.numeric(val_prob) || val_prob <= 0 || val_prob >= 1) {
+          showNotification("Probability must be between 0 and 1 (exclusive).", type = "error")
+          return()
+        }
       }
 
       if(rp_dir == "r2p") {
@@ -230,10 +238,15 @@ mod_core_conv_server <- function(id, logger) {
 
       # Input validation
       if (op_dir == "o2p") {
-        validate(need(is.numeric(input$val_odds) && input$val_odds >= 0, "Odds must be a non-negative number."))
+        if (!is.numeric(input$val_odds) || input$val_odds < 0) {
+          showNotification("Odds must be a non-negative number.", type = "error")
+          return()
+        }
       } else {
-        validate(need(is.numeric(input$val_prob_o) && input$val_prob_o > 0 && input$val_prob_o < 1,
-                       "Probability must be between 0 and 1 (exclusive)."))
+        if (!is.numeric(input$val_prob_o) || input$val_prob_o <= 0 || input$val_prob_o >= 1) {
+          showNotification("Probability must be between 0 and 1 (exclusive).", type = "error")
+          return()
+        }
       }
 
       if(op_dir == "o2p") {
@@ -300,6 +313,21 @@ mod_core_conv_server <- function(id, logger) {
       tr_t2 <- input$tr_t2
       tr_u2 <- input$tr_u2
       lbl_tr <- input$lbl_tr
+
+      # Input validation
+      if (!is.numeric(tr_prob) || tr_prob <= 0 || tr_prob >= 1) {
+        showNotification("Probability must be between 0 and 1 (exclusive).", type = "error")
+        return()
+      }
+      if (!is.numeric(tr_t1) || tr_t1 <= 0) {
+        showNotification("Original time must be greater than 0.", type = "error")
+        return()
+      }
+      if (!is.numeric(tr_t2) || tr_t2 <= 0) {
+        showNotification("New time must be greater than 0.", type = "error")
+        return()
+      }
+
       ratio <- (tr_t2 * unit_factors[[tr_u2]]) / (tr_t1 * unit_factors[[tr_u1]])
       p_new <- 1 - (1 - tr_prob)^(ratio)
 
@@ -349,15 +377,26 @@ mod_core_conv_server <- function(id, logger) {
       or_dir <- input$or_dir
 
       # Input validation
-      validate(need(is.numeric(p0) && p0 > 0 && p0 < 1,
-                     "Baseline risk must be between 0 and 1 (exclusive)."))
+      if (!is.numeric(p0) || p0 <= 0 || p0 >= 1) {
+        showNotification("Baseline risk must be between 0 and 1 (exclusive).", type = "error")
+        return()
+      }
       if (or_dir == "rr2or") {
-        validate(need(is.numeric(input$val_rr) && input$val_rr > 0, "Relative Risk must be > 0."))
-        validate(need(input$val_rr * p0 < 1,
-                       "RR × baseline risk must be < 1 (implied intervention probability cannot exceed 100%)."))
+        if (!is.numeric(input$val_rr) || input$val_rr <= 0) {
+          showNotification("Relative Risk must be > 0.", type = "error")
+          return()
+        }
+        if (input$val_rr * p0 >= 1) {
+          showNotification("RR × baseline risk must be < 1 (implied intervention probability cannot exceed 100%).", type = "error")
+          return()
+        }
       }
 
       if (or_dir == "or2rr") {
+        if (!is.numeric(input$val_or) || input$val_or <= 0) {
+          showNotification("Odds Ratio must be greater than 0.", type = "error")
+          return()
+        }
         or_val <- input$val_or
         # Zhang & Yu formula: RR = OR / (1 - p0 + p0 * OR)
         rr <- or_val / (1 - p0 + p0 * or_val)

@@ -45,14 +45,18 @@ mod_diagnostic_server <- function(id, logger) {
       label_val <- input$label
 
       # Input validation
-      validate(
-        need(is.numeric(sens_val) && sens_val > 0 && sens_val < 100,
-             "Sensitivity must be between 0 and 100 (exclusive)."),
-        need(is.numeric(spec_val) && spec_val > 0 && spec_val < 100,
-             "Specificity must be between 0 and 100 (exclusive)."),
-        need(is.numeric(prev_val) && prev_val > 0 && prev_val < 100,
-             "Prevalence must be between 0 and 100 (exclusive).")
-      )
+      if (!is.numeric(sens_val) || sens_val <= 0 || sens_val >= 100) {
+        showNotification("Sensitivity must be between 0 and 100 (exclusive).", type = "error")
+        return()
+      }
+      if (!is.numeric(spec_val) || spec_val <= 0 || spec_val >= 100) {
+        showNotification("Specificity must be between 0 and 100 (exclusive).", type = "error")
+        return()
+      }
+      if (!is.numeric(prev_val) || prev_val <= 0 || prev_val >= 100) {
+        showNotification("Prevalence must be between 0 and 100 (exclusive).", type = "error")
+        return()
+      }
 
       se <- sens_val/100; sp <- spec_val/100; p <- prev_val/100
 
